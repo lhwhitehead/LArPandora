@@ -1,11 +1,8 @@
 include_directories( $ENV{PANDORA_INC} )
 include_directories( $ENV{LARPANDORACONTENT_INC} )
 
-add_subdirectory(LArPandoraShower)
-add_subdirectory(SliceIdTools)
-
-art_make(
-          LIB_LIBRARIES larcorealg_Geometry
+set( 
+          sliceid_tool_lib_list larcorealg_Geometry
                         larcore_Geometry_Geometry_service
                         larsim_Simulation lardataobj_Simulation
                         lardataobj_RawData
@@ -26,8 +23,8 @@ art_make(
                         ${ART_FRAMEWORK_PRINCIPAL}
                         ${ART_FRAMEWORK_SERVICES_REGISTRY}
                         ${ART_FRAMEWORK_SERVICES_BASIC}
-                        ${ART_ROOT_IO_TFILE_SUPPORT} ROOT::Core
-                        ${ART_ROOT_IO_TFILESERVICE_SERVICE}
+                        ${ART_FRAMEWORK_SERVICES_OPTIONAL}
+                        ${ART_FRAMEWORK_SERVICES_OPTIONAL_TFILESERVICE_SERVICE}
                         art_Persistency_Common
                         art_Persistency_Provenance
                         art_Utilities
@@ -37,11 +34,16 @@ art_make(
                         cetlib cetlib_except
                         ${Boost_SYSTEM_LIBRARY}
                         ${Boost_FILESYSTEM_LIBRARY}
-                        ROOT::Geom
+                        ${ROOT_GEOM}
                         ${ROOT_BASIC_LIB_LIST}
-                        ROOT::GenVector
+                        ${ROOT_GENVECTOR}
                         MODULE_LIBRARIES larpandora_LArPandoraEventBuilding
           )
+
+art_make(TOOL_LIBRARIES ${sliceid_tool_lib_list})
+
+#simple_plugin(SimpleNeutrinoId "tool" larpandora_LArPandoraEventBuilding_SliceIdTools)
+#simple_plugin(SimpleBeamParticleId "tool" larpandora_LArPandoraEventBuilding_SliceIdTools)
 
 install_headers()
 install_fhicl()

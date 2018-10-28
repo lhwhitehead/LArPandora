@@ -3,6 +3,7 @@ include_directories( $ENV{LARPANDORACONTENT_INC} )
 
 add_subdirectory(LArPandoraShower)
 add_subdirectory(SliceIdTools)
+add_subdirectory(fcl)
 
 art_make(
           LIB_LIBRARIES larcorealg_Geometry

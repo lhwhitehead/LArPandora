@@ -3,7 +3,7 @@ include_directories( $ENV{LARPANDORACONTENT_INC} )
 
 add_subdirectory(LArPandoraShower)
 
-art_make( EXCLUDE LArPandoraSimpleNeutrinoId_tool.cxx
+art_make( EXCLUDE LArPandoraSimpleNeutrinoId_tool.cc
           LIB_LIBRARIES larcorealg_Geometry
                         larcore_Geometry_Geometry_service
                         larsim_Simulation lardataobj_Simulation
@@ -39,7 +39,7 @@ art_make( EXCLUDE LArPandoraSimpleNeutrinoId_tool.cxx
                         ROOT::Geom
                         ${ROOT_BASIC_LIB_LIST}
                         ROOT::GenVector
-                        MODULE_LIBRARIES larpandora_LArPandoraEventBuilding
+          MODULE_LIBRARIES larpandora_LArPandoraEventBuilding
           )
 
       simple_plugin(SimpleNeutrinoId "tool" larpandora_LArPandoraEventBuilding)

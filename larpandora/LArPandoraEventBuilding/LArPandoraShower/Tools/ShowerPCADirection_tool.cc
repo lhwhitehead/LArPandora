@@ -50,7 +50,7 @@ namespace ShowerRecoTools {
       //fcl
       art::InputTag fPFParticleLabel;
       int                        fVerbose;
-      unsigned fNSegments;        //Used in the RMS gradient. How many segments should we split the shower into.
+      unsigned int fNSegments;        //Used in the RMS gradient. How many segments should we split the shower into.
       bool fUseStartPosition;  //If we use the start position the drection of the
       //PCA vector is decided as (Shower Centre - Shower Start Position).
       bool fChargeWeighted;    //Should the PCA axis be charge weighted.
@@ -66,7 +66,7 @@ namespace ShowerRecoTools {
     IShowerTool(pset.get<fhicl::ParameterSet>("BaseTools")),
     fPFParticleLabel(pset.get<art::InputTag>("PFParticleLabel")),
     fVerbose(pset.get<int>("Verbose")),
-    fNSegments(pset.get<unsigned>("NSegments")),
+    fNSegments(pset.get<unsigned int>("NSegments")),
     fUseStartPosition(pset.get<bool>("UseStartPosition")),
     fChargeWeighted(pset.get<bool>("ChargeWeighted")),
     fShowerStartPositionInputLabel(pset.get<std::string>("ShowerStartPositionInputLabel")),
@@ -103,8 +103,10 @@ namespace ShowerRecoTools {
     std::vector<art::Ptr<recob::SpacePoint> > spacePoints_pfp = fmspp.at(pfparticle.key());
 
     //We cannot progress with no spacepoints.
-    if(spacePoints_pfp.empty())
+    if(spacePoints_pfp.size() < 3) {
+      mf::LogWarning("ShowerPCADirection") << spacePoints_pfp.size() << " spacepoints in shower, not calculating direction" << std::endl;
       return 1;
+    }
 
     auto const clockData = art::ServiceHandle<detinfo::DetectorClocksService const>()->DataFor(Event);
     auto const detProp   = art::ServiceHandle<detinfo::DetectorPropertiesService const>()->DataFor(Event, clockData);
@@ -152,7 +154,9 @@ namespace ShowerRecoTools {
     //Otherwise Check against the RMS of the shower. Method adapated from EMShower Thanks Mike.
     double RMSGradient = IShowerTool::GetLArPandoraShowerAlg().RMSShowerGradient(spacePoints_pfp,ShowerCentre,PCADirection, fNSegments);
 
-    if(RMSGradient < 0){
+    // If the alg fails to calculate the gradient it will return 0. In this case do nothing
+    // If the gradient is negative, flip the direction of the shower
+    if(RMSGradient < -std::numeric_limits<double>::epsilon()){
       PCADirection[0] = - PCADirection[0];
       PCADirection[1] = - PCADirection[1];
       PCADirection[2] = - PCADirection[2];

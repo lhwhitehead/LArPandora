@@ -360,8 +360,14 @@ double shower::LArPandoraShowerAlg::SpacePointPerpendicular(art::Ptr<recob::Spac
   return pos.Mag();
 }
 
-  //Function to calculate the RMS at segements of the shower and calculate the gradient of this. If negative then the direction is pointing the opposite way to the correct one
-  double shower::LArPandoraShowerAlg::RMSShowerGradient(std::vector<art::Ptr<recob::SpacePoint> >& sps, const TVector3& ShowerCentre, const TVector3& Direction, const unsigned nSegments) const {
+  //Function to calculate the RMS at segments of the shower and calculate the gradient of this. If negative then the direction is pointing the opposite way to the correct one
+  double shower::LArPandoraShowerAlg::RMSShowerGradient(std::vector<art::Ptr<recob::SpacePoint> >& sps, const TVector3& ShowerCentre, const TVector3& Direction, const unsigned int nSegments) const {
+
+    if (nSegments == 0)
+      throw cet::exception("LArPandoraShowerAlg") << "Unable to calculate RMS Shower Gradient with 0 segments" << std::endl;
+
+    if (sps.size() < 3)
+      return 0;
 
     //Order the spacepoints
     this->OrderShowerSpacePoints(sps,ShowerCentre,Direction);
@@ -372,6 +378,9 @@ double shower::LArPandoraShowerAlg::SpacePointPerpendicular(art::Ptr<recob::Spac
 
     const double length = (maxProj-minProj);
     const double segmentsize = length / nSegments;
+
+    if (segmentsize < std::numeric_limits<double>::epsilon())
+      return 0;
 
     std::map<int, std::vector<float> > len_segment_map;
 
@@ -385,21 +394,24 @@ double shower::LArPandoraShowerAlg::SpacePointPerpendicular(art::Ptr<recob::Spac
       const double  len_perp = this->SpacePointPerpendicular(sp,ShowerCentre,Direction,len);
 
       int sg_len = std::round(len/segmentsize);
-      //TODO: look at this:
-      //int sg_len = round(len/segmentsize+fNSegments/2); //Add to make positive
       len_segment_map[sg_len].push_back(len_perp);
     }
 
     int counter = 0;
-    float sumx  = 0;
-    float sumy  = 0;
-    float sumx2 = 0;
-    float sumxy = 0;
+    float sumx  = 0.f;
+    float sumy  = 0.f;
+    float sumx2 = 0.f;
+    float sumxy = 0.f;
 
     //Get the rms of the segments and caclulate the gradient.
     for(auto const& segment: len_segment_map){
       if (segment.second.size()<2) continue;
       float RMS = this->CalculateRMS(segment.second);
+
+      // Check if the calculation failed
+      if (RMS < 0)
+        continue;
+
       //Calculate the gradient using regression
       sumx  += segment.first;
       sumy  += RMS;
@@ -408,16 +420,21 @@ double shower::LArPandoraShowerAlg::SpacePointPerpendicular(art::Ptr<recob::Spac
       ++counter;
     }
 
-    return (counter*sumxy - sumx*sumy)/(counter*sumx2 - sumx*sumx);
+    const float denom = counter*sumx2 - sumx*sumx;
+
+    return std::abs(denom) < std::numeric_limits<float>::epsilon() ? 0 : (counter*sumxy - sumx*sumy)/denom;
   }
 
   double shower::LArPandoraShowerAlg::CalculateRMS(const std::vector<float>& perps) const {
 
-    double sum  = 0;
+    if (perps.size() < 2)
+      return std::numeric_limits<double>::lowest();
+
+    float sum = 0;
     for (const auto &perp : perps){
       sum += perp*perp;
     }
-    // No need to bounds check as we have done so already
+
     return std::sqrt(sum/(perps.size()-1));
   }
 

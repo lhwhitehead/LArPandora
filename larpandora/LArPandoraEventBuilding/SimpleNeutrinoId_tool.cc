@@ -7,8 +7,8 @@
 #include "art/Utilities/ToolMacros.h"
 #include "fhiclcpp/ParameterSet.h"
 
-#include "larpandora/LArPandoraEventBuilding/NeutrinoIdBaseTool.h"
 #include "larpandora/LArPandoraEventBuilding/Slice.h"
+#include "larpandora/LArPandoraEventBuilding/SliceIdBaseTool.h"
 
 namespace lar_pandora
 {
@@ -16,7 +16,7 @@ namespace lar_pandora
 /**
  *  @brief  Simple neutrino ID tool that selects the most likely neutrino slice using the scores from Pandora
  */
-class SimpleNeutrinoId : NeutrinoIdBaseTool
+class SimpleNeutrinoId : SliceIdBaseTool
 {
 public:
     /**
@@ -61,7 +61,7 @@ void SimpleNeutrinoId::ClassifySlices(SliceVector &slices, const art::Event &/*e
 
     for (unsigned int sliceIndex = 0; sliceIndex < slices.size(); ++sliceIndex)
     {
-        const float nuScore(slices.at(sliceIndex).GetNeutrinoScore());
+        const float nuScore(slices.at(sliceIndex).GetTopologicalScore());
         std::cout << "Slice " << sliceIndex << " - " << nuScore << std::endl;
         if (nuScore > highestNuScore)
         {
@@ -73,7 +73,7 @@ void SimpleNeutrinoId::ClassifySlices(SliceVector &slices, const art::Event &/*e
     std::cout << "Tagging slice " << mostProbableSliceIndex << std::endl;
 
     // Tag the most probable slice as a neutrino
-    slices.at(mostProbableSliceIndex).TagAsNeutrino();
+    slices.at(mostProbableSliceIndex).TagAsTarget();
 }
 
 } // namespace lar_pandora

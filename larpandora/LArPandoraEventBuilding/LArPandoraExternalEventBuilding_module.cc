@@ -7,8 +7,8 @@
 #include "art/Framework/Core/EDProducer.h"
 #include "art/Framework/Core/ModuleMacros.h"
 #include "art/Framework/Principal/Event.h"
-#include "art/Framework/Services/Optional/TFileService.h"
 #include "art/Utilities/make_tool.h"
+#include "art_root_io/TFileService.h"
 
 #include "canvas/Utilities/InputTag.h"
 
@@ -136,6 +136,7 @@ namespace lar_pandora
 {
 
 LArPandoraExternalEventBuilding::LArPandoraExternalEventBuilding(fhicl::ParameterSet const &pset) :
+    EDProducer{pset},
     m_inputProducerLabel(pset.get<std::string>("InputProducerLabel")),
     m_trackProducerLabel(pset.get<std::string>("TrackProducerLabel")),
     m_showerProducerLabel(pset.get<std::string>("ShowerProducerLabel")),
@@ -165,7 +166,7 @@ LArPandoraExternalEventBuilding::LArPandoraExternalEventBuilding(fhicl::Paramete
     produces< art::Assns<recob::PFParticle, recob::Shower> >();
     produces< art::Assns<recob::PFParticle, recob::PCAxis> >();
     produces< art::Assns<recob::PFParticle, larpandoraobj::PFParticleMetadata> >();
-    produces< art::Assns<recob::Track, recob::Hit, recob::TrackHitMeta> >();
+    produces< art::Assns<recob::Track, recob::Hit> >();
     produces< art::Assns<recob::Shower, recob::Hit> >();
     produces< art::Assns<recob::Shower, recob::PCAxis> >();
     produces< art::Assns<recob::SpacePoint, recob::Hit> >();

@@ -3,7 +3,7 @@ include_directories( $ENV{LARPANDORACONTENT_INC} )
 
 add_subdirectory(LArPandoraShower)
 
-art_make( EXCLUDE LArPandoraSimpleNeutrinoId_tool.cc
+art_make( EXCLUDE SimpleNeutrinoId_tool.cc
           LIB_LIBRARIES larcorealg_Geometry
                         larcore_Geometry_Geometry_service
                         larsim_Simulation lardataobj_Simulation

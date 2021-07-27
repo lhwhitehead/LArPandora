@@ -1,5 +1,6 @@
 include_directories( $ENV{PANDORA_INC} )
 include_directories( $ENV{LARPANDORACONTENT_INC} )
+include_directories( $ENV{EIGEN_INC} )
 
 add_subdirectory(LArPandoraShower)
 

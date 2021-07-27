@@ -32,6 +32,8 @@
 #include "larpandora/LArPandoraInterface/ILArPandora.h"
 #include "larpandora/LArPandoraInterface/LArPandoraInput.h"
 
+#include "messagefacility/MessageLogger/MessageLogger.h"
+
 #include <limits>
 
 namespace lar_pandora {

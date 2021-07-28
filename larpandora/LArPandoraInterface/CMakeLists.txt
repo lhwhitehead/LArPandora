@@ -41,7 +41,7 @@ if( ${PANDORA_LIBTORCH} AND DEFINED ENV{LIBTORCH_DIR})
     message(STATUS "Building with deep learning support")
     add_definitions("-DLIBTORCH_DL")
     art_make(
-        LIB_LIBRARIES ${CORE_LIB_LIST} LArPandoraDLContent
+        LIB_LIBRARIES ${CORE_LIB_LIST} larpandoracontent::LArPandoraDLContent
         MODULE_LIBRARIES larpandora_LArPandoraInterface)
 else()
     message( STATUS "Building without deep learning support" )

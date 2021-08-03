@@ -16,14 +16,13 @@ set(CORE_LIB_LIST
     larreco_RecoAlg
     larreco_ClusterFinder
     larreco_Calorimetry
-    ${PANDORASDK}
-    ${PANDORAMONITORING}
+    PANDORASDK
+    PANDORAMONITORING
     LArPandoraContent
     nusimdata_SimulationBase
     art::Framework_Core
     art::Framework_Principal
     art::Framework_Services_Registry
-    ${ART_FRAMEWORK_SERVICES_BASIC}
     art_root_io::tfile_support ROOT::Core
     art_root_io::TFileService_service
     art::Persistency_Common
@@ -33,8 +32,7 @@ set(CORE_LIB_LIST
     messagefacility::MF_MessageLogger
     fhiclcpp::fhiclcpp
     cetlib::cetlib cetlib_except
-    ROOT::Geom
-    ${ROOT_BASIC_LIB_LIST})
+    ROOT::Geom)
 
 option(PANDORA_LIBTORCH "Flag for building with Pandora's LibTorch-aware algorithms" ON)
 if( ${PANDORA_LIBTORCH} AND DEFINED ENV{LIBTORCH_DIR})

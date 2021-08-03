@@ -17,8 +17,8 @@ art_make( EXCLUDE SimpleNeutrinoId_tool.cc
                         larreco_RecoAlg
                         larreco_ClusterFinder
                         larreco_Calorimetry
-                        ${PANDORASDK}
-                        ${PANDORAMONITORING}
+                        PANDORASDK
+                        PANDORAMONITORING
                         LArPandoraContent
                         larpandora_LArPandoraInterface
                         nusimdata_SimulationBase

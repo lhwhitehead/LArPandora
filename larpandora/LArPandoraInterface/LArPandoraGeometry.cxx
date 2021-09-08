@@ -421,19 +421,19 @@ namespace lar_pandora {
           if (dThetaU > maxDeltaTheta || dThetaV > maxDeltaTheta || dThetaW > maxDeltaTheta)
             continue;
 
-          double dminx2 = theTpc2.ActiveBoundingBox().MinX();
-          double dmaxx2 = theTpc2.ActiveBoundingBox().MaxX();
+          const float driftMinX2(theTpc2.ActiveBoundingBox().MinX());
+          const float driftMaxX2(theTpc2.ActiveBoundingBox().MaxX());
 
-          const double min2(0.5 * (dminx2 + dmaxx2) - 0.25 * std::fabs(dmaxx2 - dminx2));
-          const double max2(0.5 * (dminx2 + dmaxx2) + 0.25 * std::fabs(dmaxx2 - dminx2));
+          const double min2(0.5 * (driftMinX2 + driftMaxX2) -
+                            0.25 * std::fabs(driftMaxX2 - driftMinX2));
+          const double max2(0.5 * (driftMinX2 + driftMaxX2) +
+                            0.25 * std::fabs(driftMaxX2 - driftMinX2));
 
           if ((min2 > max1) || (min1 > max2)) continue;
 
           cstatList.insert(itpc2);
           tpcList.insert(itpc2);
 
-          const float driftMinX2(theTpc2.ActiveBoundingBox().MinX());
-          const float driftMaxX2(theTpc2.ActiveBoundingBox().MaxX());
           const float driftMinY2(theTpc2.ActiveBoundingBox().MinY());
           const float driftMaxY2(theTpc2.ActiveBoundingBox().MaxY());
           const float driftMinZ2(theTpc2.ActiveBoundingBox().MinZ());

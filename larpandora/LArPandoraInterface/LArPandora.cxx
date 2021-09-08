@@ -134,7 +134,8 @@ namespace lar_pandora {
   LArPandora::beginJob()
   {
     LArDriftVolumeList driftVolumeList;
-    LArPandoraGeometry::LoadGeometry(driftVolumeList, m_driftVolumeMap, m_inputSettings.m_useActiveBoundingBox);
+    LArPandoraGeometry::LoadGeometry(
+      driftVolumeList, m_driftVolumeMap, m_inputSettings.m_useActiveBoundingBox);
 
     this->CreatePandoraInstances();
 

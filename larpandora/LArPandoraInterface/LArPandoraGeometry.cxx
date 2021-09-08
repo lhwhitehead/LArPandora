@@ -28,7 +28,7 @@ namespace lar_pandora {
 
     // Loop over drift volumes and write out the dead regions at their boundaries
     LArDriftVolumeList driftVolumeList;
-    LArPandoraGeometry::LoadGeometry(driftVolumeList,m_useActiveBoundingBox);
+    LArPandoraGeometry::LoadGeometry(driftVolumeList, m_useActiveBoundingBox);
 
     // ATTN: Expectations here are that the input geometry corresponds to either a single or dual phase LArTPC.
     art::ServiceHandle<geo::Geometry const> theGeometry;
@@ -144,7 +144,7 @@ namespace lar_pandora {
   void
   LArPandoraGeometry::LoadGeometry(LArDriftVolumeList& outputVolumeList,
                                    LArDriftVolumeMap& outputVolumeMap,
-				   bool m_useActiveBoundingBox)
+                                   bool m_useActiveBoundingBox)
   {
     if (!outputVolumeList.empty())
       throw cet::exception("LArPandora")
@@ -282,8 +282,7 @@ namespace lar_pandora {
   //------------------------------------------------------------------------------------------------------------------------------------------
 
   void
-  LArPandoraGeometry::LoadGeometry(LArDriftVolumeList& driftVolumeList,
-				   bool m_useActiveBoundingBox)
+  LArPandoraGeometry::LoadGeometry(LArDriftVolumeList& driftVolumeList, bool m_useActiveBoundingBox)
   {
     // This method will group TPCs into "drift volumes" (these are regions of the detector that share a common drift direction,
     // common range of x coordinates, and common detector parameters such as wire pitch and wire angle).
@@ -370,21 +369,31 @@ namespace lar_pandora {
             (std::fabs(0.5f * M_PI - theGeometry->WireAngleToVertical(geo::kY, itpc1, icstat))) :
             (0.5f * M_PI - theGeometry->WireAngleToVertical(geo::kW, itpc1, icstat)));
 
-	double localCoord1[3] = {0., 0., 0.};
-	double worldCoord1[3] = {0., 0., 0.};
-	theTpc1.LocalToWorld(localCoord1, worldCoord1);
+        double localCoord1[3] = {0., 0., 0.};
+        double worldCoord1[3] = {0., 0., 0.};
+        theTpc1.LocalToWorld(localCoord1, worldCoord1);
 
-        float driftMinX(m_useActiveBoundingBox ? theTpc1.ActiveBoundingBox().MinX() : (worldCoord1[0] - theTpc1.ActiveHalfWidth()));
-        float driftMaxX(m_useActiveBoundingBox ? theTpc1.ActiveBoundingBox().MaxX() : (worldCoord1[0] + theTpc1.ActiveHalfWidth()));
-        float driftMinY(m_useActiveBoundingBox ? theTpc1.ActiveBoundingBox().MinY() : (worldCoord1[1] - theTpc1.ActiveHalfHeight()));
-        float driftMaxY(m_useActiveBoundingBox ? theTpc1.ActiveBoundingBox().MaxY() : (worldCoord1[1] + theTpc1.ActiveHalfHeight()));
-        float driftMinZ(m_useActiveBoundingBox ? theTpc1.ActiveBoundingBox().MinZ() : (worldCoord1[2] - 0.5f * theTpc1.ActiveLength()));
-        float driftMaxZ(m_useActiveBoundingBox ? theTpc1.ActiveBoundingBox().MaxZ() : (worldCoord1[2] + 0.5f * theTpc1.ActiveLength()));
+        float driftMinX(m_useActiveBoundingBox ? theTpc1.ActiveBoundingBox().MinX() :
+                                                 (worldCoord1[0] - theTpc1.ActiveHalfWidth()));
+        float driftMaxX(m_useActiveBoundingBox ? theTpc1.ActiveBoundingBox().MaxX() :
+                                                 (worldCoord1[0] + theTpc1.ActiveHalfWidth()));
+        float driftMinY(m_useActiveBoundingBox ? theTpc1.ActiveBoundingBox().MinY() :
+                                                 (worldCoord1[1] - theTpc1.ActiveHalfHeight()));
+        float driftMaxY(m_useActiveBoundingBox ? theTpc1.ActiveBoundingBox().MaxY() :
+                                                 (worldCoord1[1] + theTpc1.ActiveHalfHeight()));
+        float driftMinZ(m_useActiveBoundingBox ? theTpc1.ActiveBoundingBox().MinZ() :
+                                                 (worldCoord1[2] - 0.5f * theTpc1.ActiveLength()));
+        float driftMaxZ(m_useActiveBoundingBox ? theTpc1.ActiveBoundingBox().MaxZ() :
+                                                 (worldCoord1[2] + 0.5f * theTpc1.ActiveLength()));
 
-        const double min1(m_useActiveBoundingBox ? (0.5 * (driftMinX + driftMaxX) - 0.25 * std::fabs(driftMaxX - driftMinX)) :
-			                                           (worldCoord1[0] - 0.5 * theTpc1.ActiveHalfWidth()));
-        const double max1(m_useActiveBoundingBox ? (0.5 * (driftMinX + driftMaxX) + 0.25 * std::fabs(driftMaxX - driftMinX)) :
-			                                           (worldCoord1[0] + 0.5 * theTpc1.ActiveHalfWidth()));
+        const double min1(
+          m_useActiveBoundingBox ?
+            (0.5 * (driftMinX + driftMaxX) - 0.25 * std::fabs(driftMaxX - driftMinX)) :
+            (worldCoord1[0] - 0.5 * theTpc1.ActiveHalfWidth()));
+        const double max1(
+          m_useActiveBoundingBox ?
+            (0.5 * (driftMinX + driftMaxX) + 0.25 * std::fabs(driftMaxX - driftMinX)) :
+            (worldCoord1[0] + 0.5 * theTpc1.ActiveHalfWidth()));
 
         const bool isPositiveDrift(theTpc1.DriftDirection() == geo::kPosX);
 
@@ -427,29 +436,43 @@ namespace lar_pandora {
           if (dThetaU > maxDeltaTheta || dThetaV > maxDeltaTheta || dThetaW > maxDeltaTheta)
             continue;
 
-	  double localCoord2[3] = {0., 0., 0.};
-	  double worldCoord2[3] = {0., 0., 0.};
-	  theTpc2.LocalToWorld(localCoord2, worldCoord2);
+          double localCoord2[3] = {0., 0., 0.};
+          double worldCoord2[3] = {0., 0., 0.};
+          theTpc2.LocalToWorld(localCoord2, worldCoord2);
 
-          const float driftMinX2(m_useActiveBoundingBox ? theTpc2.ActiveBoundingBox().MinX() : (worldCoord2[0] - theTpc2.ActiveHalfWidth()));
-          const float driftMaxX2(m_useActiveBoundingBox ? theTpc2.ActiveBoundingBox().MaxX() : (worldCoord2[0] + theTpc2.ActiveHalfWidth()));
+          const float driftMinX2(m_useActiveBoundingBox ?
+                                   theTpc2.ActiveBoundingBox().MinX() :
+                                   (worldCoord2[0] - theTpc2.ActiveHalfWidth()));
+          const float driftMaxX2(m_useActiveBoundingBox ?
+                                   theTpc2.ActiveBoundingBox().MaxX() :
+                                   (worldCoord2[0] + theTpc2.ActiveHalfWidth()));
 
-          const double min2(m_useActiveBoundingBox ? (0.5 * (driftMinX2 + driftMaxX2) -
-								      0.25 * std::fabs(driftMaxX2 - driftMinX2)) :
-			                                             (worldCoord2[0] - 0.5 * theTpc2.ActiveHalfWidth()));
-          const double max2(m_useActiveBoundingBox ? (0.5 * (driftMinX2 + driftMaxX2) +
-								      0.25 * std::fabs(driftMaxX2 - driftMinX2)) :
-			                                             (worldCoord2[0] + 0.5 * theTpc2.ActiveHalfWidth()));
+          const double min2(
+            m_useActiveBoundingBox ?
+              (0.5 * (driftMinX2 + driftMaxX2) - 0.25 * std::fabs(driftMaxX2 - driftMinX2)) :
+              (worldCoord2[0] - 0.5 * theTpc2.ActiveHalfWidth()));
+          const double max2(
+            m_useActiveBoundingBox ?
+              (0.5 * (driftMinX2 + driftMaxX2) + 0.25 * std::fabs(driftMaxX2 - driftMinX2)) :
+              (worldCoord2[0] + 0.5 * theTpc2.ActiveHalfWidth()));
 
           if ((min2 > max1) || (min1 > max2)) continue;
 
           cstatList.insert(itpc2);
           tpcList.insert(itpc2);
 
-          const float driftMinY2(m_useActiveBoundingBox ? theTpc2.ActiveBoundingBox().MinY() : (worldCoord2[1] - theTpc2.ActiveHalfHeight()));
-          const float driftMaxY2(m_useActiveBoundingBox ? theTpc2.ActiveBoundingBox().MaxY() : (worldCoord2[1] + theTpc2.ActiveHalfHeight()));
-          const float driftMinZ2(m_useActiveBoundingBox ? theTpc2.ActiveBoundingBox().MinZ() : (worldCoord2[2] - 0.5f * theTpc2.ActiveLength()));
-          const float driftMaxZ2(m_useActiveBoundingBox ? theTpc2.ActiveBoundingBox().MaxZ() : (worldCoord2[2] + 0.5f * theTpc2.ActiveLength()));
+          const float driftMinY2(m_useActiveBoundingBox ?
+                                   theTpc2.ActiveBoundingBox().MinY() :
+                                   (worldCoord2[1] - theTpc2.ActiveHalfHeight()));
+          const float driftMaxY2(m_useActiveBoundingBox ?
+                                   theTpc2.ActiveBoundingBox().MaxY() :
+                                   (worldCoord2[1] + theTpc2.ActiveHalfHeight()));
+          const float driftMinZ2(m_useActiveBoundingBox ?
+                                   theTpc2.ActiveBoundingBox().MinZ() :
+                                   (worldCoord2[2] - 0.5f * theTpc2.ActiveLength()));
+          const float driftMaxZ2(m_useActiveBoundingBox ?
+                                   theTpc2.ActiveBoundingBox().MaxZ() :
+                                   (worldCoord2[2] + 0.5f * theTpc2.ActiveLength()));
 
           driftMinX = std::min(driftMinX, driftMinX2);
           driftMaxX = std::max(driftMaxX, driftMaxX2);

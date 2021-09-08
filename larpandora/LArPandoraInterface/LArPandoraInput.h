@@ -195,7 +195,7 @@ namespace lar_pandora {
      *
      *  @param  processMap the output map from MC process string to enumeration
      */
-    static void FillMCProcessMap(MCProcessMap &processMap);
+    static void FillMCProcessMap(MCProcessMap& processMap);
   };
 
 } // namespace lar_pandora

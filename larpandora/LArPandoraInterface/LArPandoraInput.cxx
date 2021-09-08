@@ -121,8 +121,8 @@ namespace lar_pandora {
         caloHitParameters.m_pParentAddress = (void*)((intptr_t)(++hitCounter));
         caloHitParameters.m_larTPCVolumeId =
           LArPandoraGeometry::GetVolumeID(driftVolumeMap, hit_WireID.Cryostat, hit_WireID.TPC);
-        caloHitParameters.m_daughterVolumeId = 
-          LArPandoraGeometry::GetDaughterVolumeID(driftVolumeMap, hit_WireID.Cryostat, hit_WireID.TPC);
+        caloHitParameters.m_daughterVolumeId = LArPandoraGeometry::GetDaughterVolumeID(
+          driftVolumeMap, hit_WireID.Cryostat, hit_WireID.TPC);
 
         const geo::View_t pandora_GlobalView(
           LArPandoraGeometry::GetGlobalView(hit_WireID.Cryostat, hit_WireID.TPC, hit_View));
@@ -673,14 +673,13 @@ namespace lar_pandora {
         MCProcessMap processMap;
         FillMCProcessMap(processMap);
         mcParticleParameters.m_nuanceCode = nuanceCode;
-        if (processMap.find(particle->Process()) != processMap.end())
-        {
-            mcParticleParameters.m_process = processMap[particle->Process()];
+        if (processMap.find(particle->Process()) != processMap.end()) {
+          mcParticleParameters.m_process = processMap[particle->Process()];
         }
-        else
-        {
-            mcParticleParameters.m_process = lar_content::MC_PROC_UNKNOWN;
-            mf::LogWarning("LArPandora") << "CreatePandoraMCParticles - found an unknown process" << std::endl;
+        else {
+          mcParticleParameters.m_process = lar_content::MC_PROC_UNKNOWN;
+          mf::LogWarning("LArPandora")
+            << "CreatePandoraMCParticles - found an unknown process" << std::endl;
         }
         mcParticleParameters.m_energy = E;
         mcParticleParameters.m_particleId = particle->PdgCode();
@@ -942,7 +941,7 @@ namespace lar_pandora {
   //------------------------------------------------------------------------------------------------------------------------------------------
 
   void
-  LArPandoraInput::FillMCProcessMap(MCProcessMap &processMap)
+  LArPandoraInput::FillMCProcessMap(MCProcessMap& processMap)
   {
     // QGSP_BERT and EM standard physics list mappings
     processMap["unknown"] = lar_content::MC_PROC_UNKNOWN;

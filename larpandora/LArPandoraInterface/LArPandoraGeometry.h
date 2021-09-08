@@ -322,7 +322,8 @@ private:
      *
      *  @param listOfGaps the output list of 2D gaps.
      */
-    static void LoadDetectorGaps(LArDetectorGapList& listOfGaps);
+    static void LoadDetectorGaps(LArDetectorGapList& listOfGaps,
+				 bool m_useActiveBoundingBox);
 
     /**
      *  @brief Load drift volume geometry
@@ -331,7 +332,8 @@ private:
      *  @param outputVolumeMap the output mapping between cryostat/tpc and drift volumes
      */
     static void LoadGeometry(LArDriftVolumeList& outputVolumeList,
-                             LArDriftVolumeMap& outputVolumeMap);
+                             LArDriftVolumeMap& outputVolumeMap,
+			     bool m_useActiveBoundingBox);
 
     /**
      *  @brief  Get drift volume ID from a specified cryostat/tpc pair
@@ -396,7 +398,8 @@ private:
      *
      *  @param  driftVolumeList to receive the populated drift volume list
      */
-    static void LoadGeometry(LArDriftVolumeList& driftVolumeList);
+    static void LoadGeometry(LArDriftVolumeList& driftVolumeList,
+			     bool m_useActiveBoundingBox);
 
     /**
      *  @brief  This method will create one or more daughter volumes (these share a common drift orientation along the X-axis,

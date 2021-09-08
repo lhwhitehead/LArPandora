@@ -38,6 +38,7 @@ namespace lar_pandora {
       const pandora::Pandora* m_pPrimaryPandora; ///<
       bool m_useHitWidths;                       ///<
       bool m_useBirksCorrection;                 ///<
+      bool m_useActiveBoundingBox;               ///<
       int m_uidOffset;                           ///<
       int m_hitCounterOffset;                    ///<
       double m_dx_cm;                            ///<

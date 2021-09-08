@@ -1002,6 +1002,7 @@ namespace lar_pandora {
     : m_pPrimaryPandora(nullptr)
     , m_useHitWidths(true)
     , m_useBirksCorrection(false)
+    , m_useActiveBoundingBox(false)
     , m_uidOffset(100000000)
     , m_hitCounterOffset(0)
     , m_dx_cm(0.5)

@@ -326,18 +326,20 @@ namespace lar_pandora {
      *  @brief Load the 2D gaps that go with the chosen geometry
      *
      *  @param listOfGaps the output list of 2D gaps.
+     *  @param useActiveBoundingBox when true use ActiveBoundingBox instead of the default midpoint. Meant to handle offsets and things in a better way.
      */
-    static void LoadDetectorGaps(LArDetectorGapList& listOfGaps, bool m_useActiveBoundingBox);
+    static void LoadDetectorGaps(LArDetectorGapList& listOfGaps, const bool useActiveBoundingBox);
 
     /**
      *  @brief Load drift volume geometry
      *
      *  @param outputVolumeList the output list of drift volumes
      *  @param outputVolumeMap the output mapping between cryostat/tpc and drift volumes
+     *  @param useActiveBoundingBox when true use ActiveBoundingBox instead of the default midpoint. Meant to handle offsets and things in a better way.
      */
     static void LoadGeometry(LArDriftVolumeList& outputVolumeList,
                              LArDriftVolumeMap& outputVolumeMap,
-                             bool m_useActiveBoundingBox);
+                             const bool useActiveBoundingBox);
 
     /**
      *  @brief  Get drift volume ID from a specified cryostat/tpc pair
@@ -401,8 +403,9 @@ namespace lar_pandora {
      *          common range of X coordinates, and common detector parameters such as wire pitch and wire angle).
      *
      *  @param  driftVolumeList to receive the populated drift volume list
+     *  @param  useActiveBoundingBox when true use ActiveBoundingBox instead of the default midpoint. Meant to handle offsets and things in a better way.
      */
-    static void LoadGeometry(LArDriftVolumeList& driftVolumeList, bool m_useActiveBoundingBox);
+    static void LoadGeometry(LArDriftVolumeList& driftVolumeList, const bool useActiveBoundingBox);
 
     /**
      *  @brief  This method will create one or more daughter volumes (these share a common drift orientation along the X-axis,

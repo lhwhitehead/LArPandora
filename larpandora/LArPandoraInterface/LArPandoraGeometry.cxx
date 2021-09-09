@@ -375,20 +375,18 @@ namespace lar_pandora {
         double worldCoord1[3] = {0., 0., 0.};
         theTpc1.LocalToWorld(localCoord1, worldCoord1);
 
-        const float driftMinX(useActiveBoundingBox ? theTpc1.ActiveBoundingBox().MinX() :
-                                                     (worldCoord1[0] - theTpc1.ActiveHalfWidth()));
-        const float driftMaxX(useActiveBoundingBox ? theTpc1.ActiveBoundingBox().MaxX() :
-                                                     (worldCoord1[0] + theTpc1.ActiveHalfWidth()));
-        const float driftMinY(useActiveBoundingBox ? theTpc1.ActiveBoundingBox().MinY() :
-                                                     (worldCoord1[1] - theTpc1.ActiveHalfHeight()));
-        const float driftMaxY(useActiveBoundingBox ? theTpc1.ActiveBoundingBox().MaxY() :
-                                                     (worldCoord1[1] + theTpc1.ActiveHalfHeight()));
-        const float driftMinZ(useActiveBoundingBox ?
-                                theTpc1.ActiveBoundingBox().MinZ() :
-                                (worldCoord1[2] - 0.5f * theTpc1.ActiveLength()));
-        const float driftMaxZ(useActiveBoundingBox ?
-                                theTpc1.ActiveBoundingBox().MaxZ() :
-                                (worldCoord1[2] + 0.5f * theTpc1.ActiveLength()));
+        float driftMinX(useActiveBoundingBox ? theTpc1.ActiveBoundingBox().MinX() :
+                                               (worldCoord1[0] - theTpc1.ActiveHalfWidth()));
+        float driftMaxX(useActiveBoundingBox ? theTpc1.ActiveBoundingBox().MaxX() :
+                                               (worldCoord1[0] + theTpc1.ActiveHalfWidth()));
+        float driftMinY(useActiveBoundingBox ? theTpc1.ActiveBoundingBox().MinY() :
+                                               (worldCoord1[1] - theTpc1.ActiveHalfHeight()));
+        float driftMaxY(useActiveBoundingBox ? theTpc1.ActiveBoundingBox().MaxY() :
+                                               (worldCoord1[1] + theTpc1.ActiveHalfHeight()));
+        float driftMinZ(useActiveBoundingBox ? theTpc1.ActiveBoundingBox().MinZ() :
+                                               (worldCoord1[2] - 0.5f * theTpc1.ActiveLength()));
+        float driftMaxZ(useActiveBoundingBox ? theTpc1.ActiveBoundingBox().MaxZ() :
+                                               (worldCoord1[2] + 0.5f * theTpc1.ActiveLength()));
 
         const double min1(
           useActiveBoundingBox ?

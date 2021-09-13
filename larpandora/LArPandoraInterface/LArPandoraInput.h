@@ -38,6 +38,7 @@ namespace lar_pandora {
       const pandora::Pandora* m_pPrimaryPandora; ///<
       bool m_useHitWidths;                       ///<
       bool m_useBirksCorrection;                 ///<
+      bool m_useActiveBoundingBox;               ///<
       int m_uidOffset;                           ///<
       int m_hitCounterOffset;                    ///<
       double m_dx_cm;                            ///<
@@ -194,7 +195,7 @@ namespace lar_pandora {
      *
      *  @param  processMap the output map from MC process string to enumeration
      */
-    static void FillMCProcessMap(MCProcessMap &processMap);
+    static void FillMCProcessMap(MCProcessMap& processMap);
   };
 
 } // namespace lar_pandora

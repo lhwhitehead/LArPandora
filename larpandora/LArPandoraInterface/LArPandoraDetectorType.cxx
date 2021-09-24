@@ -11,10 +11,11 @@ namespace lar_pandora{
         for (unsigned int iPlane = 0; iPlane < nPlanes; ++iPlane)
           (void)planeSet.insert(geo->TPC(0, 0).Plane(iPlane).View());
 
+        /*
         if (nPlanes == 3 && planeSet.count(geo::kU) && planeSet.count(geo::kV) && planeSet.count(geo::kW))
             return new DUNEFarDetHD; 
 
-        else if (nPlanes==3 && planeSet.count(geo::kU) && planeSet.count(geo::kY) && planeSet.count(geo::kZ))
+        else*/ if (nPlanes==3 && planeSet.count(geo::kU) && planeSet.count(geo::kY) && planeSet.count(geo::kZ))
             return new DUNEFarDetVDThreeView;
 
         throw cet::exception("LArPandora")
@@ -22,13 +23,15 @@ namespace lar_pandora{
     }
 
 
+    /*
     bool DUNEFarDetHD::ShouldSwitchUV()
     {
         std::cout<<"I am HD"<<std::endl;
         return true;
     }
+    */
 
-    bool DUNEFarDetVDThreeView::ShouldSwitchUV()
+    bool DUNEFarDetVDThreeView::ShouldSwitchUV() const
     {
         std::cout<<"I am VD"<<std::endl;
         return true;

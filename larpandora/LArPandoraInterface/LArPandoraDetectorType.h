@@ -2,20 +2,20 @@
 
 namespace lar_pandora{
 
-    class DetectorType {
+    class LArPandoraDetectorType {
     public:
-        static DetectorType *GetDetectorType(art::ServiceHandle<geo::Geometry const> geo);
-        pure virtual bool FlipViews();
+        static LArPandoraDetectorType *GetDetectorType();
+        virtual bool ShouldSwitchUV() = 0;
     };
 
-    class DUNEFarDetHD : public DetectorType {
+    class DUNEFarDetHD : public LArPandoraDetectorType {
     public:
-        bool FlipViews() override;
+        bool ShouldSwitchUV() override;
     };
 
-    class DUNEFarDetVDThreeView : public DetectorType {
+    class DUNEFarDetVDThreeView : public LArPandoraDetectorType {
     public:
-        bool FlipViews() override;
+        bool ShouldSwitchUV() override;
     };
 
 }

@@ -2,8 +2,10 @@
 
 namespace lar_pandora{
 
-    DetectorType *DetectorType::GetDetectorType(art::ServiceHandle<geo::Geometry const> geo)
+    LArPandoraDetectorType *LArPandoraDetectorType::GetDetectorType()
     {
+        art::ServiceHandle<geo::Geometry const> geo;
+
         const unsigned int nPlanes(geo->MaxPlanes());
         std::unordered_set<geo::_plane_proj> planeSet;
         for (unsigned int iPlane = 0; iPlane < nPlanes; ++iPlane)
@@ -14,16 +16,19 @@ namespace lar_pandora{
 
         else if (nPlanes==3 && planeSet.count(geo::kU) && planeSet.count(geo::kY) && planeSet.count(geo::kZ))
             return new DUNEFarDetVDThreeView;
+
+        throw cet::exception("LArPandora")
+            << "LArPandoraDetectorType::GetDetectorType --- unable to determine the detector type from the geometry GDML";
     }
 
 
-    bool DUNEFarDetHD::FlipViews()
+    bool DUNEFarDetHD::ShouldSwitchUV()
     {
         std::cout<<"I am HD"<<std::endl;
         return true;
     }
 
-    bool DUNEFarDetVDThreeView::FlipViews()
+    bool DUNEFarDetVDThreeView::ShouldSwitchUV()
     {
         std::cout<<"I am VD"<<std::endl;
         return true;

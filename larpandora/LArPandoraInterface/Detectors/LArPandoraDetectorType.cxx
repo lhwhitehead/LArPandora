@@ -1,6 +1,6 @@
-#include "larpandora/LArPandoraInterface/LArPandoraDetectorType.h"
+#include "larpandora/LArPandoraInterface/Detectors/LArPandoraDetectorType.h"
 
-#include "larpandora/LArPandoraInterface/detectors/DUNEFarDetVDThreeView.h"
+#include "larpandora/LArPandoraInterface/Detectors/DUNEFarDetVDThreeView.h"
 
 namespace lar_pandora{
 
@@ -17,8 +17,10 @@ namespace lar_pandora{
         if (nPlanes == 3 && planeSet.count(geo::kU) && planeSet.count(geo::kV) && planeSet.count(geo::kW))
             return new DUNEFarDetHD; 
 
-        else*/ if (nPlanes==3 && planeSet.count(geo::kU) && planeSet.count(geo::kY) && planeSet.count(geo::kZ))
-            return new DUNEFarDetVDThreeView;
+        else*/ if (nPlanes==3 && planeSet.count(geo::kU) && planeSet.count(geo::kY) && planeSet.count(geo::kZ)){
+            std::cout<<"We got a VD"<<std::endl;
+           return new DUNEFarDetVDThreeView;
+        }
 
         throw cet::exception("LArPandora")
             << "LArPandoraDetectorType::GetDetectorType --- unable to determine the detector type from the geometry GDML";

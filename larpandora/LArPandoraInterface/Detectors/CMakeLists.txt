@@ -42,12 +42,12 @@ if( ${PANDORA_LIBTORCH} AND DEFINED ENV{LIBTORCH_DIR})
     add_definitions("-DLIBTORCH_DL")
     art_make(
         LIB_LIBRARIES ${CORE_LIB_LIST} LArPandoraDLContent
-        MODULE_LIBRARIES larpandora_LArPandoraInterface)
+        MODULE_LIBRARIES larpandora_LArPandoraInterface_Detectors)
 else()
     message( STATUS "Building without deep learning support" )
     art_make(
         LIB_LIBRARIES ${CORE_LIB_LIST}
-        MODULE_LIBRARIES larpandora_LArPandoraInterface)
+        MODULE_LIBRARIES larpandora_LArPandoraInterface_Detectors)
 endif()
 
 install_headers()

@@ -2,6 +2,7 @@ include_directories( $ENV{PANDORA_INC} )
 include_directories( $ENV{LARPANDORACONTENT_INC} )
 
 set(CORE_LIB_LIST
+    larpandora_LArPandoraInterface_Detectors
     larcorealg_Geometry
     larcore_Geometry_Geometry_service
     larsim_Simulation lardataobj_Simulation
@@ -52,6 +53,6 @@ install_headers()
 install_fhicl()
 install_source()
 
-add_subdirectory(detectors)
+add_subdirectory(Detectors)
 add_subdirectory(scripts)
 

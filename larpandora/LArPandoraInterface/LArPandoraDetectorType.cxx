@@ -1,5 +1,7 @@
 #include "larpandora/LArPandoraInterface/LArPandoraDetectorType.h"
 
+#include "larpandora/LArPandoraInterface/detectors/DUNEFarDetVDThreeView.h"
+
 namespace lar_pandora{
 
     LArPandoraDetectorType *GetDetectorType()

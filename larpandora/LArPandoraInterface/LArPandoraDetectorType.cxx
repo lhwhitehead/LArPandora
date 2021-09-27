@@ -2,7 +2,7 @@
 
 namespace lar_pandora{
 
-    LArPandoraDetectorType *LArPandoraDetectorType::GetDetectorType()
+    LArPandoraDetectorType *GetDetectorType()
     {
         art::ServiceHandle<geo::Geometry const> geo;
 

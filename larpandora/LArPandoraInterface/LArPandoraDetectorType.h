@@ -6,7 +6,7 @@ namespace lar_pandora{
 
     class LArPandoraDetectorType {
     public:
-        static LArPandoraDetectorType *GetDetectorType();
+        LArPandoraDetectorType *GetDetectorType();
         virtual float TargetViewU() const = 0;
         virtual float TargetViewV() const = 0;
         virtual float TargetViewW() const = 0;
@@ -15,6 +15,8 @@ namespace lar_pandora{
         virtual bool ShouldSwitchUV(const unsigned int tpc, const unsigned int cstat) const = 0;
         virtual void LoadDetectorGaps(LArDetectorGapList& listOfGaps) = 0;
     };
+
+    LArPandoraDetectorType *GetDetectorType();
 
     /*
     class DUNEFarDetHD : public LArPandoraDetectorType {

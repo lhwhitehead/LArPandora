@@ -6,9 +6,9 @@ namespace lar_pandora{
 
     class DUNEFarDetVDThreeView : public LArPandoraDetectorType {
     public:
-        float TargetViewU() const override {return 0.f; };
-        float TargetViewV() const override {return 0.f; };
-        float TargetViewW() const override {return 0.f; };
+        geo::View_t TargetViewU() const override {return geo::kUnknown; };
+        geo::View_t TargetViewV() const override {return geo::kUnknown; };
+        geo::View_t TargetViewW() const override {return geo::kUnknown; };
         float WirePitch(const geo::View_t view) const override {return 0.f; };
         float WireAngle(const geo::View_t view, const int tpc, const int cstat) const override {return 0.f; };
         bool ShouldSwitchUV(const unsigned int tpc, const unsigned int cstat) const override {return false; };

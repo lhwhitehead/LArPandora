@@ -9,7 +9,6 @@ namespace lar_pandora{
 
     class LArPandoraDetectorType {
     public:
-        LArPandoraDetectorType *GetDetectorType();
         virtual geo::View_t TargetViewU() const = 0;
         virtual geo::View_t TargetViewV() const = 0;
         virtual geo::View_t TargetViewW() const = 0;

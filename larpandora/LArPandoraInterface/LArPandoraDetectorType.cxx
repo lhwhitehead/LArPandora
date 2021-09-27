@@ -31,10 +31,12 @@ namespace lar_pandora{
     }
     */
 
+    /*
     bool DUNEFarDetVDThreeView::ShouldSwitchUV() const
     {
         std::cout<<"I am VD"<<std::endl;
         return true;
     }
+    */
 }
 

@@ -1,11 +1,13 @@
 #ifndef LAR_PANDORA_DETECTOR_TYPE_H
 #define LAR_PANDORA_DETECTOR_TYPE_H 1
 
-#include "larpandora/LArPandoraInterface/LArPandoraGeometry.h"
 
 #include "larcore/Geometry/Geometry.h"
 
 namespace lar_pandora{
+
+    class LArDetectorGap;
+    typedef std::vector<LArDetectorGap> LArDetectorGapList;
 
     class LArPandoraDetectorType {
     public:

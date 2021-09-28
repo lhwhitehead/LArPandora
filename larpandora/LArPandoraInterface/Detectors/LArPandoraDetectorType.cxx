@@ -1,3 +1,4 @@
+#include "larpandora/LArPandoraInterface/LArPandoraGeometry.h"
 #include "larpandora/LArPandoraInterface/Detectors/LArPandoraDetectorType.h"
 
 #include "larpandora/LArPandoraInterface/Detectors/DUNEFarDetVDThreeView.h"

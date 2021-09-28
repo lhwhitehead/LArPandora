@@ -337,9 +337,9 @@ namespace lar_pandora {
     // planes, which are inherently induction only, are mapped to induction planes in the single phase geometry.
     LArPandoraDetectorType *detType(GetDetectorType());
     //REPLACEMENT
-    const float wirePitchU(detType->WirePitch(detType->TargetViewU(0,0)));
-    const float wirePitchV(detType->WirePitch(detType->TargetViewV(0,0)));
-    const float wirePitchW(detType->WirePitch(detType->TargetViewW(0,0)));
+    const float wirePitchU(detType->WirePitchU());
+    const float wirePitchV(detType->WirePitchV());
+    const float wirePitchW(detType->WirePitchW());
     /*
     const float wirePitchU(theGeometry->WirePitch((isDualPhase ? geo::kW : geo::kU)));
     const float wirePitchV(theGeometry->WirePitch((isDualPhase ? geo::kY : geo::kV)));
@@ -367,8 +367,11 @@ namespace lar_pandora {
         // WireAngleToVertical function returns the wire angle to the positive Z axis, but Pandora expects to receive the wire
         // angle to the vertical, hence the conversion.  The fabs() in wireAngleW for the kY case is due to the ICARUS geometry
         // having a wire angle of PI instead of 0.
-        const geo::View_t targetViewU(isDualPhase ? geo::kW : geo::kU);
-        const geo::View_t targetViewV(isDualPhase ? geo::kY : geo::kV);
+        //REPLACEMENT
+//        const geo::View_t targetViewU(isDualPhase ? geo::kW : geo::kU);
+//        const geo::View_t targetViewV(isDualPhase ? geo::kY : geo::kV);
+        const geo::View_t targetViewU(detType->TargetViewU(itpc1, icstat));
+        const geo::View_t targetViewV(detType->TargetViewV(itpc1, icstat));
         const float wireAngleU(0.5f * M_PI -
                                theGeometry->WireAngleToVertical(targetViewU, itpc1, icstat));
         const float wireAngleV(0.5f * M_PI -

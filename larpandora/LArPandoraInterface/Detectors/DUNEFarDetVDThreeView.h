@@ -17,4 +17,9 @@ namespace lar_pandora{
     private:
         art::ServiceHandle<geo::Geometry> m_LArSoftGeometry;
     };
+
+    inline geo::View_t DUNEFarDetVDThreeView::TargetViewU() const
+    {
+        return geo::kU;
+    }
 }

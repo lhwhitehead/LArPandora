@@ -14,8 +14,12 @@ namespace lar_pandora{
         virtual geo::View_t TargetViewU(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const = 0;
         virtual geo::View_t TargetViewV(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const = 0;
         virtual geo::View_t TargetViewW(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const = 0;
-        virtual float WirePitch(const geo::View_t view) const = 0;
-        virtual float WireAngle(const geo::View_t view, const int tpc, const int cstat) const = 0;
+        virtual float WirePitchU() const = 0;
+        virtual float WirePitchV() const = 0;
+        virtual float WirePitchW() const = 0;
+        virtual float WireAngleU(const int tpc, const int cstat) const = 0;
+        virtual float WireAngleV(const int tpc, const int cstat) const = 0;
+        virtual float WireAngleW(const int tpc, const int cstat) const = 0;
         virtual bool ShouldSwitchUV(const unsigned int tpc, const unsigned int cstat) const = 0;
         virtual void LoadDetectorGaps(LArDetectorGapList& listOfGaps) = 0;
     };

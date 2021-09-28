@@ -12,6 +12,7 @@
 #include "larcorealg/Geometry/WireGeo.h"
 
 #include "larpandora/LArPandoraInterface/LArPandoraGeometry.h"
+#include "larpandora/LArPandoraInterface/Detectors/LArPandoraDetectorType.h"
 
 #include <iomanip>
 #include <set>
@@ -298,6 +299,7 @@ namespace lar_pandora {
     art::ServiceHandle<geo::Geometry const> theGeometry;
     const unsigned int nWirePlanes(theGeometry->MaxPlanes());
 
+
     if (nWirePlanes > 3)
       throw cet::exception("LArPandora")
         << " LArPandoraGeometry::LoadGeometry --- More than three wire planes present ";
@@ -333,11 +335,18 @@ namespace lar_pandora {
 
     // ATTN: In the dual phase mode, map the wire planes as follows W->U and Y->V.  This mapping was chosen so that the dual phase wire
     // planes, which are inherently induction only, are mapped to induction planes in the single phase geometry.
+    LArPandoraDetectorType *detType(GetDetectorType());
+    //REPLACEMENT
+    const float wirePitchU(detType->WirePitch(detType->TargetViewU(0,0)));
+    const float wirePitchV(detType->WirePitch(detType->TargetViewV(0,0)));
+    const float wirePitchW(detType->WirePitch(detType->TargetViewW(0,0)));
+    /*
     const float wirePitchU(theGeometry->WirePitch((isDualPhase ? geo::kW : geo::kU)));
     const float wirePitchV(theGeometry->WirePitch((isDualPhase ? geo::kY : geo::kV)));
     const float wirePitchW((nWirePlanes < 3) ? 0.5f * (wirePitchU + wirePitchV) :
                                                (useYPlane) ? theGeometry->WirePitch(geo::kY) :
                                                              theGeometry->WirePitch(geo::kW));
+                                                             */
 
     const float maxDeltaTheta(0.01f); // leave this hard-coded for now
 

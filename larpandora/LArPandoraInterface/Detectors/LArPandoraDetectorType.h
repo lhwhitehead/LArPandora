@@ -17,10 +17,10 @@ namespace lar_pandora{
         virtual float WirePitchU() const = 0;
         virtual float WirePitchV() const = 0;
         virtual float WirePitchW() const = 0;
-        virtual float WireAngleU(const int tpc, const int cstat) const = 0;
-        virtual float WireAngleV(const int tpc, const int cstat) const = 0;
-        virtual float WireAngleW(const int tpc, const int cstat) const = 0;
-        virtual bool ShouldSwitchUV(const unsigned int tpc, const unsigned int cstat) const = 0;
+        virtual float WireAngleU(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const = 0;
+        virtual float WireAngleV(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const = 0;
+        virtual float WireAngleW(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const = 0;
+        virtual bool ShouldSwitchUV(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const = 0;
         virtual void LoadDetectorGaps(LArDetectorGapList& listOfGaps) = 0;
     };
 

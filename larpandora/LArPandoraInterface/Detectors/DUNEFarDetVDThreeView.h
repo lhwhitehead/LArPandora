@@ -13,10 +13,10 @@ namespace lar_pandora{
         float WirePitchU() const override;
         float WirePitchV() const override;
         float WirePitchW() const override;
-        float WireAngleU(const int tpc, const int cstat) const override {return 0.f; };
-        float WireAngleV(const int tpc, const int cstat) const override {return 0.f; };
-        float WireAngleW(const int tpc, const int cstat) const override {return 0.f; };
-        bool ShouldSwitchUV(const unsigned int tpc, const unsigned int cstat) const override {return false; };
+        float WireAngleU(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const override {return 0.f; };
+        float WireAngleV(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const override {return 0.f; };
+        float WireAngleW(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const override {return 0.f; };
+        bool ShouldSwitchUV(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const override {return false; };
         void LoadDetectorGaps(LArDetectorGapList& listOfGaps) override {return; }; 
     private:
         art::ServiceHandle<geo::Geometry> m_LArSoftGeometry;

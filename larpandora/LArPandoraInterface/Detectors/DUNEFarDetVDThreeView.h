@@ -13,13 +13,14 @@ namespace lar_pandora{
         float WirePitchU() const override;
         float WirePitchV() const override;
         float WirePitchW() const override;
-        float WireAngleU(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const override {return 0.f; };
-        float WireAngleV(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const override {return 0.f; };
-        float WireAngleW(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const override {return 0.f; };
+        float WireAngleU(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const override;
+        float WireAngleV(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const override;
+        float WireAngleW(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const override;
         bool ShouldSwitchUV(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const override {return false; };
         void LoadDetectorGaps(LArDetectorGapList& listOfGaps) override {return; }; 
     private:
         art::ServiceHandle<geo::Geometry> m_LArSoftGeometry;
+        float WireAngleImpl(const geo::View_t view, const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const;
     };
 
     inline geo::View_t DUNEFarDetVDThreeView::TargetViewU(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const
@@ -52,4 +53,24 @@ namespace lar_pandora{
         return m_LArSoftGeometry->WirePitch(this->TargetViewW(0,0));
     }
 
+    inline float DUNEFarDetVDThreeView::WireAngleU(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const
+    {
+        return this->WireAngleImpl(this->TargetViewU(tpc, cstat), tpc, cstat);
+    }
+
+    inline float DUNEFarDetVDThreeView::WireAngleV(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const
+    {
+        //ATTN abs needed as this view should be kY
+        return std::abs(this->WireAngleImpl(this->TargetViewV(tpc, cstat), tpc, cstat));
+    }
+
+    inline float DUNEFarDetVDThreeView::WireAngleW(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const
+    {
+        return this->WireAngleImpl(this->TargetViewW(tpc, cstat), tpc, cstat);
+    }
+
+    inline float DUNEFarDetVDThreeView::WireAngleImpl(const geo::View_t view, const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const
+    {
+        return (0.5f * M_PI - m_LArSoftGeometry->WireAngleToVertical(view, tpc, cstat));
+    }
 }

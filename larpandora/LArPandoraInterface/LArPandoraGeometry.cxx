@@ -297,6 +297,8 @@ namespace lar_pandora {
 
     // Pandora requires three independent images, and ability to correlate features between images (via wire angles and transformation plugin).
     art::ServiceHandle<geo::Geometry const> theGeometry;
+    //REPLACEMENT
+    /*
     const unsigned int nWirePlanes(theGeometry->MaxPlanes());
 
 
@@ -330,8 +332,10 @@ namespace lar_pandora {
       throw cet::exception("LArPandora")
         << " LArPandoraGeometry::LoadGeometry --- single phase scenatio; expect to find u and v "
            "views; if there is one further view, it must be w or y ";
+           */
 
-    const bool useYPlane((nWirePlanes > 2) && planeSet.count(geo::kY));
+    //REPLACEMENT
+//    const bool useYPlane((nWirePlanes > 2) && planeSet.count(geo::kY));
 
     // ATTN: In the dual phase mode, map the wire planes as follows W->U and Y->V.  This mapping was chosen so that the dual phase wire
     // planes, which are inherently induction only, are mapped to induction planes in the single phase geometry.
@@ -370,18 +374,19 @@ namespace lar_pandora {
         //REPLACEMENT
 //        const geo::View_t targetViewU(isDualPhase ? geo::kW : geo::kU);
 //        const geo::View_t targetViewV(isDualPhase ? geo::kY : geo::kV);
-        const geo::View_t targetViewU(detType->TargetViewU(itpc1, icstat));
-        const geo::View_t targetViewV(detType->TargetViewV(itpc1, icstat));
-        const float wireAngleU(0.5f * M_PI -
-                               theGeometry->WireAngleToVertical(targetViewU, itpc1, icstat));
-        const float wireAngleV(0.5f * M_PI -
-                               theGeometry->WireAngleToVertical(targetViewV, itpc1, icstat));
-        const float wireAngleW(
-          (nWirePlanes < 3) ?
-            std::numeric_limits<float>::epsilon() :
-            (useYPlane) ?
-            (std::fabs(0.5f * M_PI - theGeometry->WireAngleToVertical(geo::kY, itpc1, icstat))) :
-            (0.5f * M_PI - theGeometry->WireAngleToVertical(geo::kW, itpc1, icstat)));
+//        const float wireAngleU(0.5f * M_PI -
+//                               theGeometry->WireAngleToVertical(targetViewU, itpc1, icstat));
+//        const float wireAngleV(0.5f * M_PI -
+//                               theGeometry->WireAngleToVertical(targetViewV, itpc1, icstat));
+//        const float wireAngleW(
+//          (nWirePlanes < 3) ?
+//            std::numeric_limits<float>::epsilon() :
+//            (useYPlane) ?
+//            (std::fabs(0.5f * M_PI - theGeometry->WireAngleToVertical(geo::kY, itpc1, icstat))) :
+//            (0.5f * M_PI - theGeometry->WireAngleToVertical(geo::kW, itpc1, icstat)));
+        const float wireAngleU(detType->WireAngleU(itpc1, icstat));            
+        const float wireAngleV(detType->WireAngleV(itpc1, icstat));            
+        const float wireAngleW(detType->WireAngleW(itpc1, icstat));            
 
         double localCoord1[3] = {0., 0., 0.};
         double worldCoord1[3] = {0., 0., 0.};
@@ -433,6 +438,11 @@ namespace lar_pandora {
           if (theTpc1.DriftDirection() != theTpc2.DriftDirection()) continue;
 
           // ATTN: In dual phase scenario propagate the W->U and Y->V mapping as described above.
+          //REPLACEMENT
+          const float dThetaU(detType->WireAngleU(itpc1, icstat) - detType->WireAngleU(itpc2, icstat));
+          const float dThetaV(detType->WireAngleV(itpc1, icstat) - detType->WireAngleV(itpc2, icstat));
+          const float dThetaW(detType->WireAngleW(itpc1, icstat) - detType->WireAngleW(itpc2, icstat));
+          /*
           const geo::View_t pandoraUView(isDualPhase ? geo::kW : geo::kU);
           const geo::View_t pandoraVView(isDualPhase ? geo::kY : geo::kV);
           const float dThetaU(theGeometry->WireAngleToVertical(pandoraUView, itpc1, icstat) -
@@ -446,6 +456,7 @@ namespace lar_pandora {
                                  theGeometry->WireAngleToVertical(geo::kY, itpc2, icstat)) :
                                 (theGeometry->WireAngleToVertical(geo::kW, itpc1, icstat) -
                                  theGeometry->WireAngleToVertical(geo::kW, itpc2, icstat)));
+                                 */
 
           if (dThetaU > maxDeltaTheta || dThetaV > maxDeltaTheta || dThetaW > maxDeltaTheta)
             continue;

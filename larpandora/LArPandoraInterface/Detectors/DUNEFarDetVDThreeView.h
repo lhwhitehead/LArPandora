@@ -15,6 +15,6 @@ namespace lar_pandora{
         bool ShouldSwitchUV(const unsigned int tpc, const unsigned int cstat) const override {return false; };
         void LoadDetectorGaps(LArDetectorGapList& listOfGaps) override {return; }; 
     private:
-        //art::ServiceHandle<geo::Geometry> m_LArSoftGeometry;
+        art::ServiceHandle<geo::Geometry> m_LArSoftGeometry;
     };
 }

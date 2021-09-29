@@ -21,7 +21,7 @@ namespace lar_pandora{
         virtual float WireAngleV(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const = 0;
         virtual float WireAngleW(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const = 0;
         virtual bool ShouldSwitchUV(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const = 0;
-        virtual void LoadDetectorGaps(LArDetectorGapList& listOfGaps) = 0;
+        virtual bool CheckDetectorGapSize(const geo::Vector_t &gaps, const geo::Vector_t &deltas, const float maxDisplacement) const = 0;
     };
 
     LArPandoraDetectorType *GetDetectorType();

@@ -1,4 +1,5 @@
 #include "larpandora/LArPandoraInterface/Detectors/LArPandoraDetectorType.h"
+#include "Objects/Cluster.h"
 
 #include "larcore/Geometry/Geometry.h"
 
@@ -17,7 +18,7 @@ namespace lar_pandora{
         float WireAngleV(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const override;
         float WireAngleW(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const override;
         bool ShouldSwitchUV(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const override {return false; };
-        void LoadDetectorGaps(LArDetectorGapList& listOfGaps) override {return; }; 
+        bool CheckDetectorGapSize(const geo::Vector_t &gaps, const geo::Vector_t &deltas, const float maxDisplacement) const override;
     private:
         art::ServiceHandle<geo::Geometry> m_LArSoftGeometry;
         float WireAngleImpl(const geo::View_t view, const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const;
@@ -72,5 +73,12 @@ namespace lar_pandora{
     inline float DUNEFarDetVDThreeView::WireAngleImpl(const geo::View_t view, const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const
     {
         return (0.5f * M_PI - m_LArSoftGeometry->WireAngleToVertical(view, tpc, cstat));
+    }
+
+    inline bool DUNEFarDetVDThreeView::CheckDetectorGapSize(const geo::Vector_t &gaps, const geo::Vector_t &deltas, const float maxDisplacement) const
+    {
+        if (gaps.X() < 0.f || gaps.X() > maxDisplacement || deltas.Y() > maxDisplacement || deltas.Z() > maxDisplacement)
+            return false;
+        return true;
     }
 }

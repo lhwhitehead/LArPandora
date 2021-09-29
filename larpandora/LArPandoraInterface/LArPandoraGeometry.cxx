@@ -35,6 +35,8 @@ namespace lar_pandora {
     // ATTN: Expectations here are that the input geometry corresponds to either a single or dual phase LArTPC.
     art::ServiceHandle<geo::Geometry const> theGeometry;
     const bool isDualPhase(theGeometry->MaxPlanes() == 2);
+    //REPLACEMENT
+    LArPandoraDetectorType *detType(GetDetectorType());
 
     for (LArDriftVolumeList::const_iterator iter1 = driftVolumeList.begin(),
                                             iterEnd1 = driftVolumeList.end();
@@ -63,10 +65,13 @@ namespace lar_pandora {
         const float gapY(deltaY - widthY);
         const float gapZ(deltaZ - widthZ);
 
+        //REPLACEMENT
+        /*
         if (!isDualPhase && (gapX < 0.f || gapX > maxDisplacement || deltaY > maxDisplacement ||
                              deltaZ > maxDisplacement))
           continue;
 
+          */
         const float X1((driftVolume1.GetCenterX() < driftVolume2.GetCenterX()) ?
                          (driftVolume1.GetCenterX() + 0.5f * driftVolume1.GetWidthX()) :
                          (driftVolume2.GetCenterX() + 0.5f * driftVolume2.GetWidthX()));
@@ -82,12 +87,22 @@ namespace lar_pandora {
         const float Z2(std::max((driftVolume1.GetCenterZ() + 0.5f * driftVolume1.GetWidthZ()),
                                 (driftVolume2.GetCenterZ() + 0.5f * driftVolume2.GetWidthZ())));
 
+        //REPLACEMENT
+        /*
         if (isDualPhase && (std::fabs(gapY) > maxDisplacement || std::fabs(gapZ) > maxDisplacement))
           listOfGaps.emplace_back(
             LArDetectorGap(X1, Y1 + widthY, Z1 + widthZ, X2, Y2 - widthY, Z2 - widthZ));
 
         else if (!isDualPhase)
           listOfGaps.emplace_back(LArDetectorGap(X1, Y1, Z1, X2, Y2, Z2));
+          */
+        geo::Vector_t gaps(gapX, gapY, gapZ), deltas(deltaX, deltaY, deltaZ);
+        if (detType->CheckDetectorGapSize(gaps, deltas, maxDisplacement))
+        {
+            geo::Point_t point1(X1, Y1, Z1), point2(X2, Y2, Z2);
+            geo::Vector_t widths(widthX, widthY, widthZ);
+            listOfGaps.emplace_back(detType->CreateDetectorGap(point1, point2, widths));
+        }
       }
       if (isDualPhase) {
         for (LArDaughterDriftVolumeList::const_iterator

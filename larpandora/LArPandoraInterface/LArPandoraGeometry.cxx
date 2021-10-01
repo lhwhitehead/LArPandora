@@ -577,7 +577,10 @@ namespace lar_pandora {
 
     // Create daughter drift volumes
     for (const LArDriftVolume& driftVolume : driftVolumeList) {
-      const bool switchViews(LArPandoraGeometry::ShouldSwitchUV(driftVolume.IsPositiveDrift()));
+      //REPLACEMENT
+      //const bool switchViews(LArPandoraGeometry::ShouldSwitchUV(driftVolume.IsPositiveDrift()));
+      const bool switchViews(false);
+
       const float daughterWirePitchU(switchViews ? driftVolume.GetWirePitchV() :
                                                    driftVolume.GetWirePitchU());
       const float daughterWirePitchV(switchViews ? driftVolume.GetWirePitchU() :

@@ -62,8 +62,7 @@ namespace lar_pandora{
 
     inline float DUNEFarDetVDThreeView::WireAngleV(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const
     {
-        //ATTN abs needed as this view should be kY
-        return std::abs(this->WireAngleImpl(this->TargetViewV(tpc, cstat), tpc, cstat));
+        return this->WireAngleImpl(this->TargetViewV(tpc, cstat), tpc, cstat);
     }
 
     inline float DUNEFarDetVDThreeView::WireAngleW(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const

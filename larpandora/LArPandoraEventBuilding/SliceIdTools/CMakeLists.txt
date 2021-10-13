@@ -14,8 +14,8 @@ set(
                         larreco_RecoAlg
                         larreco_ClusterFinder
                         larreco_Calorimetry
-                        ${PANDORASDK}
-                        ${PANDORAMONITORING}
+                        PandoraSDK
+                        PandoraMonitoring
                         LArPandoraContent
                         larpandora_LArPandoraInterface
                         larpandora_LArPandoraEventBuilding

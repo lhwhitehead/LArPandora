@@ -99,6 +99,6 @@ namespace lar_pandora{
 
     inline PandoraApi::Geometry::LineGap::Parameters VintageLArTPCThreeView::CreateLineGapParametrs(const LArDetectorGap &gap) const
     {
-        return PandoraApi::Geometry::LineGap::Parameters();
+        return detector_functions::CreateDriftGapParameters(gap);
     }
 }

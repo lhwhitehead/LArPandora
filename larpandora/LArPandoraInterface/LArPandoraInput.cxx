@@ -262,7 +262,9 @@ namespace lar_pandora {
   {
     //ATTN - Unlike SP, DP detector gaps are not in the drift direction
     art::ServiceHandle<geo::Geometry const> theGeometry;
-    const bool isDualPhase(theGeometry->MaxPlanes() == 2);
+    //REPLACEMENT use the detector type
+    //const bool isDualPhase(theGeometry->MaxPlanes() == 2);
+    LArPandoraDetectorType *detType(detector_functions::GetDetectorType());
 
     mf::LogDebug("LArPandora") << " *** LArPandoraInput::CreatePandoraDetectorGaps(...) *** "
                                << std::endl;
@@ -275,7 +277,8 @@ namespace lar_pandora {
 
     for (const LArDetectorGap& gap : listOfGaps) {
       PandoraApi::Geometry::LineGap::Parameters parameters;
-
+      //REPLACEMENT use the detector type
+      /*
       if (isDualPhase) {
         const bool isGapInU((
           std::fabs(gap.GetY2() - gap.GetY1()) >
@@ -317,6 +320,10 @@ namespace lar_pandora {
         parameters.m_lineStartZ = -std::numeric_limits<float>::max();
         parameters.m_lineEndZ = std::numeric_limits<float>::max();
       }
+      */
+      try {
+          parameters = detType->CreateLineGapParametrs(gap);
+      }
       catch (const pandora::StatusCodeException&) {
         mf::LogWarning("LArPandora")
           << "CreatePandoraDetectorGaps - invalid line gap parameter provided, all assigned values "
@@ -324,7 +331,6 @@ namespace lar_pandora {
           << std::endl;
         continue;
       }
-
       try {
         PANDORA_THROW_RESULT_IF(pandora::STATUS_CODE_SUCCESS,
                                 !=,

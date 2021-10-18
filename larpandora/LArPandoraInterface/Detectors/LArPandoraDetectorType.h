@@ -6,6 +6,7 @@
 
 namespace lar_pandora{
 
+    class LArDriftVolume;
     class LArDetectorGap;
     typedef std::vector<LArDetectorGap> LArDetectorGapList;
 
@@ -22,6 +23,7 @@ namespace lar_pandora{
         virtual float WireAngleW(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const = 0;
         virtual bool CheckDetectorGapSize(const geo::Vector_t &gaps, const geo::Vector_t &deltas, const float maxDisplacement) const = 0;
         virtual LArDetectorGap CreateDetectorGap(const geo::Point_t &point1, const geo::Point_t &point2, const geo::Vector_t &widths) const = 0;
+        virtual void LoadDaughterDetectorGaps(const LArDriftVolume &driftVolume, const float maxDisplacement, LArDetectorGapList &listOfGaps) const = 0;
     };
 
     LArPandoraDetectorType *GetDetectorType();

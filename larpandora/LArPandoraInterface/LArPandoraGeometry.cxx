@@ -457,21 +457,26 @@ namespace lar_pandora {
           const float dThetaU(detType->WireAngleU(itpc1, icstat) - detType->WireAngleU(itpc2, icstat));
           const float dThetaV(detType->WireAngleV(itpc1, icstat) - detType->WireAngleV(itpc2, icstat));
           const float dThetaW(detType->WireAngleW(itpc1, icstat) - detType->WireAngleW(itpc2, icstat));
+//          std::cout<<itpc1 << "   " << itpc2 << "  " << dThetaU << "  " << dThetaV << "  " << dThetaW << std::endl;
           /*
+          bool useYPlane(false);
+          bool isDualPhase(false);
+          int nWirePlanes=3;
           const geo::View_t pandoraUView(isDualPhase ? geo::kW : geo::kU);
           const geo::View_t pandoraVView(isDualPhase ? geo::kY : geo::kV);
-          const float dThetaU(theGeometry->WireAngleToVertical(pandoraUView, itpc1, icstat) -
+          const float dThetaU2(theGeometry->WireAngleToVertical(pandoraUView, itpc1, icstat) -
                               theGeometry->WireAngleToVertical(pandoraUView, itpc2, icstat));
-          const float dThetaV(theGeometry->WireAngleToVertical(pandoraVView, itpc1, icstat) -
+          const float dThetaV2(theGeometry->WireAngleToVertical(pandoraVView, itpc1, icstat) -
                               theGeometry->WireAngleToVertical(pandoraVView, itpc2, icstat));
-          const float dThetaW((nWirePlanes < 3) ?
+          const float dThetaW2((nWirePlanes < 3) ?
                                 std::numeric_limits<float>::epsilon() :
                                 (useYPlane) ?
                                 (theGeometry->WireAngleToVertical(geo::kY, itpc1, icstat) -
                                  theGeometry->WireAngleToVertical(geo::kY, itpc2, icstat)) :
                                 (theGeometry->WireAngleToVertical(geo::kW, itpc1, icstat) -
                                  theGeometry->WireAngleToVertical(geo::kW, itpc2, icstat)));
-                                 */
+          std::cout<<itpc1 << "   " << itpc2 << "  " << dThetaU << "  " << dThetaU2 << "  " << dThetaV << "  " << dThetaV2 << "  " << dThetaW << "  " << dThetaW2 << "  uangles: " << detType->WireAngleU(itpc1, icstat) << "   " << detType->WireAngleU(itpc2, icstat) << "   " << 0.5f * M_PI - theGeometry->WireAngleToVertical(pandoraUView, itpc1, icstat) << "    " << 0.5f * M_PI - theGeometry->WireAngleToVertical(pandoraUView, itpc2, icstat) << "   vangles: " << detType->WireAngleV(itpc1, icstat) << "  " << detType->WireAngleV(itpc2, icstat) << "  " << 0.5f * M_PI - theGeometry->WireAngleToVertical(pandoraVView, itpc1, icstat) << "  " << 0.5f * M_PI - theGeometry->WireAngleToVertical(pandoraVView, itpc2, icstat) << "  views: " << detType->TargetViewU(itpc1, icstat) << "  " << detType->TargetViewU(itpc2, icstat) << "  " << detType->TargetViewV(itpc1, icstat) << "  " << detType->TargetViewV(itpc2, icstat) << "  " << pandoraUView << "  " << pandoraVView << std::endl;
+          */
 
           if (dThetaU > maxDeltaTheta || dThetaV > maxDeltaTheta || dThetaW > maxDeltaTheta)
             continue;
@@ -575,8 +580,11 @@ namespace lar_pandora {
       throw cet::exception("LArPandora") << " LArPandoraGeometry::LoadGlobalDaughterGeometry --- "
                                             "detector geometry has not yet been loaded ";
 
+    std::cout<<"The size of the drif list is: " << driftVolumeList.size() << std::endl;
+    int count(0);
     // Create daughter drift volumes
     for (const LArDriftVolume& driftVolume : driftVolumeList) {
+        std::cout<<"Looking at dau vol: " << count++ << std::endl; 
       //REPLACEMENT
       //const bool switchViews(LArPandoraGeometry::ShouldSwitchUV(driftVolume.IsPositiveDrift()));
       const bool switchViews(false);

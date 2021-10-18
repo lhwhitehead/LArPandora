@@ -7,7 +7,6 @@ namespace lar_pandora{
 
     class DUNEFarDetVDThreeView : public LArPandoraDetectorType {
     public:
-        DUNEFarDetVDThreeView();
         geo::View_t TargetViewU(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const override;
         geo::View_t TargetViewV(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const override;
         geo::View_t TargetViewW(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const override;

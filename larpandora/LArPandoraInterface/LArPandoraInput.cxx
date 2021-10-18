@@ -31,6 +31,7 @@
 
 #include "larpandora/LArPandoraInterface/ILArPandora.h"
 #include "larpandora/LArPandoraInterface/LArPandoraInput.h"
+#include "larpandora/LArPandoraInterface/Detectors/LArPandoraDetectorType.h"
 
 #include "messagefacility/MessageLogger/MessageLogger.h"
 
@@ -56,7 +57,9 @@ namespace lar_pandora {
 
     art::ServiceHandle<geo::Geometry const> theGeometry;
     auto const detProp = art::ServiceHandle<detinfo::DetectorPropertiesService const>()->DataFor(e);
-    const bool isDualPhase(theGeometry->MaxPlanes() == 2);
+    //REPLACEMENT
+    //const bool isDualPhase(theGeometry->MaxPlanes() == 2);
+    LArPandoraDetectorType *detType(GetDetectorType());
 
     // Loop over ART hits
     int hitCounter(settings.m_hitCounterOffset);
@@ -126,6 +129,8 @@ namespace lar_pandora {
         caloHitParameters.m_daughterVolumeId = LArPandoraGeometry::GetDaughterVolumeID(
           driftVolumeMap, hit_WireID.Cryostat, hit_WireID.TPC);
 
+        //REPLACEMENT
+        /*
         const geo::View_t pandora_GlobalView(
           LArPandoraGeometry::GetGlobalView(hit_WireID.Cryostat, hit_WireID.TPC, hit_View));
         const geo::View_t pandora_View(
@@ -133,20 +138,24 @@ namespace lar_pandora {
                            geo::kU :
                            ((pandora_GlobalView == geo::kY) ? geo::kV : geo::kUnknown)) :
                         pandora_GlobalView);
+        */
 
-        if (pandora_View == geo::kW || pandora_View == geo::kY) {
+//        if (pandora_View == geo::kW || pandora_View == geo::kY) {
+        if (hit_View == detType->TargetViewW(hit_WireID.TPC, hit_WireID.Cryostat)) {
           caloHitParameters.m_hitType = pandora::TPC_VIEW_W;
           const double wpos_cm(
             pPandora->GetPlugins()->GetLArTransformationPlugin()->YZtoW(y0_cm, z0_cm));
           caloHitParameters.m_positionVector = pandora::CartesianVector(xpos_cm, 0., wpos_cm);
         }
-        else if (pandora_View == geo::kU) {
+//        else if (pandora_View == geo::kU) {
+        else if (hit_View == detType->TargetViewU(hit_WireID.TPC, hit_WireID.Cryostat)) {
           caloHitParameters.m_hitType = pandora::TPC_VIEW_U;
           const double upos_cm(
             pPandora->GetPlugins()->GetLArTransformationPlugin()->YZtoU(y0_cm, z0_cm));
           caloHitParameters.m_positionVector = pandora::CartesianVector(xpos_cm, 0., upos_cm);
         }
-        else if (pandora_View == geo::kV) {
+//        else if (pandora_View == geo::kV) {
+        else if (hit_View == detType->TargetViewV(hit_WireID.TPC, hit_WireID.Cryostat)) {
           caloHitParameters.m_hitType = pandora::TPC_VIEW_V;
           const double vpos_cm(
             pPandora->GetPlugins()->GetLArTransformationPlugin()->YZtoV(y0_cm, z0_cm));

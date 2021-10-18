@@ -4,6 +4,8 @@
 
 #include "larcore/Geometry/Geometry.h"
 
+#include "Api/PandoraApi.h"
+
 namespace lar_pandora{
 
     class LArDriftVolume;
@@ -24,6 +26,7 @@ namespace lar_pandora{
         virtual bool CheckDetectorGapSize(const geo::Vector_t &gaps, const geo::Vector_t &deltas, const float maxDisplacement) const = 0;
         virtual LArDetectorGap CreateDetectorGap(const geo::Point_t &point1, const geo::Point_t &point2, const geo::Vector_t &widths) const = 0;
         virtual void LoadDaughterDetectorGaps(const LArDriftVolume &driftVolume, const float maxDisplacement, LArDetectorGapList &listOfGaps) const = 0;
+        virtual PandoraApi::Geometry::LineGap::Parameters CreateLineGapParametrs(const LArDetectorGap &gap) const = 0;
     };
 
     LArPandoraDetectorType *GetDetectorType();

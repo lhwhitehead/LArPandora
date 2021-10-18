@@ -25,5 +25,17 @@ namespace lar_pandora{
         throw cet::exception("LArPandora")
             << "LArPandoraDetectorType::GetDetectorType --- unable to determine the detector type from the geometry GDML";
     }
+
+     PandoraApi::Geometry::LineGap::Parameters detector_functions::CreateDriftGapParameters(const LArDetectorGap &gap)
+     {
+         PandoraApi::Geometry::LineGap::Parameters parameters;
+         parameters.m_lineGapType = pandora::TPC_DRIFT_GAP;
+         parameters.m_lineStartX = gap.GetX1();
+         parameters.m_lineEndX = gap.GetX2();
+         parameters.m_lineStartZ = -std::numeric_limits<float>::max();
+         parameters.m_lineEndZ = std::numeric_limits<float>::max();
+
+         return parameters;
+     }
 }
 

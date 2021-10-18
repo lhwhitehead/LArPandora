@@ -31,6 +31,7 @@ namespace lar_pandora{
 
     namespace detector_functions{
         LArPandoraDetectorType *GetDetectorType();
+        PandoraApi::Geometry::LineGap::Parameters CreateDriftGapParameters(const LArDetectorGap &gap);
     }
 }
 #endif

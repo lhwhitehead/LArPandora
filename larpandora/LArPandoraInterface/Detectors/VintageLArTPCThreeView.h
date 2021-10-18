@@ -7,7 +7,7 @@ namespace lar_pandora{
 
     class VintageLArTPCThreeView : public LArPandoraDetectorType {
     public:
-        VintageLArTPCThreeView();
+        VintageLArTPCThreeView(){};
         geo::View_t TargetViewU(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const override;
         geo::View_t TargetViewV(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const override;
         geo::View_t TargetViewW(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const override;
@@ -27,12 +27,16 @@ namespace lar_pandora{
 
     inline geo::View_t VintageLArTPCThreeView::TargetViewU(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const
     {
-        return m_LArSoftGeometry->View(geo::PlaneID(cstat, tpc, 0));
+        return (m_LArSoftGeometry->TPC(tpc, cstat).DriftDirection() == geo::kPosX ?
+                    m_LArSoftGeometry->View(geo::PlaneID(cstat, tpc, 1)) :
+                    m_LArSoftGeometry->View(geo::PlaneID(cstat, tpc, 0)));
     }
 
     inline geo::View_t VintageLArTPCThreeView::TargetViewV(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const
     {
-        return m_LArSoftGeometry->View(geo::PlaneID(cstat, tpc, 1));
+        return (m_LArSoftGeometry->TPC(tpc, cstat).DriftDirection() == geo::kPosX ?
+                    m_LArSoftGeometry->View(geo::PlaneID(cstat, tpc, 0)) :
+                    m_LArSoftGeometry->View(geo::PlaneID(cstat, tpc, 1)));
     }
 
     inline geo::View_t VintageLArTPCThreeView::TargetViewW(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const

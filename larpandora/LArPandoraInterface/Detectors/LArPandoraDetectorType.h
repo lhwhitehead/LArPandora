@@ -29,6 +29,8 @@ namespace lar_pandora{
         virtual PandoraApi::Geometry::LineGap::Parameters CreateLineGapParametrs(const LArDetectorGap &gap) const = 0;
     };
 
-    LArPandoraDetectorType *GetDetectorType();
+    namespace detector_functions{
+        LArPandoraDetectorType *GetDetectorType();
+    }
 }
 #endif

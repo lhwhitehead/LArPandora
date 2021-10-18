@@ -59,7 +59,7 @@ namespace lar_pandora {
     auto const detProp = art::ServiceHandle<detinfo::DetectorPropertiesService const>()->DataFor(e);
     //REPLACEMENT
     //const bool isDualPhase(theGeometry->MaxPlanes() == 2);
-    LArPandoraDetectorType *detType(GetDetectorType());
+    LArPandoraDetectorType *detType(detector_functions::GetDetectorType());
 
     // Loop over ART hits
     int hitCounter(settings.m_hitCounterOffset);
@@ -360,7 +360,7 @@ namespace lar_pandora {
 
     //REPLACEMENT use the detector type
     //const bool isDualPhase(theGeometry->MaxPlanes() == 2);
-    LArPandoraDetectorType *detType(GetDetectorType());
+    LArPandoraDetectorType *detType(detector_functions::GetDetectorType());
 
     for (unsigned int icstat = 0; icstat < theGeometry->Ncryostats(); ++icstat) {
       for (unsigned int itpc = 0; itpc < theGeometry->NTPC(icstat); ++itpc) {

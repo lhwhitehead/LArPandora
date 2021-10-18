@@ -36,7 +36,7 @@ namespace lar_pandora {
     art::ServiceHandle<geo::Geometry const> theGeometry;
     //const bool isDualPhase(theGeometry->MaxPlanes() == 2);
     //REPLACEMENT
-    LArPandoraDetectorType *detType(GetDetectorType());
+    LArPandoraDetectorType *detType(detector_functions::GetDetectorType());
 
     for (LArDriftVolumeList::const_iterator iter1 = driftVolumeList.begin(),
                                             iterEnd1 = driftVolumeList.end();
@@ -304,7 +304,7 @@ namespace lar_pandora {
 
     // ATTN: In the dual phase mode, map the wire planes as follows W->U and Y->V.  This mapping was chosen so that the dual phase wire
     // planes, which are inherently induction only, are mapped to induction planes in the single phase geometry.
-    LArPandoraDetectorType *detType(GetDetectorType());
+    LArPandoraDetectorType *detType(detector_functions::GetDetectorType());
     //REPLACEMENT
     const float wirePitchU(detType->WirePitchU());
     const float wirePitchV(detType->WirePitchV());

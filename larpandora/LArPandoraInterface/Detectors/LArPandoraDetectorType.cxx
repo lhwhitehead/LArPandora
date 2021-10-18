@@ -2,6 +2,7 @@
 #include "larpandora/LArPandoraInterface/Detectors/LArPandoraDetectorType.h"
 
 #include "larpandora/LArPandoraInterface/Detectors/DUNEFarDetVDThreeView.h"
+#include "larpandora/LArPandoraInterface/Detectors/VintageLArTPCThreeView.h"
 
 namespace lar_pandora{
 
@@ -14,34 +15,15 @@ namespace lar_pandora{
         for (unsigned int iPlane = 0; iPlane < nPlanes; ++iPlane)
           (void)planeSet.insert(geo->TPC(0, 0).Plane(iPlane).View());
 
-        /*
-        if (nPlanes == 3 && planeSet.count(geo::kU) && planeSet.count(geo::kV) && planeSet.count(geo::kW))
-            return new DUNEFarDetHD; 
-
-        else*/ if (nPlanes==3 && planeSet.count(geo::kU) && planeSet.count(geo::kY) && planeSet.count(geo::kZ)){
-            std::cout<<"We got a VD"<<std::endl;
-           return new DUNEFarDetVDThreeView;
+        if (nPlanes==3 && planeSet.count(geo::kU) && planeSet.count(geo::kY) && planeSet.count(geo::kZ)){
+           return new DUNEFarDetVDThreeView; //TODO Address bare pointer
+        }
+        else if (nPlanes==3 && planeSet.count(geo::kU) && planeSet.count(geo::kY) && planeSet.count(geo::kZ)){
+            return new VintageLArTPCThreeView;
         }
 
         throw cet::exception("LArPandora")
             << "LArPandoraDetectorType::GetDetectorType --- unable to determine the detector type from the geometry GDML";
     }
-
-
-    /*
-    bool DUNEFarDetHD::ShouldSwitchUV()
-    {
-        std::cout<<"I am HD"<<std::endl;
-        return true;
-    }
-    */
-
-    /*
-    bool DUNEFarDetVDThreeView::ShouldSwitchUV() const
-    {
-        std::cout<<"I am VD"<<std::endl;
-        return true;
-    }
-    */
 }
 

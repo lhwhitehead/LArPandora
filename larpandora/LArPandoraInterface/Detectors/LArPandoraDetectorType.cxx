@@ -2,6 +2,7 @@
 #include "larpandora/LArPandoraInterface/Detectors/LArPandoraDetectorType.h"
 
 #include "larpandora/LArPandoraInterface/Detectors/DUNEFarDetVDThreeView.h"
+#include "larpandora/LArPandoraInterface/Detectors/ProtoDUNEDualPhase.h"
 #include "larpandora/LArPandoraInterface/Detectors/VintageLArTPCThreeView.h"
 
 namespace lar_pandora{
@@ -20,6 +21,9 @@ namespace lar_pandora{
         }
         else if (nPlanes==3 && planeSet.count(geo::kU) && planeSet.count(geo::kV) && planeSet.count(geo::kW)){
             return new VintageLArTPCThreeView;
+        }
+        else if (nPlanes==2 && planeSet.count(geo::kW) && planeSet.count(geo::kY)){
+            return new ProtoDUNEDualPhase;
         }
 
         throw cet::exception("LArPandora")

@@ -609,12 +609,4 @@ namespace lar_pandora {
     , m_tpcVolumeList(tpcVolumeList)
   {}
 
-  //------------------------------------------------------------------------------------------------------------------------------------------
-
-  const LArDaughterDriftVolumeList&
-  LArDriftVolume::GetTpcVolumeList() const
-  {
-    return m_tpcVolumeList;
-  }
-
 } // namespace lar_pandora

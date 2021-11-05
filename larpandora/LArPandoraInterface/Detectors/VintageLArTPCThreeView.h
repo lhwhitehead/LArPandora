@@ -26,7 +26,6 @@ namespace lar_pandora{
         virtual PandoraApi::Geometry::LineGap::Parameters CreateLineGapParametrs(const LArDetectorGap &gap) const override;
     private:
         art::ServiceHandle<geo::Geometry> m_LArSoftGeometry;
-        float WireAngleImpl(const geo::View_t view, const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const;
     };
 
     inline geo::View_t VintageLArTPCThreeView::TargetViewU(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const
@@ -65,22 +64,17 @@ namespace lar_pandora{
 
     inline float VintageLArTPCThreeView::WireAngleU(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const
     {
-        return this->WireAngleImpl(this->TargetViewU(tpc, cstat), tpc, cstat);
+        return detector_functions::WireAngle(this->TargetViewU(tpc, cstat), tpc, cstat, m_LArSoftGeometry);
     }
 
     inline float VintageLArTPCThreeView::WireAngleV(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const
     {
-        return this->WireAngleImpl(this->TargetViewV(tpc, cstat), tpc, cstat);
+        return detector_functions::WireAngle(this->TargetViewV(tpc, cstat), tpc, cstat, m_LArSoftGeometry);
     }
 
     inline float VintageLArTPCThreeView::WireAngleW(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const
     {
-        return this->WireAngleImpl(this->TargetViewW(tpc, cstat), tpc, cstat);
-    }
-
-    inline float VintageLArTPCThreeView::WireAngleImpl(const geo::View_t view, const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const
-    {
-        return (0.5f * M_PI - m_LArSoftGeometry->WireAngleToVertical(view, tpc, cstat));
+        return detector_functions::WireAngle(this->TargetViewW(tpc, cstat), tpc, cstat, m_LArSoftGeometry);
     }
 
     inline bool VintageLArTPCThreeView::CheckDetectorGapSize(const geo::Vector_t &gaps, const geo::Vector_t &deltas, const float maxDisplacement) const

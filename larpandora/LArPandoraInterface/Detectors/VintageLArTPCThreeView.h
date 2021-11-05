@@ -1,3 +1,7 @@
+#ifndef LAR_PANDORA_DETECTOR_VINTAGE_LAR_TPC_THREE_VIEW
+#define LAR_PANDORA_DETECTOR_VINTAGE_LAR_TPC_THREE_VIEW 1
+
+
 #include "larpandora/LArPandoraInterface/Detectors/LArPandoraDetectorType.h"
 #include "larpandora/LArPandoraInterface/LArPandoraGeometry.h"
 
@@ -101,3 +105,4 @@ namespace lar_pandora{
         return detector_functions::CreateDriftGapParameters(gap);
     }
 }
+#endif

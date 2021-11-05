@@ -322,7 +322,7 @@ namespace lar_pandora {
       }
       */
       try {
-          parameters = detType->CreateLineGapParametrs(gap);
+          parameters = detType->CreateLineGapParameters(gap);
       }
       catch (const pandora::StatusCodeException&) {
         mf::LogWarning("LArPandora")

@@ -1,8 +1,16 @@
+/**
+ *  @file   larpandora/LArPandoraInterface/Detectors/LArPandoraDetectorType.cxx
+ *
+ *  @brief  Implementation of the interface for handling detector-specific details, as well as some helper functions
+ *
+ *  $Log: $
+ */
+
 #include "larpandora/LArPandoraInterface/LArPandoraGeometry.h"
 #include "larpandora/LArPandoraInterface/Detectors/LArPandoraDetectorType.h"
 
-#include "larpandora/LArPandoraInterface/Detectors/ICARUS.h"
 #include "larpandora/LArPandoraInterface/Detectors/DUNEFarDetVDThreeView.h"
+#include "larpandora/LArPandoraInterface/Detectors/ICARUS.h"
 #include "larpandora/LArPandoraInterface/Detectors/ProtoDUNEDualPhase.h"
 #include "larpandora/LArPandoraInterface/Detectors/VintageLArTPCThreeView.h"
 
@@ -13,7 +21,7 @@ namespace lar_pandora{
         art::ServiceHandle<geo::Geometry const> geo;
 
         const unsigned int nPlanes(geo->MaxPlanes());
-        std::unordered_set<geo::_plane_proj> planeSet;
+        std::set<geo::_plane_proj> planeSet;
         for (unsigned int iPlane = 0; iPlane < nPlanes; ++iPlane)
           (void)planeSet.insert(geo->TPC(0, 0).Plane(iPlane).View());
 
@@ -34,6 +42,8 @@ namespace lar_pandora{
             << "LArPandoraDetectorType::GetDetectorType --- unable to determine the detector type from the geometry GDML";
     }
 
+  //------------------------------------------------------------------------------------------------------------------------------------------
+
     float detector_functions::WireAngle(const geo::View_t view, const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat, const art::ServiceHandle<geo::Geometry> &larsoftGeometry)
     {
         return (0.5f * M_PI - larsoftGeometry->WireAngleToVertical(view, tpc, cstat));
@@ -50,5 +60,6 @@ namespace lar_pandora{
 
          return parameters;
      }
-}
+
+} // namespace lar_pandora
 

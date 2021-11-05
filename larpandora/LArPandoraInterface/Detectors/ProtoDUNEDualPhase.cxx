@@ -1,7 +1,15 @@
+/**
+ *  @file   larpandora/LArPandoraInterface/Detectors/ProtoDUNEDualPhase.cxx
+ *
+ *  @brief  Implementation of the ProtoDUNE dual phase interface
+ *
+ *  $Log: $
+ */
+
 #include "larpandora/LArPandoraInterface/Detectors/ProtoDUNEDualPhase.h"
 
-namespace lar_pandora
-{
+namespace lar_pandora {
+
     void ProtoDUNEDualPhase::LoadDaughterDetectorGaps(const LArDriftVolume &driftVolume, const float maxDisplacement, LArDetectorGapList &listOfGaps) const
     {
         for (LArDaughterDriftVolumeList::const_iterator iterDghtr1 = driftVolume.GetTpcVolumeList().begin(),
@@ -45,7 +53,9 @@ namespace lar_pandora
                     listOfGaps.emplace_back(LArDetectorGap(X1, Y1 + widthY, Z1 + widthZ, X2, Y2 - widthY, Z2 - widthZ));
             }
         }
+
         return;
     }
-}
+
+} // namespace lar_pandora
 

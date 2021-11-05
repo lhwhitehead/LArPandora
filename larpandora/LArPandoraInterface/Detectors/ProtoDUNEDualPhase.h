@@ -16,18 +16,16 @@ namespace lar_pandora{
         LArDetectorGap CreateDetectorGap(const geo::Point_t &point1, const geo::Point_t &point2, const geo::Vector_t &widths) const override;
         void LoadDaughterDetectorGaps(const LArDriftVolume &driftVolume, const float maxDisplacement, LArDetectorGapList &listOfGaps) const override;
         PandoraApi::Geometry::LineGap::Parameters CreateLineGapParametrs(const LArDetectorGap &gap) const override;
-   private:
-        art::ServiceHandle<geo::Geometry> m_LArSoftGeometry;
     };
 
     inline geo::View_t ProtoDUNEDualPhase::TargetViewU(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const
     {
-        return m_LArSoftGeometry->View(geo::PlaneID(cstat, tpc, 0));
+        return this->GetLArSoftGeometry()->View(geo::PlaneID(cstat, tpc, 0));
     }
 
     inline geo::View_t ProtoDUNEDualPhase::TargetViewV(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const
     {
-        return m_LArSoftGeometry->View(geo::PlaneID(cstat, tpc, 1));
+        return this->GetLArSoftGeometry()->View(geo::PlaneID(cstat, tpc, 1));
     }
 
     inline geo::View_t ProtoDUNEDualPhase::TargetViewW(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const

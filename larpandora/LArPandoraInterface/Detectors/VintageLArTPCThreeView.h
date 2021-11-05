@@ -24,6 +24,7 @@ namespace lar_pandora{
         virtual LArDetectorGap CreateDetectorGap(const geo::Point_t &point1, const geo::Point_t &point2, const geo::Vector_t &widths) const override;
         virtual void LoadDaughterDetectorGaps(const LArDriftVolume &driftVolume, const float maxDisplacement, LArDetectorGapList &listOfGaps) const override;
         virtual PandoraApi::Geometry::LineGap::Parameters CreateLineGapParametrs(const LArDetectorGap &gap) const override;
+        const art::ServiceHandle<geo::Geometry>& GetLArSoftGeometry() const;
     private:
         art::ServiceHandle<geo::Geometry> m_LArSoftGeometry;
     };
@@ -97,6 +98,11 @@ namespace lar_pandora{
     inline PandoraApi::Geometry::LineGap::Parameters VintageLArTPCThreeView::CreateLineGapParametrs(const LArDetectorGap &gap) const
     {
         return detector_functions::CreateDriftGapParameters(gap);
+    }
+
+    inline const art::ServiceHandle<geo::Geometry>& VintageLArTPCThreeView::GetLArSoftGeometry() const
+    {
+        return m_LArSoftGeometry;
     }
 }
 #endif

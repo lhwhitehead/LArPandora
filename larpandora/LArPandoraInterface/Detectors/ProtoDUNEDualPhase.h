@@ -1,11 +1,11 @@
-#include "larpandora/LArPandoraInterface/Detectors/LArPandoraDetectorType.h"
+#include "larpandora/LArPandoraInterface/Detectors/VintageLArTPCThreeView.h"
 #include "larpandora/LArPandoraInterface/LArPandoraGeometry.h"
 
 #include "larcore/Geometry/Geometry.h"
 
 namespace lar_pandora{
 
-    class ProtoDUNEDualPhase : public LArPandoraDetectorType {
+    class ProtoDUNEDualPhase : public VintageLArTPCThreeView {
     public:
         geo::View_t TargetViewU(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const override;
         geo::View_t TargetViewV(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const override;

@@ -31,6 +31,9 @@ namespace lar_pandora{
 
     namespace detector_functions{
         LArPandoraDetectorType *GetDetectorType();
+
+        float WireAngle(const geo::View_t view, const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat, const art::ServiceHandle<geo::Geometry> &larsoftGeometry);
+
         PandoraApi::Geometry::LineGap::Parameters CreateDriftGapParameters(const LArDetectorGap &gap);
     }
 }

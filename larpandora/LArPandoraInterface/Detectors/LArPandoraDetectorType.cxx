@@ -34,6 +34,11 @@ namespace lar_pandora{
             << "LArPandoraDetectorType::GetDetectorType --- unable to determine the detector type from the geometry GDML";
     }
 
+    float detector_functions::WireAngle(const geo::View_t view, const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat, const art::ServiceHandle<geo::Geometry> &larsoftGeometry)
+    {
+        return (0.5f * M_PI - larsoftGeometry->WireAngleToVertical(view, tpc, cstat));
+    }
+
      PandoraApi::Geometry::LineGap::Parameters detector_functions::CreateDriftGapParameters(const LArDetectorGap &gap)
      {
          PandoraApi::Geometry::LineGap::Parameters parameters;

@@ -35,6 +35,9 @@ namespace lar_pandora {
             void LoadDaughterDetectorGaps(const LArDriftVolume &driftVolume, const float maxDisplacement, LArDetectorGapList &listOfGaps) const override;
 
             PandoraApi::Geometry::LineGap::Parameters CreateLineGapParametersFromDetectorGaps(const LArDetectorGap &gap) const override;
+
+            PandoraApi::Geometry::LineGap::Parameters CreateLineGapParametersFromReadoutGaps(const geo::View_t view, const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat, const double firstXYZ[3], const double lastXYZ[3], const float halfWirePitch, const float xFirst, const float xLast, const pandora::Pandora* pPandora) const override;
+
     };
 
     //------------------------------------------------------------------------------------------------------------------------------------------
@@ -99,6 +102,27 @@ namespace lar_pandora {
         parameters.m_lineEndZ = (isGapInU ? gap.GetZ2() : gap.GetY2());
 
         return parameters;
+    }
+
+    //------------------------------------------------------------------------------------------------------------------------------------------
+
+    inline PandoraApi::Geometry::LineGap::Parameters ProtoDUNEDualPhase::CreateLineGapParametersFromReadoutGaps(const geo::View_t view, const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat, const double firstXYZ[3], const double lastXYZ[3], const float halfWirePitch, const float xFirst, const float xLast, const pandora::Pandora* pPandora) const
+    {
+        float first(0.f), last(0.f);
+        pandora::LineGapType gapType(pandora::TPC_DRIFT_GAP);
+        if (view == this->TargetViewU(tpc, cstat))
+        {
+            first = firstXYZ[2];
+            last = lastXYZ[2];
+            gapType = pandora::TPC_WIRE_GAP_VIEW_U;
+        }
+        else if (view == this->TargetViewV(tpc, cstat))
+        {
+            first = firstXYZ[1];
+            last = lastXYZ[1];
+            gapType = pandora::TPC_WIRE_GAP_VIEW_V;
+        }
+        return detector_functions::CreateReadoutGapParameters(first, last, xFirst, xLast, halfWirePitch, gapType);
     }
 
 } // namespace lar_pandora

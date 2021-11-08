@@ -32,10 +32,6 @@ namespace lar_pandora {
     LArDriftVolumeList driftVolumeList;
     LArPandoraGeometry::LoadGeometry(driftVolumeList, useActiveBoundingBox);
 
-    // ATTN: Expectations here are that the input geometry corresponds to either a single or dual phase LArTPC.
-    art::ServiceHandle<geo::Geometry const> theGeometry;
-    //const bool isDualPhase(theGeometry->MaxPlanes() == 2);
-    //REPLACEMENT
     LArPandoraDetectorType *detType(detector_functions::GetDetectorType());
 
     for (LArDriftVolumeList::const_iterator iter1 = driftVolumeList.begin(),
@@ -65,13 +61,6 @@ namespace lar_pandora {
         const float gapY(deltaY - widthY);
         const float gapZ(deltaZ - widthZ);
 
-        //REPLACEMENT
-        /*
-        if (!isDualPhase && (gapX < 0.f || gapX > maxDisplacement || deltaY > maxDisplacement ||
-                             deltaZ > maxDisplacement))
-          continue;
-
-          */
         const float X1((driftVolume1.GetCenterX() < driftVolume2.GetCenterX()) ?
                          (driftVolume1.GetCenterX() + 0.5f * driftVolume1.GetWidthX()) :
                          (driftVolume2.GetCenterX() + 0.5f * driftVolume2.GetWidthX()));
@@ -87,15 +76,6 @@ namespace lar_pandora {
         const float Z2(std::max((driftVolume1.GetCenterZ() + 0.5f * driftVolume1.GetWidthZ()),
                                 (driftVolume2.GetCenterZ() + 0.5f * driftVolume2.GetWidthZ())));
 
-        //REPLACEMENT
-        /*
-        if (isDualPhase && (std::fabs(gapY) > maxDisplacement || std::fabs(gapZ) > maxDisplacement))
-          listOfGaps.emplace_back(
-            LArDetectorGap(X1, Y1 + widthY, Z1 + widthZ, X2, Y2 - widthY, Z2 - widthZ));
-
-        else if (!isDualPhase)
-          listOfGaps.emplace_back(LArDetectorGap(X1, Y1, Z1, X2, Y2, Z2));
-          */
         geo::Vector_t gaps(gapX, gapY, gapZ), deltas(deltaX, deltaY, deltaZ);
         if (detType->CheckDetectorGapSize(gaps, deltas, maxDisplacement))
         {
@@ -262,61 +242,10 @@ namespace lar_pandora {
 
     // Pandora requires three independent images, and ability to correlate features between images (via wire angles and transformation plugin).
     art::ServiceHandle<geo::Geometry const> theGeometry;
-    //REPLACEMENT
-    /*
-    const unsigned int nWirePlanes(theGeometry->MaxPlanes());
-
-
-    if (nWirePlanes > 3)
-      throw cet::exception("LArPandora")
-        << " LArPandoraGeometry::LoadGeometry --- More than three wire planes present ";
-
-    // We here check the plane information only for the first tpc in the first cryostat.
-    if ((0 == theGeometry->Ncryostats()) || (0 == theGeometry->NTPC(0)))
-      throw cet::exception("LArPandora")
-        << " LArPandoraGeometry::LoadGeometry --- unable to access first tpc in first cryostat ";
-
-    std::unordered_set<geo::_plane_proj> planeSet;
-    for (unsigned int iPlane = 0; iPlane < nWirePlanes; ++iPlane)
-      (void)planeSet.insert(theGeometry->TPC(0, 0).Plane(iPlane).View());
-
-    // ATTN: Expectations here are that the input geometry corresponds to either a single or dual phase LArTPC.  For single phase we expect
-    // three views, U, V and either W or Y, for dual phase we expect two views, W and Y.
-    const bool isDualPhase(theGeometry->MaxPlanes() == 2);
-
-    if (nWirePlanes != planeSet.size())
-      throw cet::exception("LArPandora")
-        << " LArPandoraGeometry::LoadGeometry --- geometry description for wire plane(s) missing ";
-
-    if (isDualPhase && (!planeSet.count(geo::kW) || !planeSet.count(geo::kY)))
-      throw cet::exception("LArPandora") << " LArPandoraGeometry::LoadGeometry --- dual phase "
-                                            "scenario; expect to find w and y views ";
-
-    if (!isDualPhase && (!planeSet.count(geo::kU) || !planeSet.count(geo::kV) ||
-                         (planeSet.count(geo::kW) && planeSet.count(geo::kY))))
-      throw cet::exception("LArPandora")
-        << " LArPandoraGeometry::LoadGeometry --- single phase scenatio; expect to find u and v "
-           "views; if there is one further view, it must be w or y ";
-           */
-
-    //REPLACEMENT
-//    const bool useYPlane((nWirePlanes > 2) && planeSet.count(geo::kY));
-
-    // ATTN: In the dual phase mode, map the wire planes as follows W->U and Y->V.  This mapping was chosen so that the dual phase wire
-    // planes, which are inherently induction only, are mapped to induction planes in the single phase geometry.
     LArPandoraDetectorType *detType(detector_functions::GetDetectorType());
-    //REPLACEMENT
     const float wirePitchU(detType->WirePitchU());
     const float wirePitchV(detType->WirePitchV());
     const float wirePitchW(detType->WirePitchW());
-    /*
-    const float wirePitchU(theGeometry->WirePitch((isDualPhase ? geo::kW : geo::kU)));
-    const float wirePitchV(theGeometry->WirePitch((isDualPhase ? geo::kY : geo::kV)));
-    const float wirePitchW((nWirePlanes < 3) ? 0.5f * (wirePitchU + wirePitchV) :
-                                               (useYPlane) ? theGeometry->WirePitch(geo::kY) :
-                                                             theGeometry->WirePitch(geo::kW));
-                                                             */
-
     const float maxDeltaTheta(0.01f); // leave this hard-coded for now
 
     // Loop over cryostats
@@ -331,24 +260,6 @@ namespace lar_pandora {
         const geo::TPCGeo& theTpc1(theGeometry->TPC(itpc1, icstat));
         cstatList.insert(itpc1);
 
-        // ATTN: In dual phase scenario propagate the W->U and Y->V mapping and set wire angle for remaining view to epsilon to
-        // avoid identical wire angles clashes (dual phase W and Y wires are horizontal and vertical).  Inside LArSoft the
-        // WireAngleToVertical function returns the wire angle to the positive Z axis, but Pandora expects to receive the wire
-        // angle to the vertical, hence the conversion.  The fabs() in wireAngleW for the kY case is due to the ICARUS geometry
-        // having a wire angle of PI instead of 0.
-        //REPLACEMENT
-//        const geo::View_t targetViewU(isDualPhase ? geo::kW : geo::kU);
-//        const geo::View_t targetViewV(isDualPhase ? geo::kY : geo::kV);
-//        const float wireAngleU(0.5f * M_PI -
-//                               theGeometry->WireAngleToVertical(targetViewU, itpc1, icstat));
-//        const float wireAngleV(0.5f * M_PI -
-//                               theGeometry->WireAngleToVertical(targetViewV, itpc1, icstat));
-//        const float wireAngleW(
-//          (nWirePlanes < 3) ?
-//            std::numeric_limits<float>::epsilon() :
-//            (useYPlane) ?
-//            (std::fabs(0.5f * M_PI - theGeometry->WireAngleToVertical(geo::kY, itpc1, icstat))) :
-//            (0.5f * M_PI - theGeometry->WireAngleToVertical(geo::kW, itpc1, icstat)));
         const float wireAngleU(detType->WireAngleU(itpc1, icstat));            
         const float wireAngleV(detType->WireAngleV(itpc1, icstat));            
         const float wireAngleW(detType->WireAngleW(itpc1, icstat));            
@@ -402,31 +313,9 @@ namespace lar_pandora {
 
           if (theTpc1.DriftDirection() != theTpc2.DriftDirection()) continue;
 
-          // ATTN: In dual phase scenario propagate the W->U and Y->V mapping as described above.
-          //REPLACEMENT
           const float dThetaU(detType->WireAngleU(itpc1, icstat) - detType->WireAngleU(itpc2, icstat));
           const float dThetaV(detType->WireAngleV(itpc1, icstat) - detType->WireAngleV(itpc2, icstat));
           const float dThetaW(detType->WireAngleW(itpc1, icstat) - detType->WireAngleW(itpc2, icstat));
-          /*
-          bool useYPlane(false);
-          bool isDualPhase(false);
-          int nWirePlanes=3;
-          const geo::View_t pandoraUView(isDualPhase ? geo::kW : geo::kU);
-          const geo::View_t pandoraVView(isDualPhase ? geo::kY : geo::kV);
-          const float dThetaU2(theGeometry->WireAngleToVertical(pandoraUView, itpc1, icstat) -
-                              theGeometry->WireAngleToVertical(pandoraUView, itpc2, icstat));
-          const float dThetaV2(theGeometry->WireAngleToVertical(pandoraVView, itpc1, icstat) -
-                              theGeometry->WireAngleToVertical(pandoraVView, itpc2, icstat));
-          const float dThetaW2((nWirePlanes < 3) ?
-                                std::numeric_limits<float>::epsilon() :
-                                (useYPlane) ?
-                                (theGeometry->WireAngleToVertical(geo::kY, itpc1, icstat) -
-                                 theGeometry->WireAngleToVertical(geo::kY, itpc2, icstat)) :
-                                (theGeometry->WireAngleToVertical(geo::kW, itpc1, icstat) -
-                                 theGeometry->WireAngleToVertical(geo::kW, itpc2, icstat)));
-          std::cout<<itpc1 << "   " << itpc2 << "  " << dThetaU << "  " << dThetaU2 << "  " << dThetaV << "  " << dThetaV2 << "  " << dThetaW << "  " << dThetaW2 << "  uangles: " << detType->WireAngleU(itpc1, icstat) << "   " << detType->WireAngleU(itpc2, icstat) << "   " << 0.5f * M_PI - theGeometry->WireAngleToVertical(pandoraUView, itpc1, icstat) << "    " << 0.5f * M_PI - theGeometry->WireAngleToVertical(pandoraUView, itpc2, icstat) << "   vangles: " << detType->WireAngleV(itpc1, icstat) << "  " << detType->WireAngleV(itpc2, icstat) << "  " << 0.5f * M_PI - theGeometry->WireAngleToVertical(pandoraVView, itpc1, icstat) << "  " << 0.5f * M_PI - theGeometry->WireAngleToVertical(pandoraVView, itpc2, icstat) << "  views: " << detType->TargetViewU(itpc1, icstat) << "  " << detType->TargetViewU(itpc2, icstat) << "  " << detType->TargetViewV(itpc1, icstat) << "  " << detType->TargetViewV(itpc2, icstat) << "  " << pandoraUView << "  " << pandoraVView << std::endl;
-          */
-
           if (dThetaU > maxDeltaTheta || dThetaV > maxDeltaTheta || dThetaW > maxDeltaTheta)
             continue;
 
@@ -534,9 +423,7 @@ namespace lar_pandora {
     // Create daughter drift volumes
     for (const LArDriftVolume& driftVolume : driftVolumeList) {
         std::cout<<"Looking at dau vol: " << count++ << std::endl; 
-      //REPLACEMENT
-      //const bool switchViews(LArPandoraGeometry::ShouldSwitchUV(driftVolume.IsPositiveDrift()));
-      const bool switchViews(false);
+      const bool switchViews(LArPandoraGeometry::ShouldSwitchUV(driftVolume.IsPositiveDrift()));
 
       const float daughterWirePitchU(switchViews ? driftVolume.GetWirePitchV() :
                                                    driftVolume.GetWirePitchU());

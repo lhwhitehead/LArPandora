@@ -364,37 +364,6 @@ namespace lar_pandora {
 
               const geo::View_t iview = plane.View();
               parameters = detType->CreateLineGapParametersFromReadoutGaps(iview, itpc, icstat, firstXYZ, lastXYZ, halfWirePitch, xFirst, xLast, pPandora);
-
-              /*
-              if (iview == detType->TargetViewW(itpc, icstat)) {
-                const float firstW(firstXYZ[2]);
-                const float lastW(lastXYZ[2]);
-
-                parameters.m_lineGapType = pandora::TPC_WIRE_GAP_VIEW_W;
-                parameters.m_lineStartZ = std::min(firstW, lastW) - halfWirePitch;
-                parameters.m_lineEndZ = std::max(firstW, lastW) + halfWirePitch;
-              }
-              else if (iview == detType->TargetViewU(itpc, icstat)) {
-                const float firstU(pPandora->GetPlugins()->GetLArTransformationPlugin()->YZtoU(
-                  firstXYZ[1], firstXYZ[2]));
-                const float lastU(pPandora->GetPlugins()->GetLArTransformationPlugin()->YZtoU(
-                  lastXYZ[1], lastXYZ[2]));
-
-                parameters.m_lineGapType = pandora::TPC_WIRE_GAP_VIEW_U;
-                parameters.m_lineStartZ = std::min(firstU, lastU) - halfWirePitch;
-                parameters.m_lineEndZ = std::max(firstU, lastU) + halfWirePitch;
-              }
-              else if (iview == detType->TargetViewV(itpc, icstat)) {
-                const float firstV(pPandora->GetPlugins()->GetLArTransformationPlugin()->YZtoV(
-                  firstXYZ[1], firstXYZ[2]));
-                const float lastV(pPandora->GetPlugins()->GetLArTransformationPlugin()->YZtoV(
-                  lastXYZ[1], lastXYZ[2]));
-
-                parameters.m_lineGapType = pandora::TPC_WIRE_GAP_VIEW_V;
-                parameters.m_lineStartZ = std::min(firstV, lastV) - halfWirePitch;
-                parameters.m_lineEndZ = std::max(firstV, lastV) + halfWirePitch;
-              }
-              */
             }
             catch (const pandora::StatusCodeException&) {
               mf::LogWarning("LArPandora")

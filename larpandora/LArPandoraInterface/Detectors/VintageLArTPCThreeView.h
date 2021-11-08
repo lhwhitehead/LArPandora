@@ -12,6 +12,12 @@
 #include "larpandora/LArPandoraInterface/Detectors/LArPandoraDetectorType.h"
 #include "larpandora/LArPandoraInterface/LArPandoraGeometry.h"
 
+#include "Api/PandoraApi.h"
+#include "Managers/PluginManager.h"
+#include "Pandora/Pandora.h"
+#include "Plugins/LArTransformationPlugin.h"
+
+
 #include "larcore/Geometry/Geometry.h"
 
 namespace lar_pandora {
@@ -46,6 +52,8 @@ namespace lar_pandora {
             virtual void LoadDaughterDetectorGaps(const LArDriftVolume &driftVolume, const float maxDisplacement, LArDetectorGapList &listOfGaps) const override;
 
             virtual PandoraApi::Geometry::LineGap::Parameters CreateLineGapParametersFromDetectorGaps(const LArDetectorGap &gap) const override;
+
+            virtual PandoraApi::Geometry::LineGap::Parameters CreateLineGapParametersFromReadoutGaps(const geo::View_t view, const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat, const double firstXYZ[3], const double lastXYZ[3], const float halfWirePitch, const float xFirst, const float xLast, const pandora::Pandora* pPandora) const override;
 
             /**
              *  @brief  Loan the LArSoft geometry handle owned by this class
@@ -152,6 +160,33 @@ namespace lar_pandora {
     inline PandoraApi::Geometry::LineGap::Parameters VintageLArTPCThreeView::CreateLineGapParametersFromDetectorGaps(const LArDetectorGap &gap) const
     {
         return detector_functions::CreateDriftGapParameters(gap);
+    }
+
+    //------------------------------------------------------------------------------------------------------------------------------------------
+
+    inline PandoraApi::Geometry::LineGap::Parameters VintageLArTPCThreeView::CreateLineGapParametersFromReadoutGaps(const geo::View_t view, const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat, const double firstXYZ[3], const double lastXYZ[3], const float halfWirePitch, const float xFirst, const float xLast, const pandora::Pandora* pPandora) const
+    {
+        float first(0.f), last(0.f);
+        pandora::LineGapType gapType(pandora::TPC_DRIFT_GAP);
+        if (view == this->TargetViewW(tpc, cstat))
+        {
+            first = firstXYZ[2];
+            last = lastXYZ[2];
+            gapType = pandora::TPC_WIRE_GAP_VIEW_W;
+        }
+        else if (view == this->TargetViewU(tpc, cstat))
+        {
+            first = pPandora->GetPlugins()->GetLArTransformationPlugin()->YZtoU(firstXYZ[1], firstXYZ[2]);
+            last = pPandora->GetPlugins()->GetLArTransformationPlugin()->YZtoU(lastXYZ[1], lastXYZ[2]);
+            gapType = pandora::TPC_WIRE_GAP_VIEW_U;
+        }
+        else if (view == this->TargetViewV(tpc, cstat))
+        {
+            first = pPandora->GetPlugins()->GetLArTransformationPlugin()->YZtoV(firstXYZ[1], firstXYZ[2]);
+            last = pPandora->GetPlugins()->GetLArTransformationPlugin()->YZtoV(lastXYZ[1], lastXYZ[2]);
+            gapType = pandora::TPC_WIRE_GAP_VIEW_V;
+        }
+        return detector_functions::CreateReadoutGapParameters(first, last, xFirst, xLast, halfWirePitch, gapType);
     }
 
     //------------------------------------------------------------------------------------------------------------------------------------------

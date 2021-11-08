@@ -14,6 +14,8 @@
 #include "larpandora/LArPandoraInterface/Detectors/ProtoDUNEDualPhase.h"
 #include "larpandora/LArPandoraInterface/Detectors/VintageLArTPCThreeView.h"
 
+#include <limits>
+
 namespace lar_pandora{
 
     LArPandoraDetectorType* detector_functions::GetDetectorType()
@@ -49,6 +51,8 @@ namespace lar_pandora{
         return (0.5f * M_PI - larsoftGeometry->WireAngleToVertical(view, tpc, cstat));
     }
 
+  //------------------------------------------------------------------------------------------------------------------------------------------
+
      PandoraApi::Geometry::LineGap::Parameters detector_functions::CreateDriftGapParameters(const LArDetectorGap &gap)
      {
          PandoraApi::Geometry::LineGap::Parameters parameters;
@@ -57,6 +61,20 @@ namespace lar_pandora{
          parameters.m_lineEndX = gap.GetX2();
          parameters.m_lineStartZ = -std::numeric_limits<float>::max();
          parameters.m_lineEndZ = std::numeric_limits<float>::max();
+
+         return parameters;
+     }
+
+  //------------------------------------------------------------------------------------------------------------------------------------------
+
+     PandoraApi::Geometry::LineGap::Parameters detector_functions::CreateReadoutGapParameters(const float firstPoint, const float lastPoint, const float xFirst, const float xLast, const float halfWirePitch, const pandora::LineGapType gapType)
+     {
+         PandoraApi::Geometry::LineGap::Parameters parameters;
+         parameters.m_lineGapType = gapType;
+         parameters.m_lineStartX = xFirst;
+         parameters.m_lineEndX = xLast;
+         parameters.m_lineStartZ = std::min(firstPoint, lastPoint) - halfWirePitch;
+         parameters.m_lineEndZ = std::max(firstPoint, lastPoint) + halfWirePitch;
 
          return parameters;
      }

@@ -348,21 +348,24 @@ namespace lar_pandora {
             PandoraApi::Geometry::LineGap::Parameters parameters;
 
             try {
-              parameters.m_lineStartX = -std::numeric_limits<float>::max();
-              parameters.m_lineEndX = std::numeric_limits<float>::max();
+              float xFirst(-std::numeric_limits<float>::max());
+              float xLast(std::numeric_limits<float>::max());
 
               const unsigned int volumeId(
                 LArPandoraGeometry::GetVolumeID(driftVolumeMap, icstat, itpc));
               LArDriftVolumeMap::const_iterator volumeIter(driftVolumeMap.find(volumeId));
 
               if (driftVolumeMap.end() != volumeIter) {
-                parameters.m_lineStartX =
+                xFirst =
                   volumeIter->second.GetCenterX() - 0.5f * volumeIter->second.GetWidthX();
-                parameters.m_lineEndX =
+                xLast =
                   volumeIter->second.GetCenterX() + 0.5f * volumeIter->second.GetWidthX();
               }
 
               const geo::View_t iview = plane.View();
+              parameters = detType->CreateLineGapParametersFromReadoutGaps(iview, itpc, icstat, firstXYZ, lastXYZ, halfWirePitch, xFirst, xLast, pPandora);
+
+              /*
               if (iview == detType->TargetViewW(itpc, icstat)) {
                 const float firstW(firstXYZ[2]);
                 const float lastW(lastXYZ[2]);
@@ -391,6 +394,7 @@ namespace lar_pandora {
                 parameters.m_lineStartZ = std::min(firstV, lastV) - halfWirePitch;
                 parameters.m_lineEndZ = std::max(firstV, lastV) + halfWirePitch;
               }
+              */
             }
             catch (const pandora::StatusCodeException&) {
               mf::LogWarning("LArPandora")

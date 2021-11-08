@@ -129,6 +129,23 @@ namespace lar_pandora {
              *  @return the pandora API's line gap parameters object
              */
             virtual PandoraApi::Geometry::LineGap::Parameters CreateLineGapParametersFromDetectorGaps(const LArDetectorGap &gap) const = 0;
+
+            /**
+             *  @brief  Create the line gap parameters to give to the pandora API
+             *
+             *  @param  view the LArSoft view
+             *  @param  tpc the LArSoft TPC ID
+             *  @param  cstat the LArSoft cryostat ID
+             *  @param  firstXYZ the first 3D coordinate
+             *  @param  lastXYZ the last 3D coordinate
+             *  @param  halfWirePitch the half wire pitch
+             *  @param  pPandora the pandora instance
+             *  @param  xFirst the min X of the gap
+             *  @param  xLast the max X of the gap
+             *  @return the pandora API's line gap parameters object
+             */
+            virtual PandoraApi::Geometry::LineGap::Parameters CreateLineGapParametersFromReadoutGaps(const geo::View_t view, const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat, const double firstXYZ[3], const double lastXYZ[3], const float halfWirePitch, const float xFirst, const float xLast, const pandora::Pandora* pPandora) const = 0;
+
     };
 
     namespace detector_functions {
@@ -158,6 +175,19 @@ namespace lar_pandora {
          *  @return the line gap parameters for the Pandora API
          */
         PandoraApi::Geometry::LineGap::Parameters CreateDriftGapParameters(const LArDetectorGap &gap);
+
+        /**
+         *  @brief  Make the readout gap parameters for the Pandora API
+         *
+         *  @param  firstPoint the first point in the gap
+         *  @param  lastPoint  the last point ih the gap
+         *  @param  xFirst the min X of the gap
+         *  @param  xLast the max X of the gap
+         *  @param  halfWirePitch the half wire pitch
+         *  @param  gapType the pandora gap type
+         *  @return the line gap parameters for the Pandora API
+         */
+        PandoraApi::Geometry::LineGap::Parameters CreateReadoutGapParameters(const float firstPoint, const float lastPoint, const float xFirst, const float xLast, const float halfWirePitch, const pandora::LineGapType gapType);
 
     } // namespace detector_functions
 

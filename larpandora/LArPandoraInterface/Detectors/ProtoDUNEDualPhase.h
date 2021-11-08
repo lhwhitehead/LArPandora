@@ -41,14 +41,14 @@ namespace lar_pandora {
 
     inline geo::View_t ProtoDUNEDualPhase::TargetViewU(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const
     {
-        return this->GetLArSoftGeometry()->View(geo::PlaneID(cstat, tpc, 0));
+        return this->GetLArSoftGeometry()->View(geo::PlaneID(cstat, tpc, 1));
     }
 
     //------------------------------------------------------------------------------------------------------------------------------------------
 
     inline geo::View_t ProtoDUNEDualPhase::TargetViewV(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const
     {
-        return this->GetLArSoftGeometry()->View(geo::PlaneID(cstat, tpc, 1));
+        return this->GetLArSoftGeometry()->View(geo::PlaneID(cstat, tpc, 0));
     }
 
     //------------------------------------------------------------------------------------------------------------------------------------------

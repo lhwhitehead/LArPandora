@@ -128,7 +128,7 @@ namespace lar_pandora {
              *  @param  gap the input detector gap
              *  @return the pandora API's line gap parameters object
              */
-            virtual PandoraApi::Geometry::LineGap::Parameters CreateLineGapParameters(const LArDetectorGap &gap) const = 0;
+            virtual PandoraApi::Geometry::LineGap::Parameters CreateLineGapParametersFromDetectorGaps(const LArDetectorGap &gap) const = 0;
     };
 
     namespace detector_functions {

@@ -45,7 +45,7 @@ namespace lar_pandora {
 
             virtual void LoadDaughterDetectorGaps(const LArDriftVolume &driftVolume, const float maxDisplacement, LArDetectorGapList &listOfGaps) const override;
 
-            virtual PandoraApi::Geometry::LineGap::Parameters CreateLineGapParameters(const LArDetectorGap &gap) const override;
+            virtual PandoraApi::Geometry::LineGap::Parameters CreateLineGapParametersFromDetectorGaps(const LArDetectorGap &gap) const override;
 
             /**
              *  @brief  Loan the LArSoft geometry handle owned by this class
@@ -149,7 +149,7 @@ namespace lar_pandora {
 
     //------------------------------------------------------------------------------------------------------------------------------------------
 
-    inline PandoraApi::Geometry::LineGap::Parameters VintageLArTPCThreeView::CreateLineGapParameters(const LArDetectorGap &gap) const
+    inline PandoraApi::Geometry::LineGap::Parameters VintageLArTPCThreeView::CreateLineGapParametersFromDetectorGaps(const LArDetectorGap &gap) const
     {
         return detector_functions::CreateDriftGapParameters(gap);
     }

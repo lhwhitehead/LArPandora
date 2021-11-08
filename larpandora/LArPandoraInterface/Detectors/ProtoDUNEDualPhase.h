@@ -34,7 +34,7 @@ namespace lar_pandora {
 
             void LoadDaughterDetectorGaps(const LArDriftVolume &driftVolume, const float maxDisplacement, LArDetectorGapList &listOfGaps) const override;
 
-            PandoraApi::Geometry::LineGap::Parameters CreateLineGapParameters(const LArDetectorGap &gap) const override;
+            PandoraApi::Geometry::LineGap::Parameters CreateLineGapParametersFromDetectorGaps(const LArDetectorGap &gap) const override;
     };
 
     //------------------------------------------------------------------------------------------------------------------------------------------
@@ -88,7 +88,7 @@ namespace lar_pandora {
 
     //------------------------------------------------------------------------------------------------------------------------------------------
 
-    inline PandoraApi::Geometry::LineGap::Parameters ProtoDUNEDualPhase::CreateLineGapParameters(const LArDetectorGap &gap) const
+    inline PandoraApi::Geometry::LineGap::Parameters ProtoDUNEDualPhase::CreateLineGapParametersFromDetectorGaps(const LArDetectorGap &gap) const
     {
         const bool isGapInU((std::fabs(gap.GetY2() - gap.GetY1()) > gap.GetMaxGapSize())); //Could have chosen Z here, resulting in switching Y<->Z and U<->V in the block below
         PandoraApi::Geometry::LineGap::Parameters parameters;

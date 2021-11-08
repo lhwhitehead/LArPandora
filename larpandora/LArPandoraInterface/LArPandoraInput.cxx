@@ -261,7 +261,7 @@ namespace lar_pandora {
       PandoraApi::Geometry::LineGap::Parameters parameters;
 
       try {
-          parameters = detType->CreateLineGapParameters(gap);
+          parameters = detType->CreateLineGapParametersFromDetectorGaps(gap);
       }
       catch (const pandora::StatusCodeException&) {
         mf::LogWarning("LArPandora")

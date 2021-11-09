@@ -30,8 +30,8 @@ namespace lar_pandora {
     inline geo::View_t ICARUS::TargetViewU(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const
     {
         return (this->GetLArSoftGeometry()->TPC(tpc, cstat).DriftDirection() == geo::kPosX ?
-                this->GetLArSoftGeometry()->View(geo::PlaneID(cstat, tpc, 2)) :
-                this->GetLArSoftGeometry()->View(geo::PlaneID(cstat, tpc, 1)));
+                this->GetLArSoftGeometry()->View(geo::PlaneID(cstat, tpc, 1)) :
+                this->GetLArSoftGeometry()->View(geo::PlaneID(cstat, tpc, 2)));
     }
 
     //------------------------------------------------------------------------------------------------------------------------------------------
@@ -39,8 +39,8 @@ namespace lar_pandora {
     inline geo::View_t ICARUS::TargetViewV(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const
     {
         return (this->GetLArSoftGeometry()->TPC(tpc, cstat).DriftDirection() == geo::kPosX ?
-                this->GetLArSoftGeometry()->View(geo::PlaneID(cstat, tpc, 1)) :
-                this->GetLArSoftGeometry()->View(geo::PlaneID(cstat, tpc, 2)));
+                this->GetLArSoftGeometry()->View(geo::PlaneID(cstat, tpc, 2)) :
+                this->GetLArSoftGeometry()->View(geo::PlaneID(cstat, tpc, 1)));
     }
 
     //------------------------------------------------------------------------------------------------------------------------------------------

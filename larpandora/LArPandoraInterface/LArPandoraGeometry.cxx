@@ -120,7 +120,7 @@ namespace lar_pandora {
       throw cet::exception("LArPandora")
         << " LArPandoraGeometry::LoadGeometry --- the list of drift volumes already exists ";
 
-    LArPandoraGeometry::LoadGeometry(outputVolumeList);
+    LArPandoraGeometry::LoadGeometry(outputVolumeList, useActiveBoundingBox);
 
     // Create mapping between tpc/cstat labels and drift volumes
     for (const LArDriftVolume& driftVolume : outputVolumeList) {

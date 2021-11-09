@@ -167,10 +167,7 @@ namespace lar_pandora {
       throw cet::exception("LArPandora")
         << " LArPandoraGeometry::LoadGeometry --- the list of drift volumes already exists ";
 
-    // Use a global coordinate system but keep drift volumes separate
-    LArDriftVolumeList inputVolumeList;
-    LArPandoraGeometry::LoadGeometry(inputVolumeList, useActiveBoundingBox);
-    LArPandoraGeometry::LoadGlobalDaughterGeometry(inputVolumeList, outputVolumeList);
+    LArPandoraGeometry::LoadGeometry(outputVolumeList);
 
     // Create mapping between tpc/cstat labels and drift volumes
     for (const LArDriftVolume& driftVolume : outputVolumeList) {
@@ -457,7 +454,6 @@ namespace lar_pandora {
           const float dThetaU(detType->WireAngleU(itpc1, icstat) - detType->WireAngleU(itpc2, icstat));
           const float dThetaV(detType->WireAngleV(itpc1, icstat) - detType->WireAngleV(itpc2, icstat));
           const float dThetaW(detType->WireAngleW(itpc1, icstat) - detType->WireAngleW(itpc2, icstat));
-//          std::cout<<itpc1 << "   " << itpc2 << "  " << dThetaU << "  " << dThetaV << "  " << dThetaW << std::endl;
           /*
           bool useYPlane(false);
           bool isDualPhase(false);

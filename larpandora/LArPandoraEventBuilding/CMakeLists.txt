@@ -21,6 +21,7 @@ art_make( EXCLUDE SimpleNeutrinoId_tool.cc
                         PANDORAMONITORING
                         LArPandoraContent
                         larpandora_LArPandoraInterface
+                        larpandora_LArPandoraInterface_Detectors
                         nusimdata_SimulationBase
                         art::Framework_Core
                         art::Framework_Principal

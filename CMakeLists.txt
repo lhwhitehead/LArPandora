@@ -13,8 +13,6 @@ project(larpandora VERSION 09.10.03 LANGUAGES CXX)
 # cetbuildtools contains our cmake modules
 find_package(cetbuildtools REQUIRED)
 
-list(APPEND CMAKE_MODULE_PATH $ENV{CANVAS_ROOT_IO_DIR}/Modules $ENV{ART_DIR}/Modules)
-
 include(CetCMakeEnv)
 cet_cmake_env()
 
@@ -26,8 +24,15 @@ cet_set_compiler_flags(DIAGS CAUTIOUS
 
 cet_report_compiler_flags()
 
+find_package(Eigen3 3.3...3.3.9 REQUIRED NO_MODULE)
+find_package(messagefacility REQUIRED PUBLIC)
+find_package(canvas_root_io REQUIRED)
+find_package(art REQUIRED PUBLIC)
+find_package(art_root_io REQUIRED PUBLIC)
+find_package(nug4 REQUIRED PUBLIC)
+find_package(PostgreSQL REQUIRED PUBLIC)
+find_package(ROOT COMPONENTS Core Tree Geom Graf3d GenVector REQUIRED PUBLIC)
 # these are minimum required versions, not the actual product versions
-find_ups_product( eigen )
 find_ups_product( larcoreobj )
 find_ups_product( larcorealg )
 find_ups_product( larcore )
@@ -37,13 +42,8 @@ find_ups_product( lardata )
 find_ups_product( larevt )
 find_ups_product( larsim )
 find_ups_product( larreco )
-find_ups_product( nug4)
-find_ups_product( art )
-find_ups_product(art_root_io)
 find_ups_product( pandora )
 find_ups_product( larpandoracontent )
-find_ups_product( postgresql )
-find_ups_product(messagefacility)
 
 # macros for dictionary and simple_plugin
 include(ArtDictionary)
@@ -52,26 +52,6 @@ include(BuildPlugins)
 
 cet_find_library( PANDORASDK NAMES PandoraSDK PATHS ENV PANDORA_LIB )
 cet_find_library( PANDORAMONITORING NAMES PandoraMonitoring PATHS ENV PANDORA_LIB )
-
-# find larpandoracontent headers if building at the same time
-#message(STATUS "larpandora: checking for MRB_SOURCE")
-set( mrb_source $ENV{MRB_SOURCE} )
-
-
-# This logic does not work with cetbuildtools 8
-##if( LARPANDORACONTENT_INC )
-  #message(STATUS "larpandora: found LARPANDORACONTENT_INC: $ENV{LARPANDORACONTENT_INC}")
-  # note that mrb v1_07_00 or later will define LARPANDORACONTENT_INC
-##  if( mrb_source )
-##    include_directories( ${LARPANDORACONTENT_INC} )
-##  endif()
-##else()
-##  if( mrb_source )
-##    include_directories( ${mrb_source}/larpandoracontent )
-##  else()
-##    message(FATAL_ERROR "LARPANDORACONTENT_INC is undefined, please setup larpandoracontent")
-##  endif()
-##endif()
 
 # source
 add_subdirectory(larpandora)

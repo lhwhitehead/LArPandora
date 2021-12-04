@@ -7,7 +7,7 @@ art_make(
                         lardataobj_RecoBase
                         lardataobj_AnalysisBase
                         lardata_Utilities
-                        nusimdata_SimulationBase
+                        nusimdata::SimulationBase
                         art::Framework_Core
                         art::Framework_Principal
                         art::Framework_Services_Registry

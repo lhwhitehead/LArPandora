@@ -12,7 +12,7 @@ art_make(LIB_LIBRARIES
   art_root_io::TFileService_service
   art::Persistency_Provenance
   art::Utilities
-  nusimdata_SimulationBase
+  nusimdata::SimulationBase
   lardataobj_RecoBase
   larsim_MCCheater_BackTrackerService_service
   larsim_MCCheater_ParticleInventoryService_service

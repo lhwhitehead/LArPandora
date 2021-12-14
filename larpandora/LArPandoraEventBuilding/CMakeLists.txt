@@ -23,12 +23,13 @@ art_make( EXCLUDE SimpleNeutrinoId_tool.cc
                         PANDORAMONITORING
                         LArPandoraContent
                         larpandora_LArPandoraInterface
-                        nusimdata_SimulationBase
+                        larpandora_LArPandoraInterface_Detectors
+                        nusimdata::SimulationBase
                         art::Framework_Core
                         art::Framework_Principal
                         art::Framework_Services_Registry
-                        ${ART_FRAMEWORK_SERVICES_BASIC}
-                        art_root_io::tfile_support ROOT::Core
+                        art_root_io::tfile_support
+                        ROOT::Core
                         art_root_io::TFileService_service
                         art::Persistency_Common
                         art::Persistency_Provenance
@@ -37,10 +38,8 @@ art_make( EXCLUDE SimpleNeutrinoId_tool.cc
                         messagefacility::MF_MessageLogger
                         fhiclcpp::fhiclcpp
                         cetlib::cetlib cetlib_except
-                        ${Boost_SYSTEM_LIBRARY}
-                        ${Boost_FILESYSTEM_LIBRARY}
+                        Boost::filesystem
                         ROOT::Geom
-                        ${ROOT_BASIC_LIB_LIST}
                         ROOT::GenVector
           MODULE_LIBRARIES larpandora_LArPandoraEventBuilding
           )

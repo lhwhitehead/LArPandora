@@ -2,6 +2,7 @@ include_directories( $ENV{PANDORA_INC} )
 include_directories( $ENV{LARPANDORACONTENT_INC} )
 
 set(CORE_LIB_LIST
+    larpandora_LArPandoraInterface_Detectors
     larcorealg_Geometry
     larcore_Geometry_Geometry_service
     larsim_Simulation lardataobj_Simulation
@@ -19,11 +20,12 @@ set(CORE_LIB_LIST
     PANDORASDK
     PANDORAMONITORING
     LArPandoraContent
-    nusimdata_SimulationBase
+    nusimdata::SimulationBase
     art::Framework_Core
     art::Framework_Principal
     art::Framework_Services_Registry
-    art_root_io::tfile_support ROOT::Core
+    art_root_io::tfile_support
+    ROOT::Core
     art_root_io::TFileService_service
     art::Persistency_Common
     art::Persistency_Provenance
@@ -52,4 +54,6 @@ install_headers()
 install_fhicl()
 install_source()
 
+add_subdirectory(Detectors)
 add_subdirectory(scripts)
+

@@ -1,6 +1,8 @@
 art_make(LIB_LIBRARIES
   larcorealg_Geometry
-  ${ROOT_BASIC_LIB_LIST}
+  ROOT::Core
+  ROOT::Tree
+  ROOT::Graf3d
   canvas::canvas
   fhiclcpp::fhiclcpp
   cetlib_except::cetlib_except
@@ -12,7 +14,7 @@ art_make(LIB_LIBRARIES
   art_root_io::TFileService_service
   art::Persistency_Provenance
   art::Utilities
-  nusimdata_SimulationBase
+  nusimdata::SimulationBase
   lardataobj_RecoBase
   larsim_MCCheater_BackTrackerService_service
   larsim_MCCheater_ParticleInventoryService_service

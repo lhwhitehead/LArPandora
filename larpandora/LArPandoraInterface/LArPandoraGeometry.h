@@ -692,6 +692,14 @@ namespace lar_pandora {
     return m_sigmaUVZ;
   }
 
+  //------------------------------------------------------------------------------------------------------------------------------------------
+
+  inline const LArDaughterDriftVolumeList&
+  LArDriftVolume::GetTpcVolumeList() const
+  {
+    return m_tpcVolumeList;
+  }
+
 } // namespace lar_pandora
 
 #endif // #ifndef LAR_PANDORA_GEOMETRY_H

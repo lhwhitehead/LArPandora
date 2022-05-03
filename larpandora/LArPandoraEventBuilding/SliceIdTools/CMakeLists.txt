@@ -1,5 +1,5 @@
-include_directories( $ENV{PANDORA_INC} )
-include_directories( $ENV{LARPANDORACONTENT_INC} )
+include_directories( $ENV{PANDORA_INC} ) ### MIGRATE-ACTION-RECOMMENDED (migrate-3.13.00) - avoid directory-scope functions: use target_link_libraries() with target semantics or target_include_directories() whenever possible
+include_directories( $ENV{LARPANDORACONTENT_INC} ) ### MIGRATE-ACTION-RECOMMENDED (migrate-3.13.00) - avoid directory-scope functions: use target_link_libraries() with target semantics or target_include_directories() whenever possible
 
 set( 
           sliceid_tool_lib_list larcorealg_Geometry
@@ -36,7 +36,7 @@ set(
                         MODULE_LIBRARIES larpandora_LArPandoraEventBuilding
           )
 
-art_make(TOOL_LIBRARIES ${sliceid_tool_lib_list})
+art_make(TOOL_LIBRARIES ${sliceid_tool_lib_list}) ### MIGRATE-ACTION-RECOMMENDED (migrate-3.13.00) - deprecated: use art_make_library(), art_dictonary(), and cet_build_plugin() with explicit source lists and plugin base types
 
 install_headers()
 install_fhicl()

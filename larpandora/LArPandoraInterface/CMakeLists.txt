@@ -1,5 +1,5 @@
-include_directories( $ENV{PANDORA_INC} )
-include_directories( $ENV{LARPANDORACONTENT_INC} )
+include_directories( $ENV{PANDORA_INC} ) ### MIGRATE-ACTION-RECOMMENDED (migrate-3.13.00) - avoid directory-scope functions: use target_link_libraries() with target semantics or target_include_directories() whenever possible
+include_directories( $ENV{LARPANDORACONTENT_INC} ) ### MIGRATE-ACTION-RECOMMENDED (migrate-3.13.00) - avoid directory-scope functions: use target_link_libraries() with target semantics or target_include_directories() whenever possible
 
 set(CORE_LIB_LIST
     larpandora_LArPandoraInterface_Detectors
@@ -39,15 +39,15 @@ set(CORE_LIB_LIST
 option(PANDORA_LIBTORCH "Flag for building with Pandora's LibTorch-aware algorithms" ON)
 if( ${PANDORA_LIBTORCH} AND DEFINED ENV{LIBTORCH_DIR})
     message(STATUS "Building with deep learning support")
-    add_definitions("-DLIBTORCH_DL")
+    add_definitions("-DLIBTORCH_DL") ### MIGRATE-ACTION-RECOMMENDED (migrate-3.13.00) - avoid directory-scope functions: use target_compile_definitions() or target_compile_features() whenever possible
     art_make(
         LIB_LIBRARIES ${CORE_LIB_LIST} larpandoracontent::LArPandoraDLContent
-        MODULE_LIBRARIES larpandora_LArPandoraInterface)
+        MODULE_LIBRARIES larpandora_LArPandoraInterface) ### MIGRATE-ACTION-RECOMMENDED (migrate-3.13.00) - deprecated: use art_make_library(), art_dictonary(), and cet_build_plugin() with explicit source lists and plugin base types
 else()
     message( STATUS "Building without deep learning support" )
     art_make(
         LIB_LIBRARIES ${CORE_LIB_LIST}
-        MODULE_LIBRARIES larpandora_LArPandoraInterface)
+        MODULE_LIBRARIES larpandora_LArPandoraInterface) ### MIGRATE-ACTION-RECOMMENDED (migrate-3.13.00) - deprecated: use art_make_library(), art_dictonary(), and cet_build_plugin() with explicit source lists and plugin base types
 endif()
 
 install_headers()

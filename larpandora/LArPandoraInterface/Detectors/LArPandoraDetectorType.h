@@ -10,6 +10,7 @@
 #define LAR_PANDORA_DETECTOR_TYPE_H 1
 
 #include "larcore/Geometry/Geometry.h"
+#include "art/Framework/Services/Registry/ServiceHandle.h"
 
 #include "Api/PandoraApi.h"
 

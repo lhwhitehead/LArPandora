@@ -1,4 +1,5 @@
 #include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Algs/LArPandoraShowerAlg.h"
+#include "larcore/CoreUtils/ServiceUtil.h"
 
 shower::LArPandoraShowerAlg::LArPandoraShowerAlg(const fhicl::ParameterSet& pset)
   : fUseCollectionOnly(pset.get<bool>("UseCollectionOnly"))

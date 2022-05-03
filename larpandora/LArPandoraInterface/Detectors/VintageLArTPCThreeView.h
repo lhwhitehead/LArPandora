@@ -18,6 +18,7 @@
 #include "Plugins/LArTransformationPlugin.h"
 
 #include "larcore/Geometry/Geometry.h"
+#include "art/Framework/Services/Registry/ServiceHandle.h"
 
 namespace lar_pandora {
 

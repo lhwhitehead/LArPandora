@@ -10,6 +10,9 @@
 #define LAR_PANDORA_DETECTOR_TYPE_H 1
 
 #include "larcore/Geometry/Geometry.h"
+#include "larcoreobj/SimpleTypesAndConstants/geo_types.h"
+#include "larcoreobj/SimpleTypesAndConstants/geo_vectors.h"
+
 #include "art/Framework/Services/Registry/ServiceHandle.h"
 
 #include "Api/PandoraApi.h"
@@ -171,13 +174,6 @@ namespace lar_pandora {
   };
 
   namespace detector_functions {
-
-    /**
-         *  @brief  Factory class that returns the correct detector type interface
-         *
-         *  @result The detector type interface
-         */
-    LArPandoraDetectorType* GetDetectorType();
 
     /**
          *  @brief  Calculate the wire angle of a LArTPC view in a given TPC/cryostat

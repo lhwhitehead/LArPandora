@@ -1,25 +1,46 @@
-art_make(LIB_LIBRARIES
-  larcorealg_Geometry
-  ROOT::Core
-  ROOT::Tree
-  ROOT::Graf3d
-  canvas::canvas
-  fhiclcpp::fhiclcpp
-  cetlib_except::cetlib_except
-  messagefacility::MF_MessageLogger
-  art::Framework_Core
+cet_make_library(LIBRARY_NAME ShowerElements INTERFACE
+  SOURCE ShowerElementHolder.hh
+  LIBRARIES INTERFACE
   art::Framework_Principal
-  art::Framework_Services_Registry
-  art_root_io::tfile_support
+  canvas::canvas
+  messagefacility::MF_MessageLogger
+  cetlib_except::cetlib_except
+)
+
+cet_make_library(LIBRARY_NAME ShowerProducedPtrs INTERFACE
+  SOURCE ShowerProducedPtrsHolder.hh
+  LIBRARIES INTERFACE
+  larpandora::ShowerElements
+  art::Framework_Principal
+  art::Persistency_Common
+  canvas::canvas
+  messagefacility::MF_MessageLogger
+  cetlib_except::cetlib_except
+)
+
+cet_make_library(SOURCE
+  LArPandoraShowerAlg.cxx
+  LArPandoraShowerCheatingAlg.cxx
+  LIBRARIES
+  PUBLIC
+  larsim::MCCheater_BackTrackerService_service
+  larsim::MCCheater_ParticleInventoryService_service
+  larcore::Geometry_Geometry_service
   art_root_io::TFileService_service
-  art::Persistency_Provenance
-  art::Utilities
-  nusimdata::SimulationBase
-  lardataobj_RecoBase
-  larsim_MCCheater_BackTrackerService_service
-  larsim_MCCheater_ParticleInventoryService_service
-  lardataalg_DetectorInfo
-  ) ### MIGRATE-ACTION-RECOMMENDED (migrate-3.13.00) - deprecated: use art_make_library(), art_dictonary(), and cet_build_plugin() with explicit source lists and plugin base types
+  art::Framework_Services_Registry
+  canvas::canvas
+  ROOT::Physics
+  PRIVATE
+  larpandora::ShowerElements
+  lardataalg::DetectorInfo
+  larevt::SpaceChargeService
+  larcore::ServiceUtil
+  lardataobj::RecoBase
+  art::Framework_Principal
+  ROOT::Core
+  ROOT::Gpad
+  ROOT::Graf3d
+)
 
 install_headers()
 install_source()

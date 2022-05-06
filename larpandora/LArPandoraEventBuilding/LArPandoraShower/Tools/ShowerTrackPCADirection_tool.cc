@@ -11,6 +11,11 @@
 
 //LArSoft Includes
 #include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Tools/IShowerTool.h"
+#include "lardata/DetectorInfoServices/DetectorClocksService.h"
+#include "lardata/DetectorInfoServices/DetectorPropertiesService.h"
+#include "lardataalg/DetectorInfo/DetectorPropertiesData.h"
+#include "lardataobj/RecoBase/Hit.h"
+#include "lardataobj/RecoBase/SpacePoint.h"
 
 //Root Includes
 #include "TPrincipal.h"

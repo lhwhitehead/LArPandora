@@ -1,4 +1,18 @@
 #include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Algs/LArPandoraShowerCheatingAlg.h"
+#include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Algs/ShowerElementHolder.hh"
+
+#include "lardataobj/RecoBase/PFParticle.h"
+
+#include "art/Framework/Principal/Event.h"
+
+#include "TCanvas.h"
+#include "TH3.h"
+#include "TPolyLine3D.h"
+#include "TPolyMarker3D.h"
+#include "TString.h"
+#include "TStyle.h"
+
+#include <memory>
 
 shower::LArPandoraShowerCheatingAlg::LArPandoraShowerCheatingAlg(const fhicl::ParameterSet& pset)
   : fLArPandoraShowerAlg(pset.get<fhicl::ParameterSet>("LArPandoraShowerAlg"))

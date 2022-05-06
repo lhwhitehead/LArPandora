@@ -13,6 +13,9 @@
 //LArSoft Includes
 #include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Algs/LArPandoraShowerAlg.h"
 #include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Tools/IShowerTool.h"
+#include "lardataobj/RecoBase/Hit.h"
+#include "lardataobj/RecoBase/PFParticle.h"
+#include "lardataobj/RecoBase/SpacePoint.h"
 
 namespace ShowerRecoTools {
 

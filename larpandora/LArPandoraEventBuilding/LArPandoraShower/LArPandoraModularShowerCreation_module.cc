@@ -22,7 +22,10 @@
 //LArSoft includes
 #include "lardata/Utilities/AssociationUtil.h"
 #include "lardataobj/RecoBase/Cluster.h"
+#include "lardataobj/RecoBase/Hit.h"
+#include "lardataobj/RecoBase/PFParticle.h"
 #include "lardataobj/RecoBase/Shower.h"
+#include "lardataobj/RecoBase/SpacePoint.h"
 #include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Tools/IShowerTool.h"
 
 namespace reco::shower {

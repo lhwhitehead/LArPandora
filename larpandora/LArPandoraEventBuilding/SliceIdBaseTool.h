@@ -7,10 +7,7 @@
 #ifndef LAR_PANDORA_SLICE_ID_BASE_TOOL_H
 #define LAR_PANDORA_SLICE_ID_BASE_TOOL_H 1
 
-#include "art/Framework/Principal/Event.h"
-
 #include "larpandora/LArPandoraEventBuilding/Slice.h"
-#include "larpandora/LArPandoraInterface/LArPandoraHelper.h"
 
 namespace lar_pandora
 {

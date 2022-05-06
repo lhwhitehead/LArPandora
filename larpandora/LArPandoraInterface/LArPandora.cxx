@@ -5,6 +5,8 @@
  *
  */
 
+#include "larpandora/LArPandoraInterface/LArPandora.h"
+
 #include "art/Framework/Principal/Event.h"
 #include "art_root_io/TFileService.h"
 #include "cetlib/cpu_timer.h"
@@ -30,11 +32,6 @@
 
 #include "larpandoracontent/LArContent.h"
 #include "larpandoracontent/LArHelpers/LArPfoHelper.h"
-
-#include "larpandora/LArPandoraInterface/LArPandora.h"
-#include "larpandora/LArPandoraInterface/LArPandoraHelper.h"
-#include "larpandora/LArPandoraInterface/LArPandoraInput.h"
-#include "larpandora/LArPandoraInterface/LArPandoraOutput.h"
 
 #include <iostream>
 #include <limits>

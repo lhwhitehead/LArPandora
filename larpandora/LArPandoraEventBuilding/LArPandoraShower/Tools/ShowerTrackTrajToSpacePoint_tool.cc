@@ -10,6 +10,8 @@
 #include "art/Utilities/ToolMacros.h"
 
 //LArSoft Includes
+#include "lardataobj/RecoBase/Hit.h"
+#include "lardataobj/RecoBase/SpacePoint.h"
 #include "lardataobj/RecoBase/Track.h"
 #include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Tools/IShowerTool.h"
 

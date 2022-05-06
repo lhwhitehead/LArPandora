@@ -4,6 +4,8 @@
  *  @brief  Helper functions for providing inputs to pandora
  */
 
+#include "larpandora/LArPandoraInterface/LArPandoraInput.h"
+
 #include "larcore/Geometry/Geometry.h"
 #include "larcorealg/Geometry/PlaneGeo.h"
 #include "larcorealg/Geometry/TPCGeo.h"
@@ -30,8 +32,8 @@
 #include "larpandoracontent/LArObjects/LArCaloHit.h"
 
 #include "larpandora/LArPandoraInterface/Detectors/LArPandoraDetectorType.h"
+#include "larpandora/LArPandoraInterface/Detectors/GetDetectorType.h"
 #include "larpandora/LArPandoraInterface/ILArPandora.h"
-#include "larpandora/LArPandoraInterface/LArPandoraInput.h"
 
 #include "messagefacility/MessageLogger/MessageLogger.h"
 

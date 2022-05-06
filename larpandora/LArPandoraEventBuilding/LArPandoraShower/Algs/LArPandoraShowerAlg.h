@@ -1,50 +1,35 @@
 #ifndef LArPandoraShowerAlg_hxx
 #define LArPandoraShowerAlg_hxx
 
-//Framework Includes
-#include "art_root_io/TFileService.h"
-#include "canvas/Persistency/Common/FindManyP.h"
-#include "canvas/Persistency/Common/Ptr.h"
-#include "cetlib_except/exception.h"
-#include "fhiclcpp/ParameterSet.h"
-#include "messagefacility/MessageLogger/MessageLogger.h"
-
-//LArSoft Includes
-#include "art/Framework/Principal/Event.h"
-#include "larcore/Geometry/Geometry.h"
-#include "lardata/DetectorInfoServices/DetectorPropertiesService.h"
-#include "lardataalg/DetectorInfo/DetectorClocksData.h"
-#include "lardataalg/DetectorInfo/DetectorPropertiesData.h"
-#include "lardataobj/RecoBase/Hit.h"
-#include "lardataobj/RecoBase/PFParticle.h"
-#include "lardataobj/RecoBase/SpacePoint.h"
-#include "lardataobj/RecoBase/Track.h"
-#include "larevt/SpaceCharge/SpaceCharge.h"
-#include "larevt/SpaceChargeServices/SpaceChargeService.h"
-#include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Algs/ShowerElementHolder.hh"
-
-//C++ Includes
-#include <algorithm>
-#include <iostream>
-#include <map>
-#include <vector>
-
-//Root Includes
-#include "TCanvas.h"
-#include "TH3F.h"
-#include "TMath.h"
-#include "TPolyLine3D.h"
-#include "TPolyMarker3D.h"
-#include "TString.h"
-#include "TStyle.h"
-#include "TTree.h"
-#include "TVector.h"
-#include "TVector3.h"
+namespace reco::shower { class ShowerElementHolder; }
 
 namespace detinfo {
   class DetectorClocksData;
   class DetectorPropertiesData;
 }
+
+#include "larcore/Geometry/Geometry.h"
+
+namespace recob {
+  class Hit;
+  class PFParticle;
+  class SpacePoint;
+}
+
+namespace spacecharge { class SpaceCharge; }
+
+#include "art_root_io/TFileService.h"
+namespace art { class Event; }
+#include "art/Framework/Services/Registry/ServiceHandle.h"
+#include "canvas/Persistency/Common/FindManyP.h"
+#include "canvas/Persistency/Common/Ptr.h"
+#include "canvas/Utilities/InputTag.h"
+
+#include "TVector3.h"
+
+//C++ Includes
+#include <string>
+#include <vector>
 
 namespace shower {
   class LArPandoraShowerAlg;

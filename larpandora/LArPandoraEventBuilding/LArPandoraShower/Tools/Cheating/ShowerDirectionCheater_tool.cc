@@ -9,9 +9,15 @@
 #include "art/Utilities/ToolMacros.h"
 
 //LArSoft Includes
-#include "lardataobj/RecoBase/Cluster.h"
-#include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Algs/LArPandoraShowerCheatingAlg.h"
 #include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Tools/IShowerTool.h"
+#include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Algs/LArPandoraShowerCheatingAlg.h"
+#include "lardata/DetectorInfoServices/DetectorClocksService.h"
+#include "lardata/DetectorInfoServices/DetectorPropertiesService.h"
+#include "lardataobj/RecoBase/Cluster.h"
+#include "lardataobj/RecoBase/PFParticle.h"
+
+//ROOT Includes
+#include "TTree.h"
 
 namespace ShowerRecoTools {
 

@@ -18,6 +18,8 @@
 
 //ROOT Includes
 #include "TFile.h"
+#include "TH1.h"
+#include "TAxis.h"
 
 namespace ShowerRecoTools {
 

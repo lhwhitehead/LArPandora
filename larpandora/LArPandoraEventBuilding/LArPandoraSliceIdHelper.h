@@ -7,9 +7,23 @@
 #ifndef LAR_PANDORA_SLICE_ID_HELPER_H
 #define LAR_PANDORA_SLICE_ID_HELPER_H
 
-#include "larpandora/LArPandoraInterface/LArPandoraHelper.h"
 #include "larpandora/LArPandoraEventBuilding/Slice.h"
-#include "nusimdata/SimulationBase/MCTruth.h"
+#include "larpandora/LArPandoraInterface/LArPandoraHelper.h"
+
+namespace recob { class Hit; }
+
+namespace simb {
+  class MCNeutrino;
+  class MCTruth;
+}
+
+namespace art { class Event; }
+
+#include "canvas/Persistency/Common/Ptr.h"
+
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 namespace lar_pandora
 {

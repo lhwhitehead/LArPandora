@@ -10,7 +10,7 @@
 #define LAR_PANDORA_DETECTOR_VINTAGE_LAR_TPC_THREE_VIEW_H 1
 
 #include "larpandora/LArPandoraInterface/Detectors/LArPandoraDetectorType.h"
-#include "larpandora/LArPandoraInterface/LArPandoraGeometry.h"
+#include "larpandora/LArPandoraInterface/LArPandoraGeometryComponents.h"
 
 #include "Api/PandoraApi.h"
 #include "Managers/PluginManager.h"

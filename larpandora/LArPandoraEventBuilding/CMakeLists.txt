@@ -1,48 +1,88 @@
-include_directories( $ENV{PANDORA_INC} ) ### MIGRATE-ACTION-RECOMMENDED (migrate-3.13.00) - avoid directory-scope functions: use target_link_libraries() with target semantics or target_include_directories() whenever possible
-include_directories( $ENV{LARPANDORACONTENT_INC} ) ### MIGRATE-ACTION-RECOMMENDED (migrate-3.13.00) - avoid directory-scope functions: use target_link_libraries() with target semantics or target_include_directories() whenever possible
-include_directories( $ENV{EIGEN_INC} ) ### MIGRATE-ACTION-RECOMMENDED (migrate-3.13.00) - avoid directory-scope functions: use target_link_libraries() with target semantics or target_include_directories() whenever possible
+cet_make_library(LIBRARY_NAME Slice INTERFACE
+  SOURCE Slice.h
+  LIBRARIES INTERFACE
+  larpandora::LArPandoraInterface 
+)
+
+cet_make_library(LIBRARY_NAME SliceIdTool INTERFACE
+  SOURCE SliceIdBaseTool.h
+  LIBRARIES INTERFACE
+  larpandora::Slice
+)
+
+cet_write_plugin_builder(larpandora::SliceIdTool art::tool Modules
+  INSTALL_BUILDER
+  LIBRARIES CONDITIONAL
+  larpandora::SliceIdTool
+)
+
+cet_make_library(SOURCE
+  LArPandoraEvent.cxx
+  LArPandoraSliceIdHelper.cxx
+  LIBRARIES
+  PUBLIC
+  larpandora::LArPandoraInterface
+  lardataobj::AnalysisBase
+  lardataobj::RecoBase
+  art::Framework_Principal
+  art::Persistency_Common
+  canvas::canvas
+  PRIVATE
+  nusimdata::SimulationBase
+)
 
 add_subdirectory(LArPandoraShower)
 add_subdirectory(SliceIdTools)
-add_subdirectory(fcl)
 
-art_make( EXCLUDE SimpleNeutrinoId_tool.cc
-          LIB_LIBRARIES larcorealg_Geometry
-                        larcore_Geometry_Geometry_service
-                        larsim_Simulation lardataobj_Simulation
-                        lardataobj_RawData
-                        lardataobj_RecoBase
-                        lardataobj_AnalysisBase
-                        lardata_ArtDataHelper
-                        lardata_Utilities
-                        larreco_RecoAlg_ClusterRecoUtil
-                        larreco_RecoAlg
-                        larreco_ClusterFinder
-                        larreco_Calorimetry
-                        PANDORASDK
-                        PANDORAMONITORING
-                        LArPandoraContent
-                        larpandora_LArPandoraInterface
-                        larpandora_LArPandoraInterface_Detectors
-                        nusimdata::SimulationBase
-                        art::Framework_Core
-                        art::Framework_Principal
-                        art::Framework_Services_Registry
-                        art_root_io::tfile_support
-                        ROOT::Core
-                        art_root_io::TFileService_service
-                        art::Persistency_Common
-                        art::Persistency_Provenance
-                        art::Utilities
-                        canvas::canvas
-                        messagefacility::MF_MessageLogger
-                        fhiclcpp::fhiclcpp
-                        cetlib::cetlib cetlib_except
-                        Boost::filesystem
-                        ROOT::Geom
-                        ROOT::GenVector
-          MODULE_LIBRARIES larpandora_LArPandoraEventBuilding
-          ) ### MIGRATE-ACTION-RECOMMENDED (migrate-3.13.00) - deprecated: use art_make_library(), art_dictonary(), and cet_build_plugin() with explicit source lists and plugin base types
+cet_build_plugin(CollectionSplitting art::EDProducer
+  LIBRARIES PRIVATE
+  larpandora::LArPandoraEventBuilding
+  lardataobj::RecoBase
+  art::Framework_Principal
+  fhiclcpp::fhiclcpp
+)
+
+cet_build_plugin(LArPandoraEventDump art::EDAnalyzer
+  LIBRARIES PRIVATE
+  larpandora::LArPandoraInterface
+  lardata::AssociationUtil
+  lardataobj::RecoBase
+  art::Framework_Principal
+  fhiclcpp::fhiclcpp
+)
+
+cet_build_plugin(LArPandoraExternalEventBuilding art::EDProducer
+  LIBRARIES PRIVATE
+  larpandora::LArPandoraEventBuilding
+  larpandora::Slice
+  larpandora::SliceIdTool
+  larpandora::LArPandoraInterface
+  lardata::AssociationUtil
+  lardataobj::RecoBase
+  art::Framework_Principal
+  art_plugin_support::toolMaker
+  canvas::canvas
+  fhiclcpp::fhiclcpp
+  PandoraPFA::PandoraSDK
+)
+
+cet_build_plugin(LArPandoraTrackCreation art::EDProducer
+  LIBRARIES PRIVATE
+  larpandora::GetDetectorType
+  larpandora::LArPandoraInterface_Detectors
+  larpandora::LArPandoraInterface
+  larpandoracontent::LArPandoraContent
+  lardata::AssociationUtil
+  larcore::Geometry_Geometry_service
+  lardataobj::RecoBase
+  art::Framework_Principal
+  art::Persistency_Common
+  canvas::canvas
+  messagefacility::MF_MessageLogger
+  fhiclcpp::fhiclcpp
+)
+
+add_subdirectory(fcl)
 
 install_headers()
 install_fhicl()

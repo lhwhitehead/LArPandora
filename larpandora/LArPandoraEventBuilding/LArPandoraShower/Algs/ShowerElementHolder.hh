@@ -11,9 +11,12 @@
 #define ShowerElementHolder_HH
 
 //Framework includes
+#include "art/Framework/Principal/Handle.h"
 #include "canvas/Persistency/Common/FindOneP.h"
 #include "canvas/Persistency/Common/FindManyP.h"
 #include "messagefacility/MessageLogger/MessageLogger.h"
+#include "cetlib_except/demangle.h"
+#include "cetlib_except/exception.h"
 
 //C++ Inlcudes
 #include <iostream>
@@ -21,7 +24,6 @@
 #include <string>
 #include <memory>
 #include <iomanip>
-#include "cetlib_except/demangle.h"
 
 namespace reco::shower {
   class ShowerElementBase;

@@ -7,31 +7,35 @@
 #ifndef LAR_PANDORA_EVENT_H
 #define LAR_PANDORA_EVENT_H 1
 
-#include "art/Persistency/Common/PtrMaker.h"
-#include "canvas/Persistency/Common/Assns.h"
-#include "art/Framework/Principal/Event.h"
-
-#include "lardata/Utilities/AssociationUtil.h"
-
-#include "lardataobj/RecoBase/PFParticle.h"
-#include "lardataobj/RecoBase/PFParticleMetadata.h"
-#include "lardataobj/AnalysisBase/CosmicTag.h"
-#include "lardataobj/RecoBase/SpacePoint.h"
-#include "lardataobj/RecoBase/Cluster.h"
-#include "lardataobj/RecoBase/Vertex.h"
-#include "lardataobj/RecoBase/Track.h"
-#include "lardataobj/RecoBase/TrackHitMeta.h"
-#include "lardataobj/RecoBase/Shower.h"
-#include "lardataobj/RecoBase/PCAxis.h"
-#include "lardataobj/RecoBase/Hit.h"
-#include "lardataobj/RecoBase/Slice.h"
-#include "lardataobj/AnalysisBase/T0.h"
-
 #include "larpandora/LArPandoraInterface/LArPandoraHelper.h"
 
-#include <memory>
+#include "lardataobj/AnalysisBase/T0.h"
+
+#include "lardataobj/RecoBase/Cluster.h"
+#include "lardataobj/RecoBase/Hit.h"
+#include "lardataobj/RecoBase/PCAxis.h"
+#include "lardataobj/RecoBase/PFParticle.h"
+#include "lardataobj/RecoBase/PFParticleMetadata.h"
+#include "lardataobj/RecoBase/Shower.h"
+#include "lardataobj/RecoBase/Slice.h"
+#include "lardataobj/RecoBase/SpacePoint.h"
+#include "lardataobj/RecoBase/Track.h"
+#include "lardataobj/RecoBase/TrackHitMeta.h"
+#include "lardataobj/RecoBase/Vertex.h"
+
+namespace art {
+  class EDProducer;
+}
+#include "art/Framework/Principal/Event.h"
+#include "art/Persistency/Common/PtrMaker.h"
+#include "canvas/Persistency/Common/Assns.h"
+#include "canvas/Persistency/Common/Ptr.h"
+
 #include <algorithm>
 #include <map>
+#include <memory>
+#include <string>
+#include <utility> // std::pair<>
 
 namespace lar_pandora
 {
@@ -234,7 +238,7 @@ private:
     void CollectAssociated(const art::Ptr<L> &anObject, const Association<L, R, D> &associationLtoR, Collection<R> &associatedR) const;
 
     /**
-     *   @brief  Gets the filtered mapping from objets in collectionL to objects that also exist in collectionR using a "superset" input association
+     *   @brief  Gets the filtered mapping from objects in collectionL to objects that also exist in collectionR using a "superset" input association
      *
      *   @param  collectionL a first filtered collection
      *   @param  collectionR a second filtered collection

@@ -7,7 +7,6 @@
 #ifndef LAR_PANDORA_INPUT_H
 #define LAR_PANDORA_INPUT_H 1
 
-#include "lardata/ArtDataHelper/MVAReader.h"
 namespace detinfo {
   class DetectorPropertiesData;
 }
@@ -17,6 +16,8 @@ namespace detinfo {
 #include "larpandora/LArPandoraInterface/LArPandoraHelper.h"
 
 #include "larpandoracontent/LArObjects/LArMCParticle.h"
+
+namespace pandora { class Pandora; }
 
 namespace lar_pandora {
 

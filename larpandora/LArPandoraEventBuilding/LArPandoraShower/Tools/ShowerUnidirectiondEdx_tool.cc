@@ -13,6 +13,8 @@
 //LArSoft Includes
 #include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Tools/IShowerTool.h"
 #include "larreco/Calorimetry/CalorimetryAlg.h"
+#include "lardata/DetectorInfoServices/DetectorClocksService.h"
+#include "lardata/DetectorInfoServices/DetectorPropertiesService.h"
 
 namespace ShowerRecoTools {
 

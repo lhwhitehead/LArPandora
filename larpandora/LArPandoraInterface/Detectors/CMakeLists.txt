@@ -1,9 +1,29 @@
-art_make( EXCLUDE SimpleNeutrinoId_tool.cc
-          LIB_LIBRARIES larcorealg_Geometry
-                        larcore_Geometry_Geometry_service
-                        PANDORASDK
-                        PANDORAMONITORING
-        ) ### MIGRATE-ACTION-RECOMMENDED (migrate-3.13.00) - deprecated: use art_make_library(), art_dictonary(), and cet_build_plugin() with explicit source lists and plugin base types
+cet_make_library(LIBRARY_NAME_VAR detectors_lib_target
+  SOURCE
+  LArPandoraDetectorType.h
+  DUNEFarDetVDThreeView.h
+  ICARUS.h
+  ProtoDUNEDualPhase.h
+  VintageLArTPCThreeView.h
+  LArPandoraDetectorType.cxx
+  ProtoDUNEDualPhase.cxx
+  LIBRARIES PUBLIC
+  larpandora::GeometryComponents
+  art::Framework_Services_Registry
+  larcore::Geometry_Geometry_service
+  larcoreobj::SimpleTypesAndConstants
+  larcoreobj::geo_vectors
+  PandoraPFA::PandoraSDK
+  PRIVATE
+  larpandora::GeometryComponents
+)
+
+cet_make_library(LIBRARY_NAME GetDetectorType
+  SOURCE GetDetectorType.cxx
+  LIBRARIES PRIVATE
+  ${detectors_lib_target}
+  cetlib_except::cetlib_except
+)  
 
 install_headers()
 install_source()

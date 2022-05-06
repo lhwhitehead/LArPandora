@@ -1,5 +1,26 @@
 #include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Algs/LArPandoraShowerAlg.h"
+#include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Algs/ShowerElementHolder.hh"
+
+#include "larevt/SpaceChargeServices/SpaceChargeService.h"
+#include "lardataalg/DetectorInfo/DetectorClocksData.h"
+#include "lardataalg/DetectorInfo/DetectorPropertiesData.h"
 #include "larcore/CoreUtils/ServiceUtil.h"
+#include "lardataobj/RecoBase/Hit.h"
+#include "lardataobj/RecoBase/PFParticle.h"
+#include "lardataobj/RecoBase/SpacePoint.h"
+#include "lardataobj/RecoBase/Track.h"
+
+#include "art/Framework/Principal/Event.h"
+#include "fhiclcpp/ParameterSet.h"
+
+#include "TCanvas.h"
+#include "TH3.h"
+#include "TPolyLine3D.h"
+#include "TPolyMarker3D.h"
+#include "TString.h"
+#include "TStyle.h"
+
+#include <memory>
 
 shower::LArPandoraShowerAlg::LArPandoraShowerAlg(const fhicl::ParameterSet& pset)
   : fUseCollectionOnly(pset.get<bool>("UseCollectionOnly"))

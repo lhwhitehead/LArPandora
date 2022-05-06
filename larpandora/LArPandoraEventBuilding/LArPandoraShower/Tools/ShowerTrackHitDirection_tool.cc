@@ -12,6 +12,10 @@
 //LArSoft Includes
 #include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Tools/IShowerTool.h"
 
+#include "lardataobj/RecoBase/Hit.h"
+#include "lardataobj/RecoBase/SpacePoint.h"
+#include "lardataobj/RecoBase/Track.h"
+
 namespace ShowerRecoTools {
 
   class ShowerTrackHitDirection : IShowerTool {

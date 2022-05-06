@@ -4,6 +4,9 @@
  *  @brief  Helper functions for extracting detector geometry for use in reconsruction
  */
 
+#include "larpandora/LArPandoraInterface/LArPandoraGeometry.h"
+
+#include "art/Framework/Services/Registry/ServiceHandle.h"
 #include "cetlib_except/exception.h"
 
 #include "larcore/Geometry/Geometry.h"
@@ -12,7 +15,7 @@
 #include "larcorealg/Geometry/WireGeo.h"
 
 #include "larpandora/LArPandoraInterface/Detectors/LArPandoraDetectorType.h"
-#include "larpandora/LArPandoraInterface/LArPandoraGeometry.h"
+#include "larpandora/LArPandoraInterface/Detectors/GetDetectorType.h"
 
 #include <iomanip>
 #include <set>

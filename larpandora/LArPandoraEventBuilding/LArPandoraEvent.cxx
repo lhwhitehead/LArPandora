@@ -6,8 +6,6 @@
 
 #include "larpandora/LArPandoraEventBuilding/LArPandoraEvent.h"
 
-#include "lardataobj/RecoBase/TrackHitMeta.h"
-
 namespace lar_pandora
 {
 

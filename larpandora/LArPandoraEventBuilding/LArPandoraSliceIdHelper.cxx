@@ -7,16 +7,14 @@
 
 #include "larpandora/LArPandoraEventBuilding/LArPandoraSliceIdHelper.h"
 
-#include "cetlib_except/exception.h"
-#include "art/Framework/Principal/Handle.h"
-#include "canvas/Persistency/Common/FindManyP.h"
-
-#include "nusimdata/SimulationBase/MCTruth.h"
-#include "nusimdata/SimulationBase/MCParticle.h"
-
+#include "lardataobj/RecoBase/Cluster.h"
 #include "lardataobj/RecoBase/Hit.h"
 #include "lardataobj/RecoBase/PFParticle.h"
-#include "lardataobj/RecoBase/Cluster.h"
+#include "nusimdata/SimulationBase/MCTruth.h"
+
+#include "art/Framework/Principal/Event.h"
+#include "art/Framework/Principal/Handle.h"
+#include "canvas/Persistency/Common/FindManyP.h"
 
 namespace lar_pandora
 {

@@ -7,7 +7,6 @@
  */
 
 #include "larpandora/LArPandoraInterface/Detectors/VintageLArTPCThreeView.h"
-#include "larpandora/LArPandoraInterface/LArPandoraGeometry.h"
 
 #include "larcore/Geometry/Geometry.h"
 

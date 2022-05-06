@@ -12,6 +12,8 @@
 //LArSoft Includes
 #include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Tools/IShowerTool.h"
 
+#include "lardataobj/RecoBase/Track.h"
+
 namespace ShowerRecoTools {
 
   class ShowerTrackTrajPointDirection : IShowerTool {

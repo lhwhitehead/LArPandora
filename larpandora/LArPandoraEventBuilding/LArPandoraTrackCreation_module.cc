@@ -4,6 +4,8 @@
  *  @brief  module for lar pandora track creation
  */
 
+#include "larpandoracontent/LArObjects/LArPfoObjects.h"
+
 #include "art/Framework/Core/EDProducer.h"
 #include "art/Framework/Core/ModuleMacros.h"
 #include "art/Framework/Principal/Event.h"
@@ -15,7 +17,6 @@
 #include "lardataobj/RecoBase/Hit.h"
 #include "lardataobj/RecoBase/TrackHitMeta.h"
 
-#include "larpandoracontent/LArObjects/LArPfoObjects.h"
 
 #include <memory>
 
@@ -79,6 +80,7 @@ DEFINE_ART_MODULE(LArPandoraTrackCreation)
 
 #include "larpandora/LArPandoraInterface/LArPandoraHelper.h"
 #include "larpandora/LArPandoraInterface/Detectors/LArPandoraDetectorType.h"
+#include "larpandora/LArPandoraInterface/Detectors/GetDetectorType.h"
 
 
 #include <iostream>

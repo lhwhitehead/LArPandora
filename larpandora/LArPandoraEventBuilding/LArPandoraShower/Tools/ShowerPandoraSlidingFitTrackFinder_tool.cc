@@ -11,11 +11,16 @@
 #include "art/Utilities/ToolMacros.h"
 
 //LArSoft Includes
-#include "lardataobj/RecoBase/Shower.h"
-#include "lardataobj/RecoBase/Track.h"
 #include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Tools/IShowerTool.h"
+#include "larpandora/LArPandoraInterface/Detectors/GetDetectorType.h"
 #include "larpandora/LArPandoraInterface/Detectors/LArPandoraDetectorType.h"
 #include "larpandoracontent/LArHelpers/LArPfoHelper.h"
+#include "lardata/DetectorInfoServices/DetectorClocksService.h"
+#include "lardata/DetectorInfoServices/DetectorPropertiesService.h"
+#include "lardataobj/RecoBase/Hit.h"
+#include "lardataobj/RecoBase/Shower.h"
+#include "lardataobj/RecoBase/SpacePoint.h"
+#include "lardataobj/RecoBase/Track.h"
 
 namespace ShowerRecoTools {
 

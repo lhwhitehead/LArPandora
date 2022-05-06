@@ -10,9 +10,15 @@
 #include "art/Utilities/ToolMacros.h"
 
 //LArSoft Includes
-#include "lardataobj/RecoBase/PCAxis.h"
-#include "lardataobj/RecoBase/Shower.h"
 #include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Tools/IShowerTool.h"
+#include "lardata/DetectorInfoServices/DetectorClocksService.h"
+#include "lardata/DetectorInfoServices/DetectorPropertiesService.h"
+#include "lardataalg/DetectorInfo/DetectorPropertiesData.h"
+#include "lardataobj/RecoBase/PCAxis.h"
+#include "lardataobj/RecoBase/PFParticle.h"
+#include "lardataobj/RecoBase/Hit.h"
+#include "lardataobj/RecoBase/Shower.h"
+#include "lardataobj/RecoBase/SpacePoint.h"
 
 //C++ Includes
 #include <Eigen/Dense>
@@ -101,7 +107,7 @@ namespace ShowerRecoTools {
     const art::FindManyP<recob::Hit>& fmh =
       ShowerEleHolder.GetFindManyP<recob::Hit>(spHandle, Event, fPFParticleLabel);
 
-    //Spacepoints
+    //SpacePoints
     std::vector<art::Ptr<recob::SpacePoint>> spacePoints_pfp = fmspp.at(pfparticle.key());
 
     //We cannot progress with no spacepoints.

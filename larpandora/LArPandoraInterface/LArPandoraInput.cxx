@@ -88,14 +88,9 @@ namespace lar_pandora {
                     hit_TimeStart, hit_WireID.Plane, hit_WireID.TPC, hit_WireID.Cryostat)));
 
       // Get hit Y and Z coordinates, based on central position of wire
-      double xyz[3];
-      theGeometry->Cryostat(hit_WireID.Cryostat)
-        .TPC(hit_WireID.TPC)
-        .Plane(hit_WireID.Plane)
-        .Wire(hit_WireID.Wire)
-        .GetCenter(xyz);
-      const double y0_cm(xyz[1]);
-      const double z0_cm(xyz[2]);
+      auto const xyz = theGeometry->Wire(hit_WireID).GetCenter();
+      const double y0_cm(xyz.Y());
+      const double z0_cm(xyz.Z());
 
       // Get other hit properties here
       const double wire_pitch_cm(theGeometry->WirePitch(hit_View)); // cm
@@ -328,17 +323,9 @@ namespace lar_pandora {
 
             if ((firstBadWire < 0) || (lastBadWire < 0)) continue;
 
-            double firstXYZ[3], lastXYZ[3];
-            theGeometry->Cryostat(icstat)
-              .TPC(itpc)
-              .Plane(iplane)
-              .Wire(firstBadWire)
-              .GetCenter(firstXYZ);
-            theGeometry->Cryostat(icstat)
-              .TPC(itpc)
-              .Plane(iplane)
-              .Wire(lastBadWire)
-              .GetCenter(lastXYZ);
+            auto const& planeGeo = theGeometry->Cryostat(icstat).TPC(itpc).Plane(iplane);
+            auto const firstXYZ = planeGeo.Wire(firstBadWire).GetCenter<geo::Point_t>();
+            auto const lastXYZ = planeGeo.Wire(lastBadWire).GetCenter<geo::Point_t>();
 
             firstBadWire = -1;
             lastBadWire = -1;
@@ -797,16 +784,14 @@ namespace lar_pandora {
     auto const det_prop =
       art::ServiceHandle<detinfo::DetectorPropertiesService const>()->DataFor(e, clock_data);
 
-    unsigned int which_tpc(0);
-    unsigned int which_cstat(0);
-    double pos[3] = {particle->Vx(nt), particle->Vy(nt), particle->Vz(nt)};
-    theGeometry->PositionToTPC(pos, which_tpc, which_cstat);
+    geo::Point_t const pos{particle->Vx(nt), particle->Vy(nt), particle->Vz(nt)};
+    auto const tpcID = theGeometry->PositionToTPCID(pos);
 
     const float vtxT(particle->T(nt));
     const float vtxTDC(clock_data.TPCG4Time2Tick(vtxT));
     const float vtxTDC0(trigger_offset(clock_data));
 
-    const geo::TPCGeo& theTpc = theGeometry->Cryostat(which_cstat).TPC(which_tpc);
+    const geo::TPCGeo& theTpc = theGeometry->TPC(tpcID);
     const float driftDir((theTpc.DriftDirection() == geo::kNegX) ? +1.0 : -1.0);
     return (driftDir * (vtxTDC - vtxTDC0) * det_prop.GetXTicksCoefficient());
   }

@@ -47,7 +47,7 @@ public:
 
   void OrderShowerHits(detinfo::DetectorPropertiesData const& detProp,
                        std::vector<art::Ptr<recob::Hit>>& hits,
-                       TVector3 const& ShowerDirection,
+                       geo::Point_t const& ShowerDirection,
                        TVector3 const& ShowerPosition) const;
 
   void OrderShowerSpacePointsPerpendicular(std::vector<art::Ptr<recob::SpacePoint>>& showersps,

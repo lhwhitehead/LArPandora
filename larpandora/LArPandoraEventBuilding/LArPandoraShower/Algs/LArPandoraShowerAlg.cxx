@@ -38,7 +38,7 @@ shower::LArPandoraShowerAlg::LArPandoraShowerAlg(const fhicl::ParameterSet& pset
 //in the 2D coordinate system (wire direction, x)
 void shower::LArPandoraShowerAlg::OrderShowerHits(detinfo::DetectorPropertiesData const& detProp,
                                                   std::vector<art::Ptr<recob::Hit>>& hits,
-                                                  TVector3 const& ShowerStartPosition,
+                                                  geo::Point_t const& ShowerStartPosition,
                                                   TVector3 const& ShowerDirection) const
 {
 

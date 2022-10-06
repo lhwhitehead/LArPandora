@@ -70,8 +70,8 @@ namespace lar_pandora {
       const geo::View_t view,
       const geo::TPCID::TPCID_t tpc,
       const geo::CryostatID::CryostatID_t cstat,
-      const double firstXYZ[3],
-      const double lastXYZ[3],
+      const geo::Point_t& firstXYZ,
+      const geo::Point_t& lastXYZ,
       const float halfWirePitch,
       const float xFirst,
       const float xLast,
@@ -210,8 +210,8 @@ namespace lar_pandora {
     const geo::View_t view,
     const geo::TPCID::TPCID_t tpc,
     const geo::CryostatID::CryostatID_t cstat,
-    const double firstXYZ[3],
-    const double lastXYZ[3],
+    const geo::Point_t& firstXYZ,
+    const geo::Point_t& lastXYZ,
     const float halfWirePitch,
     const float xFirst,
     const float xLast,
@@ -220,18 +220,20 @@ namespace lar_pandora {
     float first(0.f), last(0.f);
     pandora::LineGapType gapType(pandora::TPC_DRIFT_GAP);
     if (view == this->TargetViewW(tpc, cstat)) {
-      first = firstXYZ[2];
-      last = lastXYZ[2];
+      first = firstXYZ.Z();
+      last = lastXYZ.Z();
       gapType = pandora::TPC_WIRE_GAP_VIEW_W;
     }
     else if (view == this->TargetViewU(tpc, cstat)) {
-      first = pPandora->GetPlugins()->GetLArTransformationPlugin()->YZtoU(firstXYZ[1], firstXYZ[2]);
-      last = pPandora->GetPlugins()->GetLArTransformationPlugin()->YZtoU(lastXYZ[1], lastXYZ[2]);
+      first =
+        pPandora->GetPlugins()->GetLArTransformationPlugin()->YZtoU(firstXYZ.Y(), firstXYZ.Z());
+      last = pPandora->GetPlugins()->GetLArTransformationPlugin()->YZtoU(lastXYZ.Y(), lastXYZ.Z());
       gapType = pandora::TPC_WIRE_GAP_VIEW_U;
     }
     else if (view == this->TargetViewV(tpc, cstat)) {
-      first = pPandora->GetPlugins()->GetLArTransformationPlugin()->YZtoV(firstXYZ[1], firstXYZ[2]);
-      last = pPandora->GetPlugins()->GetLArTransformationPlugin()->YZtoV(lastXYZ[1], lastXYZ[2]);
+      first =
+        pPandora->GetPlugins()->GetLArTransformationPlugin()->YZtoV(firstXYZ.Y(), firstXYZ.Z());
+      last = pPandora->GetPlugins()->GetLArTransformationPlugin()->YZtoV(lastXYZ.Y(), lastXYZ.Z());
       gapType = pandora::TPC_WIRE_GAP_VIEW_V;
     }
     return detector_functions::CreateReadoutGapParameters(

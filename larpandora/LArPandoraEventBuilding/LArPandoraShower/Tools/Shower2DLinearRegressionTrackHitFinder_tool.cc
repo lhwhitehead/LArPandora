@@ -103,7 +103,7 @@ namespace ShowerRecoTools {
       return 1;
     }
 
-    TVector3 ShowerStartPosition = {-999, -999, -999};
+    geo::Point_t ShowerStartPosition{-999, -999, -999};
     ShowerEleHolder.GetElement(fShowerStartPositionInputLabel, ShowerStartPosition);
 
     TVector3 ShowerDirection = {-999, -999, -999};

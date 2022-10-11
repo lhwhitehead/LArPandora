@@ -92,7 +92,7 @@ namespace lar_pandora {
     typedef Association<recob::Shower, recob::PCAxis, void*> ShowerToPCAxisAssoc;
 
     /**
-     *  @brief  Class to handle the required producer labels 
+     *  @brief  Class to handle the required producer labels
      */
     class Labels {
     public:
@@ -130,7 +130,7 @@ namespace lar_pandora {
 
       /**
          *  @brief  Minimal parametrised constructor.
-         *          Sets all collection labels to be the same as the PFParticle producer label 
+         *          Sets all collection labels to be the same as the PFParticle producer label
          */
       Labels(const std::string& pfParticleProducerLabel, const std::string& hitProducerLabel);
 
@@ -179,9 +179,9 @@ namespace lar_pandora {
                     const bool shouldProduceT0s = false);
 
     /**
-     *  @brief  Construct by copying an existing LArPandoraEvent, replacing the collections and associations 
+     *  @brief  Construct by copying an existing LArPandoraEvent, replacing the collections and associations
      *          by any objects associated with a PFParticle in the selection supplied.
-     * 
+     *
      *  @param  event input event to copy and filter
      *  @param  pfParticleVector input vector of selected particles
      */

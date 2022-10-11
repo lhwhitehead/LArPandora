@@ -117,7 +117,7 @@ namespace lar_pandora {
      *  @brief  Query a metadata object to see if it is a target particle
      *
      *  @param  metadata the metadata object to query
-     *  
+     *
      *  @return boolean - if the particle is a target
      */
     bool IsTarget(const art::Ptr<larpandoraobj::PFParticleMetadata>& metadata) const;

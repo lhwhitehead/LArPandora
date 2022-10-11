@@ -1,7 +1,7 @@
 /**
  *  @file   larpandora/LArPandoraInterface/Detectors/ProtoDUNEDualPhase.h
  *
- *  @brief  Detector interface for ProtoDUNE dual phase 
+ *  @brief  Detector interface for ProtoDUNE dual phase
  *
  *  $Log: $
  */

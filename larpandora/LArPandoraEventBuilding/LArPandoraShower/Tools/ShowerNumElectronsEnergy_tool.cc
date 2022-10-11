@@ -12,13 +12,13 @@
 #include "art/Utilities/ToolMacros.h"
 
 //LArSoft Includes
-#include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Tools/IShowerTool.h"
-#include "larreco/Calorimetry/CalorimetryAlg.h"
+#include "larcoreobj/SimpleTypesAndConstants/PhysicalConstants.h"
 #include "lardata/DetectorInfoServices/DetectorClocksService.h"
 #include "lardata/DetectorInfoServices/DetectorPropertiesService.h"
-#include "larcoreobj/SimpleTypesAndConstants/PhysicalConstants.h"
 #include "lardataobj/RecoBase/Cluster.h"
 #include "lardataobj/RecoBase/PFParticle.h"
+#include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Tools/IShowerTool.h"
+#include "larreco/Calorimetry/CalorimetryAlg.h"
 
 //C++ Includes
 #include <tuple>
@@ -65,10 +65,9 @@ namespace ShowerRecoTools {
     , fRecombinationFactor(pset.get<double>("RecombinationFactor"))
   {}
 
-  int
-  ShowerNumElectronsEnergy::CalculateElement(const art::Ptr<recob::PFParticle>& pfparticle,
-                                             art::Event& Event,
-                                             reco::shower::ShowerElementHolder& ShowerEleHolder)
+  int ShowerNumElectronsEnergy::CalculateElement(const art::Ptr<recob::PFParticle>& pfparticle,
+                                                 art::Event& Event,
+                                                 reco::shower::ShowerElementHolder& ShowerEleHolder)
   {
 
     if (fVerbose)
@@ -147,11 +146,10 @@ namespace ShowerRecoTools {
   }
 
   // function to calculate the reco energy
-  double
-  ShowerNumElectronsEnergy::CalculateEnergy(const detinfo::DetectorClocksData& clockData,
-                                            const detinfo::DetectorPropertiesData& detProp,
-                                            const std::vector<art::Ptr<recob::Hit>>& hits,
-                                            const geo::PlaneID::PlaneID_t plane) const
+  double ShowerNumElectronsEnergy::CalculateEnergy(const detinfo::DetectorClocksData& clockData,
+                                                   const detinfo::DetectorPropertiesData& detProp,
+                                                   const std::vector<art::Ptr<recob::Hit>>& hits,
+                                                   const geo::PlaneID::PlaneID_t plane) const
   {
 
     double totalCharge = 0;

@@ -62,8 +62,7 @@ namespace ShowerRecoTools {
 
   {}
 
-  int
-  ShowerTrackColinearTrajPointDirection::CalculateElement(
+  int ShowerTrackColinearTrajPointDirection::CalculateElement(
     const art::Ptr<recob::PFParticle>& pfparticle,
     art::Event& Event,
     reco::shower::ShowerElementHolder& ShowerEleHolder)

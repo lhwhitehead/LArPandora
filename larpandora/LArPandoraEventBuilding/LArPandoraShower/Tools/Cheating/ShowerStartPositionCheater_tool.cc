@@ -9,12 +9,12 @@
 #include "art/Utilities/ToolMacros.h"
 
 //LArSoft Includes
-#include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Tools/IShowerTool.h"
-#include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Algs/LArPandoraShowerCheatingAlg.h"
 #include "lardata/DetectorInfoServices/DetectorClocksService.h"
 #include "lardata/DetectorInfoServices/DetectorPropertiesService.h"
 #include "lardataobj/RecoBase/Cluster.h"
 #include "lardataobj/RecoBase/PFParticle.h"
+#include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Algs/LArPandoraShowerCheatingAlg.h"
+#include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Tools/IShowerTool.h"
 
 namespace ShowerRecoTools {
 
@@ -49,10 +49,10 @@ namespace ShowerRecoTools {
     , fTrueParticleOutputLabel(pset.get<std::string>("TrueParticleOutputLabel"))
   {}
 
-  int
-  ShowerStartPositionCheater::CalculateElement(const art::Ptr<recob::PFParticle>& pfparticle,
-                                               art::Event& Event,
-                                               reco::shower::ShowerElementHolder& ShowerEleHolder)
+  int ShowerStartPositionCheater::CalculateElement(
+    const art::Ptr<recob::PFParticle>& pfparticle,
+    art::Event& Event,
+    reco::shower::ShowerElementHolder& ShowerEleHolder)
   {
 
     //Could store these in the shower element holder and just calculate once?

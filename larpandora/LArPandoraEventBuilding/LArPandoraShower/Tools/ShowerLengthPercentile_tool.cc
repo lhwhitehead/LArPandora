@@ -10,9 +10,9 @@
 #include "art/Utilities/ToolMacros.h"
 
 //LArSoft Includes
-#include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Tools/IShowerTool.h"
 #include "lardataobj/RecoBase/PFParticle.h"
 #include "lardataobj/RecoBase/SpacePoint.h"
+#include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Tools/IShowerTool.h"
 
 namespace ShowerRecoTools {
 
@@ -48,10 +48,9 @@ namespace ShowerRecoTools {
     , fShowerOpeningAngleOutputLabel(pset.get<std::string>("ShowerOpeningAngleOutputLabel"))
   {}
 
-  int
-  ShowerLengthPercentile::CalculateElement(const art::Ptr<recob::PFParticle>& pfparticle,
-                                           art::Event& Event,
-                                           reco::shower::ShowerElementHolder& ShowerEleHolder)
+  int ShowerLengthPercentile::CalculateElement(const art::Ptr<recob::PFParticle>& pfparticle,
+                                               art::Event& Event,
+                                               reco::shower::ShowerElementHolder& ShowerEleHolder)
   {
 
     //Get the start position

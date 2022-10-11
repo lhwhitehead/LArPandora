@@ -11,12 +11,12 @@
 #include "art/Utilities/ToolMacros.h"
 
 //LArSoft Includes
-#include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Tools/IShowerTool.h"
 #include "lardata/DetectorInfoServices/DetectorClocksService.h"
 #include "lardata/DetectorInfoServices/DetectorPropertiesService.h"
 #include "lardataobj/RecoBase/Cluster.h"
 #include "lardataobj/RecoBase/Hit.h"
 #include "lardataobj/RecoBase/PFParticle.h"
+#include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Tools/IShowerTool.h"
 
 namespace ShowerRecoTools {
 
@@ -69,10 +69,9 @@ namespace ShowerRecoTools {
     }
   }
 
-  int
-  ShowerLinearEnergy::CalculateElement(const art::Ptr<recob::PFParticle>& pfparticle,
-                                       art::Event& Event,
-                                       reco::shower::ShowerElementHolder& ShowerEleHolder)
+  int ShowerLinearEnergy::CalculateElement(const art::Ptr<recob::PFParticle>& pfparticle,
+                                           art::Event& Event,
+                                           reco::shower::ShowerElementHolder& ShowerEleHolder)
   {
 
     // Get the assocated pfParicle vertex PFParticles
@@ -147,11 +146,10 @@ namespace ShowerRecoTools {
 
   //Function to calculate the energy of a shower in a plane. Using a linear map between charge and Energy.
   //Exactly the same method as the ShowerEnergyAlg.cxx. Thanks Mike.
-  double
-  ShowerLinearEnergy::CalculateEnergy(const detinfo::DetectorClocksData& clockData,
-                                      const detinfo::DetectorPropertiesData& detProp,
-                                      const std::vector<art::Ptr<recob::Hit>>& hits,
-                                      const geo::PlaneID::PlaneID_t plane) const
+  double ShowerLinearEnergy::CalculateEnergy(const detinfo::DetectorClocksData& clockData,
+                                             const detinfo::DetectorPropertiesData& detProp,
+                                             const std::vector<art::Ptr<recob::Hit>>& hits,
+                                             const geo::PlaneID::PlaneID_t plane) const
   {
 
     double totalCharge = 0, totalEnergy = 0;

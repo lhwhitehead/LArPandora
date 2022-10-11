@@ -23,8 +23,8 @@ shower::LArPandoraShowerCheatingAlg::LArPandoraShowerCheatingAlg(const fhicl::Pa
   , fInitialTrackSpacePointsInputLabel(pset.get<std::string>("InitialTrackSpacePointsInputLabel"))
 {}
 
-std::map<int, const simb::MCParticle*>
-shower::LArPandoraShowerCheatingAlg::GetTrueParticleMap() const
+std::map<int, const simb::MCParticle*> shower::LArPandoraShowerCheatingAlg::GetTrueParticleMap()
+  const
 {
 
   const sim::ParticleList& particles = particleInventory->ParticleList();
@@ -41,8 +41,7 @@ shower::LArPandoraShowerCheatingAlg::GetTrueParticleMap() const
   return trueParticles;
 }
 
-std::map<int, std::vector<int>>
-shower::LArPandoraShowerCheatingAlg::GetTrueChain(
+std::map<int, std::vector<int>> shower::LArPandoraShowerCheatingAlg::GetTrueChain(
   std::map<int, const simb::MCParticle*>& trueParticles) const
 {
 
@@ -72,8 +71,7 @@ shower::LArPandoraShowerCheatingAlg::GetTrueChain(
   return showerMothers;
 }
 
-void
-shower::LArPandoraShowerCheatingAlg::CheatDebugEVD(
+void shower::LArPandoraShowerCheatingAlg::CheatDebugEVD(
   detinfo::DetectorClocksData const& clockData,
   const simb::MCParticle* trueParticle,
   art::Event const& Event,
@@ -266,9 +264,9 @@ shower::LArPandoraShowerCheatingAlg::CheatDebugEVD(
   canvas->Write();
 }
 
-int
-shower::LArPandoraShowerCheatingAlg::TrueParticleID(detinfo::DetectorClocksData const& clockData,
-                                                    const art::Ptr<recob::Hit>& hit) const
+int shower::LArPandoraShowerCheatingAlg::TrueParticleID(
+  detinfo::DetectorClocksData const& clockData,
+  const art::Ptr<recob::Hit>& hit) const
 {
 
   double particleEnergy = 0;
@@ -284,8 +282,7 @@ shower::LArPandoraShowerCheatingAlg::TrueParticleID(detinfo::DetectorClocksData 
   return likelyTrackID;
 }
 
-std::pair<int, double>
-shower::LArPandoraShowerCheatingAlg::TrueParticleIDFromTrueChain(
+std::pair<int, double> shower::LArPandoraShowerCheatingAlg::TrueParticleIDFromTrueChain(
   detinfo::DetectorClocksData const& clockData,
   std::map<int, std::vector<int>> const& ShowersMothers,
   std::vector<art::Ptr<recob::Hit>> const& hits,

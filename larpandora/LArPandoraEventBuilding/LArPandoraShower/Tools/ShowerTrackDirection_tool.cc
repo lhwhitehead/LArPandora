@@ -44,10 +44,9 @@ namespace ShowerRecoTools {
     , fUsePositionInfo(pset.get<bool>("UsePositionInfo"))
   {}
 
-  int
-  ShowerTrackDirection::CalculateElement(const art::Ptr<recob::PFParticle>& pfparticle,
-                                         art::Event& Event,
-                                         reco::shower::ShowerElementHolder& ShowerEleHolder)
+  int ShowerTrackDirection::CalculateElement(const art::Ptr<recob::PFParticle>& pfparticle,
+                                             art::Event& Event,
+                                             reco::shower::ShowerElementHolder& ShowerEleHolder)
   {
 
     //Check the Track has been defined

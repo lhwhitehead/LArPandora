@@ -1,7 +1,9 @@
 #ifndef LArPandoraShowerAlg_hxx
 #define LArPandoraShowerAlg_hxx
 
-namespace reco::shower { class ShowerElementHolder; }
+namespace reco::shower {
+  class ShowerElementHolder;
+}
 
 namespace detinfo {
   class DetectorClocksData;
@@ -16,10 +18,14 @@ namespace recob {
   class SpacePoint;
 }
 
-namespace spacecharge { class SpaceCharge; }
+namespace spacecharge {
+  class SpaceCharge;
+}
 
 #include "art_root_io/TFileService.h"
-namespace art { class Event; }
+namespace art {
+  class Event;
+}
 #include "art/Framework/Services/Registry/ServiceHandle.h"
 #include "canvas/Persistency/Common/FindManyP.h"
 #include "canvas/Persistency/Common/Ptr.h"

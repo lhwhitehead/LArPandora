@@ -10,12 +10,12 @@
 #include "art/Utilities/ToolMacros.h"
 
 //LArSoft Includes
-#include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Tools/IShowerTool.h"
 #include "lardata/DetectorInfoServices/DetectorClocksService.h"
 #include "lardata/DetectorInfoServices/DetectorPropertiesService.h"
 #include "lardataalg/DetectorInfo/DetectorPropertiesData.h"
 #include "lardataobj/RecoBase/Hit.h"
 #include "lardataobj/RecoBase/SpacePoint.h"
+#include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Tools/IShowerTool.h"
 
 //Root Includes
 #include "TPrincipal.h"
@@ -63,10 +63,9 @@ namespace ShowerRecoTools {
     , fShowerDirectionOutputLabel(pset.get<std::string>("ShowerDirectionOutputLabel"))
   {}
 
-  int
-  ShowerTrackPCADirection::CalculateElement(const art::Ptr<recob::PFParticle>& pfparticle,
-                                            art::Event& Event,
-                                            reco::shower::ShowerElementHolder& ShowerEleHolder)
+  int ShowerTrackPCADirection::CalculateElement(const art::Ptr<recob::PFParticle>& pfparticle,
+                                                art::Event& Event,
+                                                reco::shower::ShowerElementHolder& ShowerEleHolder)
   {
 
     if (!ShowerEleHolder.CheckElement(fShowerStartPositionInputLabel)) {
@@ -129,12 +128,11 @@ namespace ShowerRecoTools {
   }
 
   //Function to calculate the shower direction using a charge weight 3D PCA calculation.
-  TVector3
-  ShowerTrackPCADirection::ShowerPCAVector(const detinfo::DetectorClocksData& clockData,
-                                           const detinfo::DetectorPropertiesData& detProp,
-                                           std::vector<art::Ptr<recob::SpacePoint>>& sps,
-                                           const art::FindManyP<recob::Hit>& fmh,
-                                           TVector3& ShowerCentre)
+  TVector3 ShowerTrackPCADirection::ShowerPCAVector(const detinfo::DetectorClocksData& clockData,
+                                                    const detinfo::DetectorPropertiesData& detProp,
+                                                    std::vector<art::Ptr<recob::SpacePoint>>& sps,
+                                                    const art::FindManyP<recob::Hit>& fmh,
+                                                    TVector3& ShowerCentre)
   {
 
     //Initialise the the PCA.

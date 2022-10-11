@@ -17,9 +17,9 @@
 #include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Tools/IShowerTool.h"
 
 //ROOT Includes
+#include "TAxis.h"
 #include "TFile.h"
 #include "TH1.h"
-#include "TAxis.h"
 
 namespace ShowerRecoTools {
 
@@ -41,14 +41,12 @@ namespace ShowerRecoTools {
                               float& likelihood);
     double CalculatePosterior(std::string priorname, std::vector<double>& values);
 
-    bool
-    isProbabilityGood(float& old_prob, float& new_prob)
+    bool isProbabilityGood(float& old_prob, float& new_prob)
     {
       return (old_prob - new_prob) < fProbSeedCut;
     }
 
-    bool
-    isPosteriorProbabilityGood(double& prob, double& old_posteior)
+    bool isPosteriorProbabilityGood(double& prob, double& old_posteior)
     {
       return (old_posteior - prob) < fPostiorCut;
     }
@@ -138,10 +136,10 @@ namespace ShowerRecoTools {
     photonpriorHist->Scale(1 / photonpriorHist->Integral());
   }
 
-  int
-  ShowerBayesianTrucatingdEdx::CalculateElement(const art::Ptr<recob::PFParticle>& pfparticle,
-                                                art::Event& Event,
-                                                reco::shower::ShowerElementHolder& ShowerEleHolder)
+  int ShowerBayesianTrucatingdEdx::CalculateElement(
+    const art::Ptr<recob::PFParticle>& pfparticle,
+    art::Event& Event,
+    reco::shower::ShowerElementHolder& ShowerEleHolder)
   {
 
     //The idea , to some peoples distaste, is to attempt to improve the dEdx value by assuming
@@ -232,9 +230,8 @@ namespace ShowerRecoTools {
     return 0;
   }
 
-  double
-  ShowerBayesianTrucatingdEdx::CalculatePosterior(std::string priorname,
-                                                  std::vector<double>& values)
+  double ShowerBayesianTrucatingdEdx::CalculatePosterior(std::string priorname,
+                                                         std::vector<double>& values)
   {
     int minprob_iter = -999;
     float mean = -999;
@@ -242,12 +239,11 @@ namespace ShowerRecoTools {
     return CalculatePosterior(priorname, values, minprob_iter, mean, likelihood);
   }
 
-  double
-  ShowerBayesianTrucatingdEdx::CalculatePosterior(std::string priorname,
-                                                  std::vector<double>& values,
-                                                  int& minprob_iter,
-                                                  float& mean,
-                                                  float& likelihood)
+  double ShowerBayesianTrucatingdEdx::CalculatePosterior(std::string priorname,
+                                                         std::vector<double>& values,
+                                                         int& minprob_iter,
+                                                         float& mean,
+                                                         float& likelihood)
   {
 
     //Posterior prob;
@@ -314,8 +310,7 @@ namespace ShowerRecoTools {
     return posterior;
   }
 
-  bool
-  ShowerBayesianTrucatingdEdx::CheckPoint(std::string priorname, double& value)
+  bool ShowerBayesianTrucatingdEdx::CheckPoint(std::string priorname, double& value)
   {
 
     TH1F* prior_hist = nullptr;
@@ -341,11 +336,11 @@ namespace ShowerRecoTools {
     return prob > fProbPointCut;
   }
 
-  std::vector<double>
-  ShowerBayesianTrucatingdEdx::GetLikelihooddEdxVec(double& electronprob,
-                                                    double& photonprob,
-                                                    std::string prior,
-                                                    std::vector<double>& dEdxVec)
+  std::vector<double> ShowerBayesianTrucatingdEdx::GetLikelihooddEdxVec(
+    double& electronprob,
+    double& photonprob,
+    std::string prior,
+    std::vector<double>& dEdxVec)
   {
 
     //have a pool
@@ -373,8 +368,7 @@ namespace ShowerRecoTools {
     return SeedTrack;
   }
 
-  std::vector<double>
-  ShowerBayesianTrucatingdEdx::MakeSeed(std::vector<double>& dEdxVec)
+  std::vector<double> ShowerBayesianTrucatingdEdx::MakeSeed(std::vector<double>& dEdxVec)
   {
 
     std::vector<double> seed_vector;
@@ -395,11 +389,10 @@ namespace ShowerRecoTools {
     return seed_vector;
   }
 
-  void
-  ShowerBayesianTrucatingdEdx::ForceSeedToFit(std::vector<double>& SeedTrack,
-                                              std::string& prior,
-                                              float& mean,
-                                              double& posterior)
+  void ShowerBayesianTrucatingdEdx::ForceSeedToFit(std::vector<double>& SeedTrack,
+                                                   std::string& prior,
+                                                   float& mean,
+                                                   double& posterior)
   {
 
     int minprob_iter = 999;
@@ -420,13 +413,12 @@ namespace ShowerRecoTools {
     return;
   }
 
-  void
-  ShowerBayesianTrucatingdEdx::RecurivelyAddHit(std::vector<double>& SeedTrack,
-                                                std::vector<double>& dEdxVec,
-                                                std::string& prior,
-                                                int& SkippedHitsNum,
-                                                float& old_mean,
-                                                double& old_posteior)
+  void ShowerBayesianTrucatingdEdx::RecurivelyAddHit(std::vector<double>& SeedTrack,
+                                                     std::vector<double>& dEdxVec,
+                                                     std::string& prior,
+                                                     int& SkippedHitsNum,
+                                                     float& old_mean,
+                                                     double& old_posteior)
   {
 
     //If we have no more hits to add then lets finish.

@@ -32,9 +32,8 @@ namespace lar_pandora {
                      const geo::CryostatID::CryostatID_t cstat) const override;
   };
 
-  inline geo::View_t
-  ICARUS::TargetViewU(const geo::TPCID::TPCID_t tpc,
-                      const geo::CryostatID::CryostatID_t cstat) const
+  inline geo::View_t ICARUS::TargetViewU(const geo::TPCID::TPCID_t tpc,
+                                         const geo::CryostatID::CryostatID_t cstat) const
   {
     return (this->GetLArSoftGeometry()->TPC(tpc, cstat).DriftDirection() == geo::kPosX ?
               this->GetLArSoftGeometry()->View(geo::PlaneID(cstat, tpc, 1)) :
@@ -43,9 +42,8 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  inline geo::View_t
-  ICARUS::TargetViewV(const geo::TPCID::TPCID_t tpc,
-                      const geo::CryostatID::CryostatID_t cstat) const
+  inline geo::View_t ICARUS::TargetViewV(const geo::TPCID::TPCID_t tpc,
+                                         const geo::CryostatID::CryostatID_t cstat) const
   {
     return (this->GetLArSoftGeometry()->TPC(tpc, cstat).DriftDirection() == geo::kPosX ?
               this->GetLArSoftGeometry()->View(geo::PlaneID(cstat, tpc, 2)) :
@@ -54,17 +52,16 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  inline geo::View_t
-  ICARUS::TargetViewW(const geo::TPCID::TPCID_t tpc,
-                      const geo::CryostatID::CryostatID_t cstat) const
+  inline geo::View_t ICARUS::TargetViewW(const geo::TPCID::TPCID_t tpc,
+                                         const geo::CryostatID::CryostatID_t cstat) const
   {
     return this->GetLArSoftGeometry()->View(geo::PlaneID(cstat, tpc, 0));
   }
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  inline float
-  ICARUS::WireAngleW(const geo::TPCID::TPCID_t tpc, const geo::CryostatID::CryostatID_t cstat) const
+  inline float ICARUS::WireAngleW(const geo::TPCID::TPCID_t tpc,
+                                  const geo::CryostatID::CryostatID_t cstat) const
   {
     return std::abs(detector_functions::WireAngle(
       this->TargetViewW(tpc, cstat), tpc, cstat, this->GetLArSoftGeometry()));

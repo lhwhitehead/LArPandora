@@ -10,13 +10,13 @@
 #include "art/Utilities/ToolMacros.h"
 
 //LArSoft Includes
-#include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Tools/IShowerTool.h"
 #include "lardata/DetectorInfoServices/DetectorClocksService.h"
 #include "lardata/DetectorInfoServices/DetectorPropertiesService.h"
 #include "lardataalg/DetectorInfo/DetectorPropertiesData.h"
 #include "lardataobj/RecoBase/Hit.h"
 #include "lardataobj/RecoBase/PFParticle.h"
 #include "lardataobj/RecoBase/SpacePoint.h"
+#include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Tools/IShowerTool.h"
 
 //Root Includes
 #include "TCanvas.h"
@@ -78,19 +78,16 @@ namespace ShowerRecoTools {
       const art::FindManyP<recob::Hit>& fmh,
       double current_residual);
 
-    bool
-    IsResidualOK(double new_residual, double current_residual)
+    bool IsResidualOK(double new_residual, double current_residual)
     {
       return new_residual - current_residual < fMaxResidualDiff;
     };
-    bool
-    IsResidualOK(double new_residual, double current_residual, size_t no_sps)
+    bool IsResidualOK(double new_residual, double current_residual, size_t no_sps)
     {
       return (new_residual - current_residual < fMaxResidualDiff &&
               new_residual / no_sps < fMaxAverageResidual);
     };
-    bool
-    IsResidualOK(double residual, size_t no_sps)
+    bool IsResidualOK(double residual, size_t no_sps)
     {
       return residual / no_sps < fMaxAverageResidual;
     }
@@ -177,8 +174,7 @@ namespace ShowerRecoTools {
     }
   }
 
-  int
-  ShowerIncrementalTrackHitFinder::CalculateElement(
+  int ShowerIncrementalTrackHitFinder::CalculateElement(
     const art::Ptr<recob::PFParticle>& pfparticle,
     art::Event& Event,
     reco::shower::ShowerElementHolder& ShowerEleHolder)
@@ -306,8 +302,8 @@ namespace ShowerRecoTools {
     return 0;
   }
 
-  TVector3
-  ShowerIncrementalTrackHitFinder::ShowerPCAVector(std::vector<art::Ptr<recob::SpacePoint>>& sps)
+  TVector3 ShowerIncrementalTrackHitFinder::ShowerPCAVector(
+    std::vector<art::Ptr<recob::SpacePoint>>& sps)
   {
 
     //Initialise the the PCA.
@@ -341,8 +337,7 @@ namespace ShowerRecoTools {
   }
 
   //Function to calculate the shower direction using a charge weight 3D PCA calculation.
-  TVector3
-  ShowerIncrementalTrackHitFinder::ShowerPCAVector(
+  TVector3 ShowerIncrementalTrackHitFinder::ShowerPCAVector(
     const detinfo::DetectorClocksData& clockData,
     const detinfo::DetectorPropertiesData& detProp,
     const std::vector<art::Ptr<recob::SpacePoint>>& sps,
@@ -402,11 +397,11 @@ namespace ShowerRecoTools {
 
   //Function to remove the spacepoint with the highest residual until we have a track which matches the
   //residual criteria.
-  void
-  ShowerIncrementalTrackHitFinder::MakeTrackSeed(const detinfo::DetectorClocksData& clockData,
-                                                 const detinfo::DetectorPropertiesData& detProp,
-                                                 std::vector<art::Ptr<recob::SpacePoint>>& segment,
-                                                 const art::FindManyP<recob::Hit>& fmh)
+  void ShowerIncrementalTrackHitFinder::MakeTrackSeed(
+    const detinfo::DetectorClocksData& clockData,
+    const detinfo::DetectorPropertiesData& detProp,
+    std::vector<art::Ptr<recob::SpacePoint>>& segment,
+    const art::FindManyP<recob::Hit>& fmh)
   {
 
     bool ok = true;
@@ -510,8 +505,7 @@ namespace ShowerRecoTools {
     return initial_track;
   }
 
-  void
-  ShowerIncrementalTrackHitFinder::PruneFrontOfSPSPool(
+  void ShowerIncrementalTrackHitFinder::PruneFrontOfSPSPool(
     std::vector<art::Ptr<recob::SpacePoint>>& sps_pool,
     std::vector<art::Ptr<recob::SpacePoint>> const& initial_track)
   {
@@ -528,8 +522,7 @@ namespace ShowerRecoTools {
     return;
   }
 
-  void
-  ShowerIncrementalTrackHitFinder::PruneTrack(
+  void ShowerIncrementalTrackHitFinder::PruneTrack(
     std::vector<art::Ptr<recob::SpacePoint>>& initial_track)
   {
 
@@ -547,8 +540,7 @@ namespace ShowerRecoTools {
     return;
   }
 
-  void
-  ShowerIncrementalTrackHitFinder::AddSpacePointsToSegment(
+  void ShowerIncrementalTrackHitFinder::AddSpacePointsToSegment(
     std::vector<art::Ptr<recob::SpacePoint>>& segment,
     std::vector<art::Ptr<recob::SpacePoint>>& sps_pool,
     size_t num_sps_to_take)
@@ -561,8 +553,7 @@ namespace ShowerRecoTools {
     return;
   }
 
-  bool
-  ShowerIncrementalTrackHitFinder::IsSegmentValid(
+  bool ShowerIncrementalTrackHitFinder::IsSegmentValid(
     std::vector<art::Ptr<recob::SpacePoint>> const& segment)
   {
     bool ok = true;
@@ -571,8 +562,7 @@ namespace ShowerRecoTools {
     return ok;
   }
 
-  bool
-  ShowerIncrementalTrackHitFinder::IncrementallyFitSegment(
+  bool ShowerIncrementalTrackHitFinder::IncrementallyFitSegment(
     const detinfo::DetectorClocksData& clockData,
     const detinfo::DetectorPropertiesData& detProp,
     std::vector<art::Ptr<recob::SpacePoint>>& segment,
@@ -638,8 +628,7 @@ namespace ShowerRecoTools {
     return IncrementallyFitSegment(clockData, detProp, segment, sps_pool, fmh, current_residual);
   }
 
-  double
-  ShowerIncrementalTrackHitFinder::FitSegmentAndCalculateResidual(
+  double ShowerIncrementalTrackHitFinder::FitSegmentAndCalculateResidual(
     const detinfo::DetectorClocksData& clockData,
     const detinfo::DetectorPropertiesData& detProp,
     std::vector<art::Ptr<recob::SpacePoint>>& segment,
@@ -664,8 +653,7 @@ namespace ShowerRecoTools {
     return residual;
   }
 
-  double
-  ShowerIncrementalTrackHitFinder::FitSegmentAndCalculateResidual(
+  double ShowerIncrementalTrackHitFinder::FitSegmentAndCalculateResidual(
     const detinfo::DetectorClocksData& clockData,
     const detinfo::DetectorPropertiesData& detProp,
     std::vector<art::Ptr<recob::SpacePoint>>& segment,
@@ -691,8 +679,7 @@ namespace ShowerRecoTools {
     return residual;
   }
 
-  bool
-  ShowerIncrementalTrackHitFinder::RecursivelyReplaceLastSpacePointAndRefit(
+  bool ShowerIncrementalTrackHitFinder::RecursivelyReplaceLastSpacePointAndRefit(
     const detinfo::DetectorClocksData& clockData,
     const detinfo::DetectorPropertiesData& detProp,
     std::vector<art::Ptr<recob::SpacePoint>>& segment,
@@ -717,10 +704,10 @@ namespace ShowerRecoTools {
       clockData, detProp, segment, reduced_sps_pool, fmh, current_residual);
   }
 
-  double
-  ShowerIncrementalTrackHitFinder::CalculateResidual(std::vector<art::Ptr<recob::SpacePoint>>& sps,
-                                                     TVector3& PCAEigenvector,
-                                                     TVector3& TrackPosition)
+  double ShowerIncrementalTrackHitFinder::CalculateResidual(
+    std::vector<art::Ptr<recob::SpacePoint>>& sps,
+    TVector3& PCAEigenvector,
+    TVector3& TrackPosition)
   {
 
     double Residual = 0;
@@ -739,11 +726,11 @@ namespace ShowerRecoTools {
     return Residual;
   }
 
-  double
-  ShowerIncrementalTrackHitFinder::CalculateResidual(std::vector<art::Ptr<recob::SpacePoint>>& sps,
-                                                     TVector3& PCAEigenvector,
-                                                     TVector3& TrackPosition,
-                                                     int& max_residual_point)
+  double ShowerIncrementalTrackHitFinder::CalculateResidual(
+    std::vector<art::Ptr<recob::SpacePoint>>& sps,
+    TVector3& PCAEigenvector,
+    TVector3& TrackPosition,
+    int& max_residual_point)
   {
 
     double Residual = 0;
@@ -811,10 +798,10 @@ namespace ShowerRecoTools {
     return fake_sps;
   }
 
-  std::vector<art::Ptr<recob::SpacePoint>>
-  ShowerIncrementalTrackHitFinder::CreateFakeSPLine(TVector3 start_position,
-                                                    TVector3 start_direction,
-                                                    int npoints)
+  std::vector<art::Ptr<recob::SpacePoint>> ShowerIncrementalTrackHitFinder::CreateFakeSPLine(
+    TVector3 start_position,
+    TVector3 start_direction,
+    int npoints)
   {
     std::vector<art::Ptr<recob::SpacePoint>> fake_sps;
     art::ProductID prod_id(std::string("totally_genuine"));
@@ -831,8 +818,7 @@ namespace ShowerRecoTools {
     return fake_sps;
   }
 
-  void
-  ShowerIncrementalTrackHitFinder::RunTestOfIncrementalSpacePointFinder(
+  void ShowerIncrementalTrackHitFinder::RunTestOfIncrementalSpacePointFinder(
     const art::Event& Event,
     const art::FindManyP<recob::Hit>& dud_fmh)
   {

@@ -62,64 +62,60 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  inline geo::View_t
-  ProtoDUNEDualPhase::TargetViewU(const geo::TPCID::TPCID_t tpc,
-                                  const geo::CryostatID::CryostatID_t cstat) const
+  inline geo::View_t ProtoDUNEDualPhase::TargetViewU(
+    const geo::TPCID::TPCID_t tpc,
+    const geo::CryostatID::CryostatID_t cstat) const
   {
     return this->GetLArSoftGeometry()->View(geo::PlaneID(cstat, tpc, 1));
   }
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  inline geo::View_t
-  ProtoDUNEDualPhase::TargetViewV(const geo::TPCID::TPCID_t tpc,
-                                  const geo::CryostatID::CryostatID_t cstat) const
+  inline geo::View_t ProtoDUNEDualPhase::TargetViewV(
+    const geo::TPCID::TPCID_t tpc,
+    const geo::CryostatID::CryostatID_t cstat) const
   {
     return this->GetLArSoftGeometry()->View(geo::PlaneID(cstat, tpc, 0));
   }
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  inline geo::View_t
-  ProtoDUNEDualPhase::TargetViewW(const geo::TPCID::TPCID_t tpc,
-                                  const geo::CryostatID::CryostatID_t cstat) const
+  inline geo::View_t ProtoDUNEDualPhase::TargetViewW(
+    const geo::TPCID::TPCID_t tpc,
+    const geo::CryostatID::CryostatID_t cstat) const
   {
     return geo::kUnknown;
   }
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  inline float
-  ProtoDUNEDualPhase::WirePitchW() const
+  inline float ProtoDUNEDualPhase::WirePitchW() const
   {
     return 0.5f * (this->WirePitchU() + this->WirePitchV());
   }
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  inline float
-  ProtoDUNEDualPhase::WireAngleW(const geo::TPCID::TPCID_t tpc,
-                                 const geo::CryostatID::CryostatID_t cstat) const
+  inline float ProtoDUNEDualPhase::WireAngleW(const geo::TPCID::TPCID_t tpc,
+                                              const geo::CryostatID::CryostatID_t cstat) const
   {
     return std::numeric_limits<float>::epsilon();
   }
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  inline bool
-  ProtoDUNEDualPhase::CheckDetectorGapSize(const geo::Vector_t& gaps,
-                                           const geo::Vector_t& deltas,
-                                           const float maxDisplacement) const
+  inline bool ProtoDUNEDualPhase::CheckDetectorGapSize(const geo::Vector_t& gaps,
+                                                       const geo::Vector_t& deltas,
+                                                       const float maxDisplacement) const
   {
     return (std::fabs(gaps.Y()) > maxDisplacement || std::fabs(gaps.Z()) > maxDisplacement);
   }
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  inline LArDetectorGap
-  ProtoDUNEDualPhase::CreateDetectorGap(const geo::Point_t& point1,
-                                        const geo::Point_t& point2,
-                                        const geo::Vector_t& widths) const
+  inline LArDetectorGap ProtoDUNEDualPhase::CreateDetectorGap(const geo::Point_t& point1,
+                                                              const geo::Point_t& point2,
+                                                              const geo::Vector_t& widths) const
   {
     return LArDetectorGap(point1.X(),
                           point1.Y() + widths.Y(),

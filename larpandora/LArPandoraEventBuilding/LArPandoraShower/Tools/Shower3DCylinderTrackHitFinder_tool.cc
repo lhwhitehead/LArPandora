@@ -11,11 +11,11 @@
 #include "art/Utilities/ToolMacros.h"
 
 //LArSoft Includes
-#include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Algs/LArPandoraShowerAlg.h"
-#include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Tools/IShowerTool.h"
 #include "lardataobj/RecoBase/Hit.h"
 #include "lardataobj/RecoBase/PFParticle.h"
 #include "lardataobj/RecoBase/SpacePoint.h"
+#include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Algs/LArPandoraShowerAlg.h"
+#include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Tools/IShowerTool.h"
 
 namespace ShowerRecoTools {
 
@@ -63,8 +63,7 @@ namespace ShowerRecoTools {
     , fShowerDirectionInputLabel(pset.get<std::string>("ShowerDirectionInputLabel"))
   {}
 
-  int
-  Shower3DCylinderTrackHitFinder::CalculateElement(
+  int Shower3DCylinderTrackHitFinder::CalculateElement(
     const art::Ptr<recob::PFParticle>& pfparticle,
     art::Event& Event,
     reco::shower::ShowerElementHolder& ShowerEleHolder)
@@ -137,8 +136,7 @@ namespace ShowerRecoTools {
     return 0;
   }
 
-  std::vector<art::Ptr<recob::SpacePoint>>
-  Shower3DCylinderTrackHitFinder::FindTrackSpacePoints(
+  std::vector<art::Ptr<recob::SpacePoint>> Shower3DCylinderTrackHitFinder::FindTrackSpacePoints(
     std::vector<art::Ptr<recob::SpacePoint>>& spacePoints,
     TVector3& showerStartPosition,
     TVector3& showerDirection)

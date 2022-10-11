@@ -49,8 +49,7 @@ namespace ShowerRecoTools {
     , fShowerDirectionOutputLabel(pset.get<std::string>("ShowerDirectionOutputLabel"))
   {}
 
-  int
-  ShowerTrackSpacePointDirection::CalculateElement(
+  int ShowerTrackSpacePointDirection::CalculateElement(
     const art::Ptr<recob::PFParticle>& pfparticle,
     art::Event& Event,
     reco::shower::ShowerElementHolder& ShowerEleHolder)

@@ -9,8 +9,8 @@
 #include "larpandora/LArPandoraInterface/Detectors/GetDetectorType.h"
 #include "larpandora/LArPandoraInterface/Detectors/DUNEFarDetVDThreeView.h"
 #include "larpandora/LArPandoraInterface/Detectors/ICARUS.h"
-#include "larpandora/LArPandoraInterface/Detectors/ProtoDUNEDualPhase.h"
 #include "larpandora/LArPandoraInterface/Detectors/LArPandoraDetectorType.h"
+#include "larpandora/LArPandoraInterface/Detectors/ProtoDUNEDualPhase.h"
 #include "larpandora/LArPandoraInterface/Detectors/VintageLArTPCThreeView.h"
 
 #include "cetlib_except/exception.h"
@@ -20,8 +20,7 @@
 
 namespace lar_pandora {
 
-  LArPandoraDetectorType*
-  detector_functions::GetDetectorType()
+  LArPandoraDetectorType* detector_functions::GetDetectorType()
   {
     art::ServiceHandle<geo::Geometry const> geo;
 

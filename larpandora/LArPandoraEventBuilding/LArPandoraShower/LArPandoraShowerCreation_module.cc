@@ -105,8 +105,7 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  void
-  LArPandoraShowerCreation::produce(art::Event& evt)
+  void LArPandoraShowerCreation::produce(art::Event& evt)
   {
     std::unique_ptr<std::vector<recob::Shower>> outputShowers(new std::vector<recob::Shower>);
     std::unique_ptr<std::vector<recob::PCAxis>> outputPCAxes(new std::vector<recob::PCAxis>);
@@ -248,10 +247,10 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  recob::Shower
-  LArPandoraShowerCreation::BuildShower(const int id,
-                                        const lar_content::LArShowerPCA& larShowerPCA,
-                                        const pandora::CartesianVector& vertexPosition) const
+  recob::Shower LArPandoraShowerCreation::BuildShower(
+    const int id,
+    const lar_content::LArShowerPCA& larShowerPCA,
+    const pandora::CartesianVector& vertexPosition) const
   {
     const pandora::CartesianVector& showerLength(larShowerPCA.GetAxisLengths());
     const pandora::CartesianVector& showerDirection(larShowerPCA.GetPrimaryAxis());
@@ -290,8 +289,8 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  recob::PCAxis
-  LArPandoraShowerCreation::BuildPCAxis(const lar_content::LArShowerPCA& larShowerPCA) const
+  recob::PCAxis LArPandoraShowerCreation::BuildPCAxis(
+    const lar_content::LArShowerPCA& larShowerPCA) const
   {
     const pandora::CartesianVector& showerCentroid(larShowerPCA.GetCentroid());
     const pandora::CartesianVector& showerDirection(larShowerPCA.GetPrimaryAxis());

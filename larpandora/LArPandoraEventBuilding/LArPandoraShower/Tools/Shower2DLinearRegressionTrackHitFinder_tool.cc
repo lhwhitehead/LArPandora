@@ -11,13 +11,13 @@
 #include "art/Utilities/ToolMacros.h"
 
 //LArSoft Includes
-#include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Tools/IShowerTool.h"
 #include "lardata/DetectorInfoServices/DetectorClocksService.h"
 #include "lardata/DetectorInfoServices/DetectorPropertiesService.h"
 #include "lardataobj/RecoBase/Cluster.h"
 #include "lardataobj/RecoBase/Hit.h"
 #include "lardataobj/RecoBase/PFParticle.h"
 #include "lardataobj/RecoBase/SpacePoint.h"
+#include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Tools/IShowerTool.h"
 
 namespace ShowerRecoTools {
 
@@ -83,8 +83,7 @@ namespace ShowerRecoTools {
     }
   }
 
-  int
-  Shower2DLinearRegressionTrackHitFinder::CalculateElement(
+  int Shower2DLinearRegressionTrackHitFinder::CalculateElement(
     const art::Ptr<recob::PFParticle>& pfparticle,
     art::Event& Event,
     reco::shower::ShowerElementHolder& ShowerEleHolder)
@@ -194,8 +193,7 @@ namespace ShowerRecoTools {
   }
 
   //Function to calculate the what are the initial tracks hits. Adapted from EMShower FindInitialTrackHits
-  std::vector<art::Ptr<recob::Hit>>
-  Shower2DLinearRegressionTrackHitFinder::FindInitialTrackHits(
+  std::vector<art::Ptr<recob::Hit>> Shower2DLinearRegressionTrackHitFinder::FindInitialTrackHits(
     const detinfo::DetectorPropertiesData& detProp,
     std::vector<art::Ptr<recob::Hit>>& hits)
   {
@@ -247,12 +245,11 @@ namespace ShowerRecoTools {
   }
 
   //Stolen from EMShowerAlg, a linear regression fitting function
-  Int_t
-  Shower2DLinearRegressionTrackHitFinder::WeightedFit(const Int_t n,
-                                                      const Double_t* x,
-                                                      const Double_t* y,
-                                                      const Double_t* w,
-                                                      Double_t* parm)
+  Int_t Shower2DLinearRegressionTrackHitFinder::WeightedFit(const Int_t n,
+                                                            const Double_t* x,
+                                                            const Double_t* y,
+                                                            const Double_t* w,
+                                                            Double_t* parm)
   {
 
     Double_t sumx = 0.;

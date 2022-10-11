@@ -11,14 +11,18 @@
 
 //LArSoft Includes
 #include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Algs/LArPandoraShowerAlg.h"
-#include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Algs/ShowerProducedPtrsHolder.hh"
 #include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Algs/ShowerElementHolder.hh"
+#include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Algs/ShowerProducedPtrsHolder.hh"
 
-namespace recob { class PFParticle; }
+namespace recob {
+  class PFParticle;
+}
 
 //Framwork Includes
 #include "art/Framework/Core/ProducesCollector.h"
-namespace art { class Event; }
+namespace art {
+  class Event;
+}
 #include "canvas/Persistency/Common/Ptr.h"
 #include "fhiclcpp/ParameterSet.h"
 
@@ -39,11 +43,10 @@ namespace ShowerRecoTools {
 
     //Main function that runs the shower tool.  This includes running the derived function
     //that calculates the shower element and also runs the event display if requested
-    int
-    RunShowerTool(const art::Ptr<recob::PFParticle>& pfparticle,
-                  art::Event& Event,
-                  reco::shower::ShowerElementHolder& ShowerEleHolder,
-                  std::string evd_display_name_append = "")
+    int RunShowerTool(const art::Ptr<recob::PFParticle>& pfparticle,
+                      art::Event& Event,
+                      reco::shower::ShowerElementHolder& ShowerEleHolder,
+                      std::string evd_display_name_append = "")
     {
 
       int calculation_status = CalculateElement(pfparticle, Event, ShowerEleHolder);
@@ -56,36 +59,27 @@ namespace ShowerRecoTools {
     }
 
     //Function to initialise the producer i.e produces<std::vector<recob::Vertex> >(); commands go here.
-    virtual void
-    InitialiseProducers()
-    {}
+    virtual void InitialiseProducers() {}
 
     //Set the point looking back at the producer module show we can make things in the module
-    void
-    SetPtr(art::ProducesCollector* collector)
-    {
-      collectorPtr = collector;
-    }
+    void SetPtr(art::ProducesCollector* collector) { collectorPtr = collector; }
 
     //Initialises the unique ptr holder so that the tool can access it behind the scenes.
-    void
-    InitaliseProducerPtr(reco::shower::ShowerProducedPtrsHolder& uniqueproducerPtrs)
+    void InitaliseProducerPtr(reco::shower::ShowerProducedPtrsHolder& uniqueproducerPtrs)
     {
       UniquePtrs = &uniqueproducerPtrs;
     }
 
     //End function so the user can add associations
-    virtual int
-    AddAssociations(const art::Ptr<recob::PFParticle>& pfpPtr,
-                    art::Event& Event,
-                    reco::shower::ShowerElementHolder& ShowerEleHolder)
+    virtual int AddAssociations(const art::Ptr<recob::PFParticle>& pfpPtr,
+                                art::Event& Event,
+                                reco::shower::ShowerElementHolder& ShowerEleHolder)
     {
       return 0;
     }
 
   protected:
-    const shower::LArPandoraShowerAlg&
-    GetLArPandoraShowerAlg() const
+    const shower::LArPandoraShowerAlg& GetLArPandoraShowerAlg() const
     {
       return fLArPandoraShowerAlg;
     };
@@ -105,10 +99,9 @@ namespace ShowerRecoTools {
   protected:
     //Function to return the art:ptr for the corrsponding index iter. This allows the user the make associations
     template <class T>
-    art::Ptr<T>
-    GetProducedElementPtr(std::string Name,
-                          reco::shower::ShowerElementHolder& ShowerEleHolder,
-                          int iter = -1)
+    art::Ptr<T> GetProducedElementPtr(std::string Name,
+                                      reco::shower::ShowerElementHolder& ShowerEleHolder,
+                                      int iter = -1)
     {
 
       //Check the element has been set
@@ -141,8 +134,7 @@ namespace ShowerRecoTools {
     //Function so that the user can add products to the art event. This will set up the unique ptrs and the ptr makers required.
     //Example: InitialiseProduct<std::vector<recob<vertex>>("MyVertex")
     template <class T>
-    void
-    InitialiseProduct(std::string Name, std::string InstanceName = "")
+    void InitialiseProduct(std::string Name, std::string InstanceName = "")
     {
 
       if (collectorPtr == nullptr) {
@@ -157,30 +149,17 @@ namespace ShowerRecoTools {
     //Function so that the user can add assocations to the event.
     //Example: AddSingle<art::Assn<recob::Vertex,recob::shower>((art::Ptr<recob::Vertex>) Vertex, (art::Prt<recob::shower>) Shower), "myassn")
     template <class T, class A, class B>
-    void
-    AddSingle(A& a, B& b, std::string Name)
+    void AddSingle(A& a, B& b, std::string Name)
     {
       UniquePtrs->AddSingle<T>(a, b, Name);
     }
 
     //Function to get the size of the vector, for the event,  that is held in the unique producer ptr that will be put in the event.
-    int
-    GetVectorPtrSize(std::string Name)
-    {
-      return UniquePtrs->GetVectorPtrSize(Name);
-    }
+    int GetVectorPtrSize(std::string Name) { return UniquePtrs->GetVectorPtrSize(Name); }
 
-    void
-    PrintPtrs()
-    {
-      UniquePtrs->PrintPtrs();
-    }
+    void PrintPtrs() { UniquePtrs->PrintPtrs(); }
 
-    void
-    PrintPtr(std::string Name)
-    {
-      UniquePtrs->PrintPtr(Name);
-    }
+    void PrintPtr(std::string Name) { UniquePtrs->PrintPtr(Name); }
   };
 }
 

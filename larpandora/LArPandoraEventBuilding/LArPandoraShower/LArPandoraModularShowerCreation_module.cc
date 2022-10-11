@@ -80,8 +80,7 @@ private:
 //In the background it uses the PtrMaker which requires the element index of
 //the unique ptr (iter).
 template <class T>
-art::Ptr<T>
-reco::shower::LArPandoraModularShowerCreation::GetProducedElementPtr(
+art::Ptr<T> reco::shower::LArPandoraModularShowerCreation::GetProducedElementPtr(
   const std::string& InstanceName,
   const reco::shower::ShowerElementHolder& ShowerEleHolder,
   const int& iter)
@@ -199,8 +198,7 @@ reco::shower::LArPandoraModularShowerCreation::LArPandoraModularShowerCreation(
   uniqueproducerPtrs.PrintPtrs();
 }
 
-void
-reco::shower::LArPandoraModularShowerCreation::produce(art::Event& evt)
+void reco::shower::LArPandoraModularShowerCreation::produce(art::Event& evt)
 {
 
   //Ptr makers for the products

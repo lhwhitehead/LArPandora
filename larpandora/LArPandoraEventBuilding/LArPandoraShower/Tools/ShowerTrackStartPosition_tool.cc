@@ -38,10 +38,9 @@ namespace ShowerRecoTools {
     , fShowerStartPositionOutputLabel(pset.get<std::string>("ShowerStartPositionOutputLabel"))
   {}
 
-  int
-  ShowerTrackStartPosition::CalculateElement(const art::Ptr<recob::PFParticle>& pfparticle,
-                                             art::Event& Event,
-                                             reco::shower::ShowerElementHolder& ShowerEleHolder)
+  int ShowerTrackStartPosition::CalculateElement(const art::Ptr<recob::PFParticle>& pfparticle,
+                                                 art::Event& Event,
+                                                 reco::shower::ShowerElementHolder& ShowerEleHolder)
   {
 
     //Check the Track has been defined

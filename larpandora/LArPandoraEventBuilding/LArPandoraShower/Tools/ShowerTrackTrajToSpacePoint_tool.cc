@@ -53,10 +53,10 @@ namespace ShowerRecoTools {
     , fInitialTrackSpacePointsInputTag(pset.get<std::string>("InitialTrackSpacePointsInputTag"))
   {}
 
-  int
-  ShowerTrackTrajToSpacePoint::CalculateElement(const art::Ptr<recob::PFParticle>& pfparticle,
-                                                art::Event& Event,
-                                                reco::shower::ShowerElementHolder& ShowerEleHolder)
+  int ShowerTrackTrajToSpacePoint::CalculateElement(
+    const art::Ptr<recob::PFParticle>& pfparticle,
+    art::Event& Event,
+    reco::shower::ShowerElementHolder& ShowerEleHolder)
   {
 
     //Check the Track has been defined

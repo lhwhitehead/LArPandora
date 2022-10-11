@@ -7,7 +7,9 @@
 #ifndef LAR_PANDORA_HELPER_H
 #define LAR_PANDORA_HELPER_H
 
-namespace art { class Event; }
+namespace art {
+  class Event;
+}
 
 #include "canvas/Persistency/Common/Ptr.h"
 
@@ -41,8 +43,8 @@ namespace larpandoraobj {
   class PFParticleMetadata;
 }
 
-#include "nusimdata/SimulationBase/MCParticle.h"
 #include "lardataobj/Simulation/SimChannel.h"
+#include "nusimdata/SimulationBase/MCParticle.h"
 
 namespace simb {
   class MCTruth;

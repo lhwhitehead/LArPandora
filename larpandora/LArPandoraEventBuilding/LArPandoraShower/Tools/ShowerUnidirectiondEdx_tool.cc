@@ -11,10 +11,10 @@
 #include "art/Utilities/ToolMacros.h"
 
 //LArSoft Includes
-#include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Tools/IShowerTool.h"
-#include "larreco/Calorimetry/CalorimetryAlg.h"
 #include "lardata/DetectorInfoServices/DetectorClocksService.h"
 #include "lardata/DetectorInfoServices/DetectorPropertiesService.h"
+#include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Tools/IShowerTool.h"
+#include "larreco/Calorimetry/CalorimetryAlg.h"
 
 namespace ShowerRecoTools {
 
@@ -60,10 +60,9 @@ namespace ShowerRecoTools {
     , fShowerBestPlaneOutputLabel(pset.get<std::string>("ShowerBestPlaneOutputLabel"))
   {}
 
-  int
-  ShowerUnidirectiondEdx::CalculateElement(const art::Ptr<recob::PFParticle>& pfparticle,
-                                           art::Event& Event,
-                                           reco::shower::ShowerElementHolder& ShowerEleHolder)
+  int ShowerUnidirectiondEdx::CalculateElement(const art::Ptr<recob::PFParticle>& pfparticle,
+                                               art::Event& Event,
+                                               reco::shower::ShowerElementHolder& ShowerEleHolder)
   {
 
     dEdxTrackLength = fdEdxTrackLength;

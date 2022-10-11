@@ -9,15 +9,13 @@
 
 #include "larpandora/LArPandoraEventBuilding/Slice.h"
 
-namespace lar_pandora
-{
+namespace lar_pandora {
 
-/**
+  /**
  *  @brief  Abstract base class for a slice ID tool
  */
-class SliceIdBaseTool
-{
-public:
+  class SliceIdBaseTool {
+  public:
     virtual ~SliceIdBaseTool() noexcept = default;
 
     /**
@@ -26,8 +24,8 @@ public:
      *  @param  slices the input vector of slices to classify
      *  @param  evt the art event
      */
-    virtual void ClassifySlices(SliceVector &slices, const art::Event &evt) = 0;
-};
+    virtual void ClassifySlices(SliceVector& slices, const art::Event& evt) = 0;
+  };
 
 } // namespace lar_pandora
 

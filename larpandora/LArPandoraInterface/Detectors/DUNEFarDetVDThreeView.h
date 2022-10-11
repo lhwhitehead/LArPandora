@@ -29,27 +29,27 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  inline geo::View_t
-  DUNEFarDetVDThreeView::TargetViewU(const geo::TPCID::TPCID_t tpc,
-                                     const geo::CryostatID::CryostatID_t cstat) const
+  inline geo::View_t DUNEFarDetVDThreeView::TargetViewU(
+    const geo::TPCID::TPCID_t tpc,
+    const geo::CryostatID::CryostatID_t cstat) const
   {
     return this->GetLArSoftGeometry()->View(geo::PlaneID(cstat, tpc, 0));
   }
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  inline geo::View_t
-  DUNEFarDetVDThreeView::TargetViewV(const geo::TPCID::TPCID_t tpc,
-                                     const geo::CryostatID::CryostatID_t cstat) const
+  inline geo::View_t DUNEFarDetVDThreeView::TargetViewV(
+    const geo::TPCID::TPCID_t tpc,
+    const geo::CryostatID::CryostatID_t cstat) const
   {
     return this->GetLArSoftGeometry()->View(geo::PlaneID(cstat, tpc, 1));
   }
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  inline geo::View_t
-  DUNEFarDetVDThreeView::TargetViewW(const geo::TPCID::TPCID_t tpc,
-                                     const geo::CryostatID::CryostatID_t cstat) const
+  inline geo::View_t DUNEFarDetVDThreeView::TargetViewW(
+    const geo::TPCID::TPCID_t tpc,
+    const geo::CryostatID::CryostatID_t cstat) const
   {
     return this->GetLArSoftGeometry()->View(geo::PlaneID(cstat, tpc, 2));
   }

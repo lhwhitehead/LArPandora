@@ -44,10 +44,10 @@ namespace ShowerRecoTools {
     , fNSigma(pset.get<float>("NSigma"))
   {}
 
-  int
-  ShowerPCAEigenvalueLength::CalculateElement(const art::Ptr<recob::PFParticle>& pfparticle,
-                                              art::Event& Event,
-                                              reco::shower::ShowerElementHolder& ShowerEleHolder)
+  int ShowerPCAEigenvalueLength::CalculateElement(
+    const art::Ptr<recob::PFParticle>& pfparticle,
+    art::Event& Event,
+    reco::shower::ShowerElementHolder& ShowerEleHolder)
   {
 
     if (!ShowerEleHolder.CheckElement(fShowerPCAInputLabel)) {

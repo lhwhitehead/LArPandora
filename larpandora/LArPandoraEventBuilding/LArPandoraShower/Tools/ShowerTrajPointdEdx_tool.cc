@@ -13,14 +13,14 @@
 #include "art/Utilities/ToolMacros.h"
 
 //LArSoft Includes
-#include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Tools/IShowerTool.h"
-#include "larreco/Calorimetry/CalorimetryAlg.h"
 #include "lardata/DetectorInfoServices/DetectorClocksService.h"
 #include "lardata/DetectorInfoServices/DetectorPropertiesService.h"
 #include "lardataobj/AnalysisBase/T0.h"
 #include "lardataobj/RecoBase/PFParticle.h"
 #include "lardataobj/RecoBase/SpacePoint.h"
 #include "lardataobj/RecoBase/Track.h"
+#include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Tools/IShowerTool.h"
+#include "larreco/Calorimetry/CalorimetryAlg.h"
 
 namespace ShowerRecoTools {
 
@@ -106,10 +106,9 @@ namespace ShowerRecoTools {
     }
   }
 
-  int
-  ShowerTrajPointdEdx::CalculateElement(const art::Ptr<recob::PFParticle>& pfparticle,
-                                        art::Event& Event,
-                                        reco::shower::ShowerElementHolder& ShowerEleHolder)
+  int ShowerTrajPointdEdx::CalculateElement(const art::Ptr<recob::PFParticle>& pfparticle,
+                                            art::Event& Event,
+                                            reco::shower::ShowerElementHolder& ShowerEleHolder)
   {
 
     MaxDist = fMaxDist;
@@ -380,8 +379,8 @@ namespace ShowerRecoTools {
     return 0;
   }
 
-  void
-  ShowerTrajPointdEdx::FinddEdxLength(std::vector<double>& dEdx_vec, std::vector<double>& dEdx_val)
+  void ShowerTrajPointdEdx::FinddEdxLength(std::vector<double>& dEdx_vec,
+                                           std::vector<double>& dEdx_val)
   {
 
     //As default do not apply this cut.

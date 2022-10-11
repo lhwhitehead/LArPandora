@@ -4,7 +4,7 @@
 namespace lar_pandora {
 
   class LArPandoraDetectorType;
-  
+
   namespace detector_functions {
 
     /**

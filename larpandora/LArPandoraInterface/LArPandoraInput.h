@@ -17,7 +17,9 @@ namespace detinfo {
 
 #include "larpandoracontent/LArObjects/LArMCParticle.h"
 
-namespace pandora { class Pandora; }
+namespace pandora {
+  class Pandora;
+}
 
 namespace lar_pandora {
 

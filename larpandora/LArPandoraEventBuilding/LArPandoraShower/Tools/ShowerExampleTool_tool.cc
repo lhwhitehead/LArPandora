@@ -46,8 +46,7 @@ namespace ShowerRecoTools {
     , fVerbose(pset.get<int>("Verbose"))
   {}
 
-  void
-  ShowerExampleTool::InitialiseProducers()
+  void ShowerExampleTool::InitialiseProducers()
   {
     //Do you create something and you want to save it the event. Initialsie here. For every event with have a vector of showers so each one has a vertex. This is what we are saving. Make sure to use the name "myvertex" later down the line.
     InitialiseProduct<std::vector<recob::Vertex>>("myvertex");
@@ -56,10 +55,9 @@ namespace ShowerRecoTools {
     InitialiseProduct<art::Assns<recob::Shower, recob::Vertex>>("myvertexassan");
   }
 
-  int
-  ShowerExampleTool::CalculateElement(const art::Ptr<recob::PFParticle>& pfparticle,
-                                      art::Event& Event,
-                                      reco::shower::ShowerElementHolder& ShowerEleHolder)
+  int ShowerExampleTool::CalculateElement(const art::Ptr<recob::PFParticle>& pfparticle,
+                                          art::Event& Event,
+                                          reco::shower::ShowerElementHolder& ShowerEleHolder)
   {
 
     //In here calculate a shower or element (or multiple). It can be something used to create the recob::shower i.e. the direction. These have specific names so be careful to make these correctly. Alternative you can create something completely new e.g. recob::Vertex and add it the shower element holder
@@ -133,10 +131,9 @@ namespace ShowerRecoTools {
     return 0;
   }
 
-  int
-  ShowerExampleTool::AddAssociations(const art::Ptr<recob::PFParticle>& pfpPtr,
-                                     art::Event& Event,
-                                     reco::shower::ShowerElementHolder& ShowerEleHolder)
+  int ShowerExampleTool::AddAssociations(const art::Ptr<recob::PFParticle>& pfpPtr,
+                                         art::Event& Event,
+                                         reco::shower::ShowerElementHolder& ShowerEleHolder)
   {
     //Here you add elements to associations defined. You can get the art::Ptrs by  GetProducedElementPtr<T>. Then you can add single like a usally association using AddSingle<assn<T>. Assn below.
 

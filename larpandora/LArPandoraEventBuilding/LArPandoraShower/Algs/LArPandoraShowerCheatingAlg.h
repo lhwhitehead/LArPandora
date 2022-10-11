@@ -6,15 +6,17 @@
 #include "larsim/MCCheater/BackTrackerService.h"
 #include "larsim/MCCheater/ParticleInventoryService.h"
 
-#include "art_root_io/TFileService.h"
 #include "art/Framework/Services/Registry/ServiceHandle.h"
+#include "art_root_io/TFileService.h"
 #include "canvas/Utilities/InputTag.h"
 
 namespace recob {
   class Hit;
   class PFParticle;
 }
-namespace simb { class MCParticle; }
+namespace simb {
+  class MCParticle;
+}
 
 namespace detinfo {
   class DetectorClocksData;
@@ -24,7 +26,9 @@ namespace shower {
   class LArPandoraShowerCheatingAlg;
 }
 
-namespace reco::shower { class ShowerElementHolder; }
+namespace reco::shower {
+  class ShowerElementHolder;
+}
 
 #include <map>
 #include <utility> // std::pair<>

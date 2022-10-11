@@ -16,10 +16,10 @@
 #include "larreco/RecoAlg/ClusterParamsImportWrapper.h"
 #include "larreco/RecoAlg/ClusterRecoUtil/StandardClusterParamsAlg.h"
 
-#include "lardataobj/RecoBase/Hit.h"
 #include "larcore/Geometry/Geometry.h"
 #include "lardata/DetectorInfoServices/DetectorClocksService.h"
 #include "lardata/DetectorInfoServices/DetectorPropertiesService.h"
+#include "lardataobj/RecoBase/Hit.h"
 
 #include "Objects/CaloHit.h"
 #include "Objects/Cluster.h"
@@ -38,10 +38,9 @@
 
 namespace lar_pandora {
 
-  void
-  LArPandoraOutput::ProduceArtOutput(const Settings& settings,
-                                     const IdToHitMap& idToHitMap,
-                                     art::Event& evt)
+  void LArPandoraOutput::ProduceArtOutput(const Settings& settings,
+                                          const IdToHitMap& idToHitMap,
+                                          art::Event& evt)
   {
     settings.Validate();
     const std::string instanceLabel(
@@ -211,10 +210,9 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  bool
-  LArPandoraOutput::GetPandoraInstance(const pandora::Pandora* const pPrimaryPandora,
-                                       const std::string& name,
-                                       const pandora::Pandora*& pPandoraInstance)
+  bool LArPandoraOutput::GetPandoraInstance(const pandora::Pandora* const pPrimaryPandora,
+                                            const std::string& name,
+                                            const pandora::Pandora*& pPandoraInstance)
   {
     if (!pPrimaryPandora)
       throw cet::exception("LArPandora") << " LArPandoraOutput::GetPandoraInstance--- input "
@@ -241,9 +239,8 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  void
-  LArPandoraOutput::GetPandoraSlices(const pandora::Pandora* const pPrimaryPandora,
-                                     pandora::PfoVector& slicePfos)
+  void LArPandoraOutput::GetPandoraSlices(const pandora::Pandora* const pPrimaryPandora,
+                                          pandora::PfoVector& slicePfos)
   {
     if (!slicePfos.empty())
       throw cet::exception("LArPandora")
@@ -265,8 +262,8 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  pandora::PfoVector
-  LArPandoraOutput::CollectAllPfoOutcomes(const pandora::Pandora* const pPrimaryPandora)
+  pandora::PfoVector LArPandoraOutput::CollectAllPfoOutcomes(
+    const pandora::Pandora* const pPrimaryPandora)
   {
     pandora::PfoList collectedPfos;
 
@@ -320,8 +317,7 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  bool
-  LArPandoraOutput::IsClearCosmic(const pandora::ParticleFlowObject* const pPfo)
+  bool LArPandoraOutput::IsClearCosmic(const pandora::ParticleFlowObject* const pPfo)
   {
     const pandora::ParticleFlowObject* const pParent(lar_content::LArPfoHelper::GetParentPfo(pPfo));
 
@@ -335,8 +331,7 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  bool
-  LArPandoraOutput::IsFromSlice(const pandora::ParticleFlowObject* const pPfo)
+  bool LArPandoraOutput::IsFromSlice(const pandora::ParticleFlowObject* const pPfo)
   {
     const pandora::ParticleFlowObject* const pParent(lar_content::LArPfoHelper::GetParentPfo(pPfo));
 
@@ -346,8 +341,7 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  unsigned int
-  LArPandoraOutput::GetSliceIndex(const pandora::ParticleFlowObject* const pPfo)
+  unsigned int LArPandoraOutput::GetSliceIndex(const pandora::ParticleFlowObject* const pPfo)
   {
     const pandora::ParticleFlowObject* const pParent(lar_content::LArPfoHelper::GetParentPfo(pPfo));
 
@@ -363,8 +357,7 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  pandora::PfoVector
-  LArPandoraOutput::CollectPfos(const pandora::Pandora* const pPrimaryPandora)
+  pandora::PfoVector LArPandoraOutput::CollectPfos(const pandora::Pandora* const pPrimaryPandora)
   {
     const pandora::PfoList* pParentPfoList(nullptr);
     PANDORA_THROW_RESULT_IF(pandora::STATUS_CODE_SUCCESS,
@@ -379,9 +372,8 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  void
-  LArPandoraOutput::CollectPfos(const pandora::PfoList& parentPfoList,
-                                pandora::PfoVector& pfoVector)
+  void LArPandoraOutput::CollectPfos(const pandora::PfoList& parentPfoList,
+                                     pandora::PfoVector& pfoVector)
   {
     if (!pfoVector.empty())
       throw cet::exception("LArPandora")
@@ -396,8 +388,7 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  pandora::VertexVector
-  LArPandoraOutput::CollectVertices(
+  pandora::VertexVector LArPandoraOutput::CollectVertices(
     const pandora::PfoVector& pfoVector,
     IdToIdVectorMap& pfoToVerticesMap,
     std::function<const pandora::Vertex* const(const pandora::ParticleFlowObject* const)> fCriteria)
@@ -434,9 +425,8 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  pandora::ClusterList
-  LArPandoraOutput::CollectClusters(const pandora::PfoVector& pfoVector,
-                                    IdToIdVectorMap& pfoToClustersMap)
+  pandora::ClusterList LArPandoraOutput::CollectClusters(const pandora::PfoVector& pfoVector,
+                                                         IdToIdVectorMap& pfoToClustersMap)
   {
     pandora::ClusterList clusterList;
 
@@ -464,9 +454,8 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  pandora::CaloHitList
-  LArPandoraOutput::Collect3DHits(const pandora::PfoVector& pfoVector,
-                                  IdToIdVectorMap& pfoToThreeDHitsMap)
+  pandora::CaloHitList LArPandoraOutput::Collect3DHits(const pandora::PfoVector& pfoVector,
+                                                       IdToIdVectorMap& pfoToThreeDHitsMap)
   {
     pandora::CaloHitList caloHitList;
 
@@ -497,9 +486,8 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  void
-  LArPandoraOutput::Collect3DHits(const pandora::ParticleFlowObject* const pPfo,
-                                  pandora::CaloHitVector& caloHits)
+  void LArPandoraOutput::Collect3DHits(const pandora::ParticleFlowObject* const pPfo,
+                                       pandora::CaloHitVector& caloHits)
   {
     // Get the sorted list of 3D hits associated with the pfo
     pandora::CaloHitList threeDHits;
@@ -511,11 +499,10 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  void
-  LArPandoraOutput::GetPandoraToArtHitMap(const pandora::ClusterList& clusterList,
-                                          const pandora::CaloHitList& threeDHitList,
-                                          const IdToHitMap& idToHitMap,
-                                          CaloHitToArtHitMap& pandoraHitToArtHitMap)
+  void LArPandoraOutput::GetPandoraToArtHitMap(const pandora::ClusterList& clusterList,
+                                               const pandora::CaloHitList& threeDHitList,
+                                               const IdToHitMap& idToHitMap,
+                                               CaloHitToArtHitMap& pandoraHitToArtHitMap)
   {
     // Collect 2D hits from clusters
     for (const pandora::Cluster* const pCluster : clusterList) {
@@ -555,8 +542,8 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  art::Ptr<recob::Hit>
-  LArPandoraOutput::GetHit(const IdToHitMap& idToHitMap, const pandora::CaloHit* const pCaloHit)
+  art::Ptr<recob::Hit> LArPandoraOutput::GetHit(const IdToHitMap& idToHitMap,
+                                                const pandora::CaloHit* const pCaloHit)
   {
     //  TODO make this less evil
 
@@ -587,9 +574,8 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  void
-  LArPandoraOutput::BuildVertices(const pandora::VertexVector& vertexVector,
-                                  VertexCollection& outputVertices)
+  void LArPandoraOutput::BuildVertices(const pandora::VertexVector& vertexVector,
+                                       VertexCollection& outputVertices)
   {
     for (size_t vertexId = 0; vertexId < vertexVector.size(); ++vertexId)
       outputVertices->push_back(LArPandoraOutput::BuildVertex(vertexVector.at(vertexId), vertexId));
@@ -597,13 +583,12 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  void
-  LArPandoraOutput::BuildSpacePoints(const art::Event& event,
-                                     const std::string& instanceLabel,
-                                     const pandora::CaloHitList& threeDHitList,
-                                     const CaloHitToArtHitMap& pandoraHitToArtHitMap,
-                                     SpacePointCollection& outputSpacePoints,
-                                     SpacePointToHitCollection& outputSpacePointsToHits)
+  void LArPandoraOutput::BuildSpacePoints(const art::Event& event,
+                                          const std::string& instanceLabel,
+                                          const pandora::CaloHitList& threeDHitList,
+                                          const CaloHitToArtHitMap& pandoraHitToArtHitMap,
+                                          SpacePointCollection& outputSpacePoints,
+                                          SpacePointToHitCollection& outputSpacePointsToHits)
   {
     pandora::CaloHitVector threeDHitVector;
     threeDHitVector.insert(threeDHitVector.end(), threeDHitList.begin(), threeDHitList.end());
@@ -624,15 +609,14 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  void
-  LArPandoraOutput::BuildClusters(const art::Event& event,
-                                  const std::string& instanceLabel,
-                                  const pandora::ClusterList& clusterList,
-                                  const CaloHitToArtHitMap& pandoraHitToArtHitMap,
-                                  const IdToIdVectorMap& pfoToClustersMap,
-                                  ClusterCollection& outputClusters,
-                                  ClusterToHitCollection& outputClustersToHits,
-                                  IdToIdVectorMap& pfoToArtClustersMap)
+  void LArPandoraOutput::BuildClusters(const art::Event& event,
+                                       const std::string& instanceLabel,
+                                       const pandora::ClusterList& clusterList,
+                                       const CaloHitToArtHitMap& pandoraHitToArtHitMap,
+                                       const IdToIdVectorMap& pfoToClustersMap,
+                                       ClusterCollection& outputClusters,
+                                       ClusterToHitCollection& outputClustersToHits,
+                                       IdToIdVectorMap& pfoToArtClustersMap)
   {
     cluster::StandardClusterParamsAlg clusterParamAlgo;
 
@@ -692,17 +676,17 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  void
-  LArPandoraOutput::BuildPFParticles(const art::Event& event,
-                                     const std::string& instanceLabel,
-                                     const pandora::PfoVector& pfoVector,
-                                     const IdToIdVectorMap& pfoToVerticesMap,
-                                     const IdToIdVectorMap& pfoToThreeDHitsMap,
-                                     const IdToIdVectorMap& pfoToArtClustersMap,
-                                     PFParticleCollection& outputParticles,
-                                     PFParticleToVertexCollection& outputParticlesToVertices,
-                                     PFParticleToSpacePointCollection& outputParticlesToSpacePoints,
-                                     PFParticleToClusterCollection& outputParticlesToClusters)
+  void LArPandoraOutput::BuildPFParticles(
+    const art::Event& event,
+    const std::string& instanceLabel,
+    const pandora::PfoVector& pfoVector,
+    const IdToIdVectorMap& pfoToVerticesMap,
+    const IdToIdVectorMap& pfoToThreeDHitsMap,
+    const IdToIdVectorMap& pfoToArtClustersMap,
+    PFParticleCollection& outputParticles,
+    PFParticleToVertexCollection& outputParticlesToVertices,
+    PFParticleToSpacePointCollection& outputParticlesToSpacePoints,
+    PFParticleToClusterCollection& outputParticlesToClusters)
   {
     for (unsigned int pfoId = 0; pfoId < pfoVector.size(); ++pfoId) {
       const pandora::ParticleFlowObject* const pPfo(pfoVector.at(pfoId));
@@ -726,8 +710,7 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  void
-  LArPandoraOutput::AssociateAdditionalVertices(
+  void LArPandoraOutput::AssociateAdditionalVertices(
     const art::Event& event,
     const std::string& instanceLabel,
     const pandora::PfoVector& pfoVector,
@@ -743,21 +726,18 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  void
-  LArPandoraOutput::BuildParticleMetadata(const art::Event& event,
-                                          const std::string& instanceLabel,
-                                          const pandora::PfoVector& pfoVector,
-                                          PFParticleMetadataCollection& outputParticleMetadata,
-                                          PFParticleToMetadataCollection& outputParticlesToMetadata)
+  void LArPandoraOutput::BuildParticleMetadata(
+    const art::Event& event,
+    const std::string& instanceLabel,
+    const pandora::PfoVector& pfoVector,
+    PFParticleMetadataCollection& outputParticleMetadata,
+    PFParticleToMetadataCollection& outputParticlesToMetadata)
   {
     for (unsigned int pfoId = 0; pfoId < pfoVector.size(); ++pfoId) {
       const pandora::ParticleFlowObject* const pPfo(pfoVector.at(pfoId));
 
-      LArPandoraOutput::AddAssociation(event,
-                                       instanceLabel,
-                                       pfoId,
-                                       outputParticleMetadata->size(),
-                                       outputParticlesToMetadata);
+      LArPandoraOutput::AddAssociation(
+        event, instanceLabel, pfoId, outputParticleMetadata->size(), outputParticlesToMetadata);
       larpandoraobj::PFParticleMetadata pPFParticleMetadata(
         LArPandoraHelper::GetPFParticleMetadata(pPfo));
       outputParticleMetadata->push_back(pPFParticleMetadata);
@@ -766,16 +746,15 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  void
-  LArPandoraOutput::BuildSlices(const Settings& settings,
-                                const pandora::Pandora* const pPrimaryPandora,
-                                const art::Event& event,
-                                const std::string& instanceLabel,
-                                const pandora::PfoVector& pfoVector,
-                                const IdToHitMap& idToHitMap,
-                                SliceCollection& outputSlices,
-                                PFParticleToSliceCollection& outputParticlesToSlices,
-                                SliceToHitCollection& outputSlicesToHits)
+  void LArPandoraOutput::BuildSlices(const Settings& settings,
+                                     const pandora::Pandora* const pPrimaryPandora,
+                                     const art::Event& event,
+                                     const std::string& instanceLabel,
+                                     const pandora::PfoVector& pfoVector,
+                                     const IdToHitMap& idToHitMap,
+                                     SliceCollection& outputSlices,
+                                     PFParticleToSliceCollection& outputParticlesToSlices,
+                                     SliceToHitCollection& outputSlicesToHits)
   {
     // Check for the special case in which there are no slices, and only the neutrino reconstruction was used on all hits
     if (settings.m_isNeutrinoRecoOnlyNoSlicing) {
@@ -847,8 +826,7 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  unsigned int
-  LArPandoraOutput::BuildDummySlice(SliceCollection& outputSlices)
+  unsigned int LArPandoraOutput::BuildDummySlice(SliceCollection& outputSlices)
   {
     // Make a slice with dummy properties
     const float bogusFloat(std::numeric_limits<float>::max());
@@ -864,15 +842,15 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  void
-  LArPandoraOutput::CopyAllHitsToSingleSlice(const Settings& settings,
-                                             const art::Event& event,
-                                             const std::string& instanceLabel,
-                                             const pandora::PfoVector& pfoVector,
-                                             const IdToHitMap& idToHitMap,
-                                             SliceCollection& outputSlices,
-                                             PFParticleToSliceCollection& outputParticlesToSlices,
-                                             SliceToHitCollection& outputSlicesToHits)
+  void LArPandoraOutput::CopyAllHitsToSingleSlice(
+    const Settings& settings,
+    const art::Event& event,
+    const std::string& instanceLabel,
+    const pandora::PfoVector& pfoVector,
+    const IdToHitMap& idToHitMap,
+    SliceCollection& outputSlices,
+    PFParticleToSliceCollection& outputParticlesToSlices,
+    SliceToHitCollection& outputSlicesToHits)
   {
     const unsigned int sliceIndex(LArPandoraOutput::BuildDummySlice(outputSlices));
 
@@ -895,13 +873,12 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  unsigned int
-  LArPandoraOutput::BuildSlice(const pandora::ParticleFlowObject* const pParentPfo,
-                               const art::Event& event,
-                               const std::string& instanceLabel,
-                               const IdToHitMap& idToHitMap,
-                               SliceCollection& outputSlices,
-                               SliceToHitCollection& outputSlicesToHits)
+  unsigned int LArPandoraOutput::BuildSlice(const pandora::ParticleFlowObject* const pParentPfo,
+                                            const art::Event& event,
+                                            const std::string& instanceLabel,
+                                            const IdToHitMap& idToHitMap,
+                                            SliceCollection& outputSlices,
+                                            SliceToHitCollection& outputSlicesToHits)
   {
     const unsigned int sliceIndex(LArPandoraOutput::BuildDummySlice(outputSlices));
 
@@ -933,12 +910,11 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  void
-  LArPandoraOutput::BuildT0s(const art::Event& event,
-                             const std::string& instanceLabel,
-                             const pandora::PfoVector& pfoVector,
-                             T0Collection& outputT0s,
-                             PFParticleToT0Collection& outputParticlesToT0s)
+  void LArPandoraOutput::BuildT0s(const art::Event& event,
+                                  const std::string& instanceLabel,
+                                  const pandora::PfoVector& pfoVector,
+                                  T0Collection& outputT0s,
+                                  PFParticleToT0Collection& outputParticlesToT0s)
   {
     size_t nextT0Id(0);
     for (unsigned int pfoId = 0; pfoId < pfoVector.size(); ++pfoId) {
@@ -955,10 +931,9 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  recob::PFParticle
-  LArPandoraOutput::BuildPFParticle(const pandora::ParticleFlowObject* const pPfo,
-                                    const size_t pfoId,
-                                    const pandora::PfoVector& pfoVector)
+  recob::PFParticle LArPandoraOutput::BuildPFParticle(const pandora::ParticleFlowObject* const pPfo,
+                                                      const size_t pfoId,
+                                                      const pandora::PfoVector& pfoVector)
   {
     // Get parent Pfo ID
     const pandora::PfoList& parentList(pPfo->GetParentPfoList());
@@ -982,8 +957,8 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  recob::Vertex
-  LArPandoraOutput::BuildVertex(const pandora::Vertex* const pVertex, const size_t vertexId)
+  recob::Vertex LArPandoraOutput::BuildVertex(const pandora::Vertex* const pVertex,
+                                              const size_t vertexId)
   {
     double pos[3] = {
       pVertex->GetPosition().GetX(), pVertex->GetPosition().GetY(), pVertex->GetPosition().GetZ()};
@@ -992,9 +967,8 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  void
-  LArPandoraOutput::GetHitsInCluster(const pandora::Cluster* const pCluster,
-                                     pandora::CaloHitVector& sortedHits)
+  void LArPandoraOutput::GetHitsInCluster(const pandora::Cluster* const pCluster,
+                                          pandora::CaloHitVector& sortedHits)
   {
     if (!sortedHits.empty())
       throw cet::exception("LArPandora")
@@ -1013,15 +987,15 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  std::vector<recob::Cluster>
-  LArPandoraOutput::BuildClusters(util::GeometryUtilities const& gser,
-                                  const pandora::Cluster* const pCluster,
-                                  const pandora::ClusterList& clusterList,
-                                  const CaloHitToArtHitMap& pandoraHitToArtHitMap,
-                                  IdToIdVectorMap& pandoraClusterToArtClustersMap,
-                                  std::vector<HitVector>& hitVectors,
-                                  size_t& nextId,
-                                  cluster::ClusterParamsAlgBase& algo)
+  std::vector<recob::Cluster> LArPandoraOutput::BuildClusters(
+    util::GeometryUtilities const& gser,
+    const pandora::Cluster* const pCluster,
+    const pandora::ClusterList& clusterList,
+    const CaloHitToArtHitMap& pandoraHitToArtHitMap,
+    IdToIdVectorMap& pandoraClusterToArtClustersMap,
+    std::vector<HitVector>& hitVectors,
+    size_t& nextId,
+    cluster::ClusterParamsAlgBase& algo)
   {
     std::vector<recob::Cluster> clusters;
 
@@ -1072,12 +1046,11 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  recob::Cluster
-  LArPandoraOutput::BuildCluster(util::GeometryUtilities const& gser,
-                                 const size_t id,
-                                 const HitVector& hitVector,
-                                 const HitList& isolatedHits,
-                                 cluster::ClusterParamsAlgBase& algo)
+  recob::Cluster LArPandoraOutput::BuildCluster(util::GeometryUtilities const& gser,
+                                                const size_t id,
+                                                const HitVector& hitVector,
+                                                const HitList& isolatedHits,
+                                                cluster::ClusterParamsAlgBase& algo)
   {
     if (hitVector.empty())
       throw cet::exception("LArPandora")
@@ -1156,9 +1129,8 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  recob::SpacePoint
-  LArPandoraOutput::BuildSpacePoint(const pandora::CaloHit* const pCaloHit,
-                                    const size_t spacePointId)
+  recob::SpacePoint LArPandoraOutput::BuildSpacePoint(const pandora::CaloHit* const pCaloHit,
+                                                      const size_t spacePointId)
   {
     if (pandora::TPC_3D != pCaloHit->GetHitType())
       throw cet::exception("LArPandora")
@@ -1176,12 +1148,11 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  bool
-  LArPandoraOutput::BuildT0(const art::Event& e,
-                            const pandora::ParticleFlowObject* const pPfo,
-                            const pandora::PfoVector& pfoVector,
-                            size_t& nextId,
-                            anab::T0& t0)
+  bool LArPandoraOutput::BuildT0(const art::Event& e,
+                                 const pandora::ParticleFlowObject* const pPfo,
+                                 const pandora::PfoVector& pfoVector,
+                                 size_t& nextId,
+                                 anab::T0& t0)
   {
     const pandora::ParticleFlowObject* const pParent(lar_content::LArPfoHelper::GetParentPfo(pPfo));
     const float x0(pParent->GetPropertiesMap().count("X0") ? pParent->GetPropertiesMap().at("X0") :
@@ -1217,8 +1188,7 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  void
-  LArPandoraOutput::Settings::Validate() const
+  void LArPandoraOutput::Settings::Validate() const
   {
     if (!m_pPrimaryPandora)
       throw cet::exception("LArPandora")

@@ -17,8 +17,8 @@
 #include "Pandora/Pandora.h"
 #include "Plugins/LArTransformationPlugin.h"
 
-#include "larcore/Geometry/Geometry.h"
 #include "art/Framework/Services/Registry/ServiceHandle.h"
+#include "larcore/Geometry/Geometry.h"
 
 namespace lar_pandora {
 
@@ -90,18 +90,18 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  inline geo::View_t
-  VintageLArTPCThreeView::TargetViewU(const geo::TPCID::TPCID_t tpc,
-                                      const geo::CryostatID::CryostatID_t cstat) const
+  inline geo::View_t VintageLArTPCThreeView::TargetViewU(
+    const geo::TPCID::TPCID_t tpc,
+    const geo::CryostatID::CryostatID_t cstat) const
   {
     return (m_LArSoftGeometry->TPC(tpc, cstat).DriftDirection() == geo::kPosX ?
               m_LArSoftGeometry->View(geo::PlaneID(cstat, tpc, 1)) :
               m_LArSoftGeometry->View(geo::PlaneID(cstat, tpc, 0)));
   }
 
-  inline geo::View_t
-  VintageLArTPCThreeView::TargetViewV(const geo::TPCID::TPCID_t tpc,
-                                      const geo::CryostatID::CryostatID_t cstat) const
+  inline geo::View_t VintageLArTPCThreeView::TargetViewV(
+    const geo::TPCID::TPCID_t tpc,
+    const geo::CryostatID::CryostatID_t cstat) const
   {
     return (m_LArSoftGeometry->TPC(tpc, cstat).DriftDirection() == geo::kPosX ?
               m_LArSoftGeometry->View(geo::PlaneID(cstat, tpc, 0)) :
@@ -110,42 +110,38 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  inline geo::View_t
-  VintageLArTPCThreeView::TargetViewW(const geo::TPCID::TPCID_t tpc,
-                                      const geo::CryostatID::CryostatID_t cstat) const
+  inline geo::View_t VintageLArTPCThreeView::TargetViewW(
+    const geo::TPCID::TPCID_t tpc,
+    const geo::CryostatID::CryostatID_t cstat) const
   {
     return m_LArSoftGeometry->View(geo::PlaneID(cstat, tpc, 2));
   }
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  inline float
-  VintageLArTPCThreeView::WirePitchU() const
+  inline float VintageLArTPCThreeView::WirePitchU() const
   {
     return m_LArSoftGeometry->WirePitch(this->TargetViewU(0, 0));
   }
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  inline float
-  VintageLArTPCThreeView::WirePitchV() const
+  inline float VintageLArTPCThreeView::WirePitchV() const
   {
     return m_LArSoftGeometry->WirePitch(this->TargetViewV(0, 0));
   }
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  inline float
-  VintageLArTPCThreeView::WirePitchW() const
+  inline float VintageLArTPCThreeView::WirePitchW() const
   {
     return m_LArSoftGeometry->WirePitch(this->TargetViewW(0, 0));
   }
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  inline float
-  VintageLArTPCThreeView::WireAngleU(const geo::TPCID::TPCID_t tpc,
-                                     const geo::CryostatID::CryostatID_t cstat) const
+  inline float VintageLArTPCThreeView::WireAngleU(const geo::TPCID::TPCID_t tpc,
+                                                  const geo::CryostatID::CryostatID_t cstat) const
   {
     return detector_functions::WireAngle(
       this->TargetViewU(tpc, cstat), tpc, cstat, m_LArSoftGeometry);
@@ -153,9 +149,8 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  inline float
-  VintageLArTPCThreeView::WireAngleV(const geo::TPCID::TPCID_t tpc,
-                                     const geo::CryostatID::CryostatID_t cstat) const
+  inline float VintageLArTPCThreeView::WireAngleV(const geo::TPCID::TPCID_t tpc,
+                                                  const geo::CryostatID::CryostatID_t cstat) const
   {
     return detector_functions::WireAngle(
       this->TargetViewV(tpc, cstat), tpc, cstat, m_LArSoftGeometry);
@@ -163,9 +158,8 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  inline float
-  VintageLArTPCThreeView::WireAngleW(const geo::TPCID::TPCID_t tpc,
-                                     const geo::CryostatID::CryostatID_t cstat) const
+  inline float VintageLArTPCThreeView::WireAngleW(const geo::TPCID::TPCID_t tpc,
+                                                  const geo::CryostatID::CryostatID_t cstat) const
   {
     return detector_functions::WireAngle(
       this->TargetViewW(tpc, cstat), tpc, cstat, m_LArSoftGeometry);
@@ -173,10 +167,9 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  inline bool
-  VintageLArTPCThreeView::CheckDetectorGapSize(const geo::Vector_t& gaps,
-                                               const geo::Vector_t& deltas,
-                                               const float maxDisplacement) const
+  inline bool VintageLArTPCThreeView::CheckDetectorGapSize(const geo::Vector_t& gaps,
+                                                           const geo::Vector_t& deltas,
+                                                           const float maxDisplacement) const
   {
     if (gaps.X() < 0.f || gaps.X() > maxDisplacement || deltas.Y() > maxDisplacement ||
         deltas.Z() > maxDisplacement)
@@ -186,20 +179,18 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  inline LArDetectorGap
-  VintageLArTPCThreeView::CreateDetectorGap(const geo::Point_t& point1,
-                                            const geo::Point_t& point2,
-                                            const geo::Vector_t& widths) const
+  inline LArDetectorGap VintageLArTPCThreeView::CreateDetectorGap(const geo::Point_t& point1,
+                                                                  const geo::Point_t& point2,
+                                                                  const geo::Vector_t& widths) const
   {
     return LArDetectorGap(point1.X(), point1.Y(), point1.Z(), point2.X(), point2.Y(), point2.Z());
   }
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  inline void
-  VintageLArTPCThreeView::LoadDaughterDetectorGaps(const LArDriftVolume& driftVolume,
-                                                   const float maxDisplacement,
-                                                   LArDetectorGapList& listOfGaps) const
+  inline void VintageLArTPCThreeView::LoadDaughterDetectorGaps(const LArDriftVolume& driftVolume,
+                                                               const float maxDisplacement,
+                                                               LArDetectorGapList& listOfGaps) const
   {
     return;
   }
@@ -249,8 +240,7 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  inline const art::ServiceHandle<geo::Geometry>&
-  VintageLArTPCThreeView::GetLArSoftGeometry() const
+  inline const art::ServiceHandle<geo::Geometry>& VintageLArTPCThreeView::GetLArSoftGeometry() const
   {
     return m_LArSoftGeometry;
   }

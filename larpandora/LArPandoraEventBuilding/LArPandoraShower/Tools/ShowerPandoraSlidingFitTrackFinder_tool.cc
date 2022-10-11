@@ -11,16 +11,16 @@
 #include "art/Utilities/ToolMacros.h"
 
 //LArSoft Includes
-#include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Tools/IShowerTool.h"
-#include "larpandora/LArPandoraInterface/Detectors/GetDetectorType.h"
-#include "larpandora/LArPandoraInterface/Detectors/LArPandoraDetectorType.h"
-#include "larpandoracontent/LArHelpers/LArPfoHelper.h"
 #include "lardata/DetectorInfoServices/DetectorClocksService.h"
 #include "lardata/DetectorInfoServices/DetectorPropertiesService.h"
 #include "lardataobj/RecoBase/Hit.h"
 #include "lardataobj/RecoBase/Shower.h"
 #include "lardataobj/RecoBase/SpacePoint.h"
 #include "lardataobj/RecoBase/Track.h"
+#include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Tools/IShowerTool.h"
+#include "larpandora/LArPandoraInterface/Detectors/GetDetectorType.h"
+#include "larpandora/LArPandoraInterface/Detectors/LArPandoraDetectorType.h"
+#include "larpandoracontent/LArHelpers/LArPfoHelper.h"
 
 namespace ShowerRecoTools {
 
@@ -70,8 +70,7 @@ namespace ShowerRecoTools {
     , fInitialTrackHitsInputLabel(pset.get<std::string>("InitialTrackHitsInputLabel"))
   {}
 
-  void
-  ShowerPandoraSlidingFitTrackFinder::InitialiseProducers()
+  void ShowerPandoraSlidingFitTrackFinder::InitialiseProducers()
   {
 
     InitialiseProduct<std::vector<recob::Track>>(fInitialTrackOutputLabel);
@@ -80,8 +79,7 @@ namespace ShowerRecoTools {
   }
 
   //This whole idea is stolen from PandoraTrackCreationModule so credit goes to the Pandora guys.
-  int
-  ShowerPandoraSlidingFitTrackFinder::CalculateElement(
+  int ShowerPandoraSlidingFitTrackFinder::CalculateElement(
     const art::Ptr<recob::PFParticle>& pfparticle,
     art::Event& Event,
     reco::shower::ShowerElementHolder& ShowerEleHolder)
@@ -123,7 +121,8 @@ namespace ShowerRecoTools {
           << "Insufficient space points points to build track: " << spacepoints.size();
       return 1;
     }
-    lar_pandora::LArPandoraDetectorType* detType(lar_pandora::detector_functions::GetDetectorType());
+    lar_pandora::LArPandoraDetectorType* detType(
+      lar_pandora::detector_functions::GetDetectorType());
     // 'wirePitchW` is here used only to provide length scale for binning hits and performing sliding/local linear fits.
     const float wirePitchW(detType->WirePitchW());
 
@@ -210,8 +209,7 @@ namespace ShowerRecoTools {
     return 0;
   }
 
-  int
-  ShowerPandoraSlidingFitTrackFinder::AddAssociations(
+  int ShowerPandoraSlidingFitTrackFinder::AddAssociations(
     const art::Ptr<recob::PFParticle>& pfpPtr,
     art::Event& Event,
     reco::shower::ShowerElementHolder& ShowerEleHolder)

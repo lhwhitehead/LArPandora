@@ -54,10 +54,9 @@ namespace ShowerRecoTools {
     , fShowerDirectionOutputLabel(pset.get<std::string>("ShowerDirectionOutputLabel"))
   {}
 
-  int
-  ShowerTrackHitDirection::CalculateElement(const art::Ptr<recob::PFParticle>& pfparticle,
-                                            art::Event& Event,
-                                            reco::shower::ShowerElementHolder& ShowerEleHolder)
+  int ShowerTrackHitDirection::CalculateElement(const art::Ptr<recob::PFParticle>& pfparticle,
+                                                art::Event& Event,
+                                                reco::shower::ShowerElementHolder& ShowerEleHolder)
   {
 
     //Check the Track Hits has been defined

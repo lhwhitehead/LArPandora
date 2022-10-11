@@ -10,10 +10,9 @@
 
 namespace lar_pandora {
 
-  void
-  ProtoDUNEDualPhase::LoadDaughterDetectorGaps(const LArDriftVolume& driftVolume,
-                                               const float maxDisplacement,
-                                               LArDetectorGapList& listOfGaps) const
+  void ProtoDUNEDualPhase::LoadDaughterDetectorGaps(const LArDriftVolume& driftVolume,
+                                                    const float maxDisplacement,
+                                                    LArDetectorGapList& listOfGaps) const
   {
     for (LArDaughterDriftVolumeList::const_iterator
            iterDghtr1 = driftVolume.GetTpcVolumeList().begin(),

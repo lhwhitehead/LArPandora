@@ -10,15 +10,15 @@
 #include "art/Utilities/ToolMacros.h"
 
 //LArSoft Includes
-#include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Tools/IShowerTool.h"
 #include "lardata/DetectorInfoServices/DetectorClocksService.h"
 #include "lardata/DetectorInfoServices/DetectorPropertiesService.h"
 #include "lardataalg/DetectorInfo/DetectorPropertiesData.h"
+#include "lardataobj/RecoBase/Hit.h"
 #include "lardataobj/RecoBase/PCAxis.h"
 #include "lardataobj/RecoBase/PFParticle.h"
-#include "lardataobj/RecoBase/Hit.h"
 #include "lardataobj/RecoBase/Shower.h"
 #include "lardataobj/RecoBase/SpacePoint.h"
+#include "larpandora/LArPandoraEventBuilding/LArPandoraShower/Tools/IShowerTool.h"
 
 //C++ Includes
 #include <Eigen/Dense>
@@ -81,18 +81,16 @@ namespace ShowerRecoTools {
     , fShowerPCAOutputLabel(pset.get<std::string>("ShowerPCAOutputLabel"))
   {}
 
-  void
-  ShowerPCADirection::InitialiseProducers()
+  void ShowerPCADirection::InitialiseProducers()
   {
     InitialiseProduct<std::vector<recob::PCAxis>>(fShowerPCAOutputLabel);
     InitialiseProduct<art::Assns<recob::Shower, recob::PCAxis>>("ShowerPCAxisAssn");
     InitialiseProduct<art::Assns<recob::PFParticle, recob::PCAxis>>("PFParticlePCAxisAssn");
   }
 
-  int
-  ShowerPCADirection::CalculateElement(const art::Ptr<recob::PFParticle>& pfparticle,
-                                       art::Event& Event,
-                                       reco::shower::ShowerElementHolder& ShowerEleHolder)
+  int ShowerPCADirection::CalculateElement(const art::Ptr<recob::PFParticle>& pfparticle,
+                                           art::Event& Event,
+                                           reco::shower::ShowerElementHolder& ShowerEleHolder)
   {
 
     // Get the assocated pfParicle vertex PFParticles
@@ -184,12 +182,12 @@ namespace ShowerRecoTools {
   }
 
   //Function to calculate the shower direction using a charge weight 3D PCA calculation.
-  recob::PCAxis
-  ShowerPCADirection::CalculateShowerPCA(const detinfo::DetectorClocksData& clockData,
-                                         const detinfo::DetectorPropertiesData& detProp,
-                                         const std::vector<art::Ptr<recob::SpacePoint>>& sps,
-                                         const art::FindManyP<recob::Hit>& fmh,
-                                         TVector3& ShowerCentre)
+  recob::PCAxis ShowerPCADirection::CalculateShowerPCA(
+    const detinfo::DetectorClocksData& clockData,
+    const detinfo::DetectorPropertiesData& detProp,
+    const std::vector<art::Ptr<recob::SpacePoint>>& sps,
+    const art::FindManyP<recob::Hit>& fmh,
+    TVector3& ShowerCentre)
   {
 
     float TotalCharge = 0;
@@ -274,8 +272,7 @@ namespace ShowerRecoTools {
     return recob::PCAxis(svdOk, nHits, eigenValues, eigenVectors, avePos);
   }
 
-  TVector3
-  ShowerPCADirection::GetPCAxisVector(recob::PCAxis& PCAxis)
+  TVector3 ShowerPCADirection::GetPCAxisVector(recob::PCAxis& PCAxis)
   {
 
     //Get the Eigenvectors.
@@ -284,10 +281,9 @@ namespace ShowerRecoTools {
     return TVector3(EigenVector[0], EigenVector[1], EigenVector[2]);
   }
 
-  int
-  ShowerPCADirection::AddAssociations(const art::Ptr<recob::PFParticle>& pfpPtr,
-                                      art::Event& Event,
-                                      reco::shower::ShowerElementHolder& ShowerEleHolder)
+  int ShowerPCADirection::AddAssociations(const art::Ptr<recob::PFParticle>& pfpPtr,
+                                          art::Event& Event,
+                                          reco::shower::ShowerElementHolder& ShowerEleHolder)
   {
 
     //First check the element has been set

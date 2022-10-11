@@ -40,18 +40,16 @@ namespace ShowerRecoTools {
     , fVerbose(pset.get<int>("Verbose"))
   {}
 
-  int
-  ShowerSkeletonTool::CalculateElement(const art::Ptr<recob::PFParticle>& pfparticle,
-                                       art::Event& Event,
-                                       reco::shower::ShowerElementHolder& ShowerEleHolder)
+  int ShowerSkeletonTool::CalculateElement(const art::Ptr<recob::PFParticle>& pfparticle,
+                                           art::Event& Event,
+                                           reco::shower::ShowerElementHolder& ShowerEleHolder)
   {
     return 0;
   }
 
-  int
-  ShowerSkeletonTool::AddAssociations(const art::Ptr<recob::PFParticle>& pfpPtr,
-                                      art::Event& Event,
-                                      reco::shower::ShowerElementHolder& ShowerEleHolder)
+  int ShowerSkeletonTool::AddAssociations(const art::Ptr<recob::PFParticle>& pfpPtr,
+                                          art::Event& Event,
+                                          reco::shower::ShowerElementHolder& ShowerEleHolder)
   {
     return 0;
   }

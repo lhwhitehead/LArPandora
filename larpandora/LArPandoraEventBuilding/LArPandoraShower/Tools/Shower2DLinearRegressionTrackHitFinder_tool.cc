@@ -106,7 +106,7 @@ namespace ShowerRecoTools {
     geo::Point_t ShowerStartPosition{-999, -999, -999};
     ShowerEleHolder.GetElement(fShowerStartPositionInputLabel, ShowerStartPosition);
 
-    TVector3 ShowerDirection = {-999, -999, -999};
+    geo::Vector_t ShowerDirection = {-999, -999, -999};
     ShowerEleHolder.GetElement(fShowerDirectionInputLabel, ShowerDirection);
 
     // Get the assocated pfParicle vertex PFParticles

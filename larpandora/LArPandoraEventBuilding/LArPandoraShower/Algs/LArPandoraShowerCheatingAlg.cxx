@@ -142,8 +142,8 @@ void shower::LArPandoraShowerCheatingAlg::CheatDebugEVD(
   }
 
   // Get info from shower property holder
-  TVector3 showerStartPosition = {-999, -999, -999};
-  TVector3 showerDirection = {-999, -999, -999};
+  geo::Point_t showerStartPosition = {-999, -999, -999};
+  geo::Vector_t showerDirection = {-999, -999, -999};
   std::vector<art::Ptr<recob::SpacePoint>> trackSpacePoints;
 
   ShowerEleHolder.GetElement(fShowerStartPositionInputLabel, showerStartPosition);
@@ -168,9 +168,8 @@ void shower::LArPandoraShowerCheatingAlg::CheatDebugEVD(
 
   // Make 3D points for each spacepoint in the shower
   auto showerPoly = std::make_unique<TPolyMarker3D>(showerSpacePoints.size());
-  for (auto spacePoint : showerSpacePoints) {
-    TVector3 pos = fLArPandoraShowerAlg.SpacePointPosition(spacePoint) - showerStartPosition;
-
+  for (auto const& spacePoint : showerSpacePoints) {
+    auto const pos = spacePoint->position() - showerStartPosition;
     x = pos.X();
     y = pos.Y();
     z = pos.Z();
@@ -201,8 +200,8 @@ void shower::LArPandoraShowerCheatingAlg::CheatDebugEVD(
 
   point = 0; // re-initialise counter
   auto trackPoly = std::make_unique<TPolyMarker3D>(trackSpacePoints.size());
-  for (auto spacePoint : trackSpacePoints) {
-    TVector3 pos = fLArPandoraShowerAlg.SpacePointPosition(spacePoint) - showerStartPosition;
+  for (auto const& spacePoint : trackSpacePoints) {
+    auto const pos = spacePoint->position() - showerStartPosition;
     x = pos.X();
     y = pos.Y();
     z = pos.Z();
@@ -219,7 +218,7 @@ void shower::LArPandoraShowerCheatingAlg::CheatDebugEVD(
   point = 0; // re-initialise counter
 
   for (auto const& sp : otherSpacePoints) {
-    TVector3 pos = fLArPandoraShowerAlg.SpacePointPosition(sp) - showerStartPosition;
+    auto const pos = sp->position() - showerStartPosition;
     x = pos.X();
     y = pos.Y();
     z = pos.Z();

@@ -94,18 +94,20 @@ namespace lar_pandora {
     const geo::TPCID::TPCID_t tpc,
     const geo::CryostatID::CryostatID_t cstat) const
   {
-    return (m_LArSoftGeometry->TPC(tpc, cstat).DriftDirection() == geo::kPosX ?
-              m_LArSoftGeometry->View(geo::PlaneID(cstat, tpc, 1)) :
-              m_LArSoftGeometry->View(geo::PlaneID(cstat, tpc, 0)));
+    geo::TPCID const tpcID{cstat, tpc};
+    return (m_LArSoftGeometry->TPC(tpcID).DriftDirection() == geo::kPosX ?
+              m_LArSoftGeometry->View(geo::PlaneID(tpcID, 1)) :
+              m_LArSoftGeometry->View(geo::PlaneID(tpcID, 0)));
   }
 
   inline geo::View_t VintageLArTPCThreeView::TargetViewV(
     const geo::TPCID::TPCID_t tpc,
     const geo::CryostatID::CryostatID_t cstat) const
   {
-    return (m_LArSoftGeometry->TPC(tpc, cstat).DriftDirection() == geo::kPosX ?
-              m_LArSoftGeometry->View(geo::PlaneID(cstat, tpc, 0)) :
-              m_LArSoftGeometry->View(geo::PlaneID(cstat, tpc, 1)));
+    geo::TPCID const tpcID{cstat, tpc};
+    return (m_LArSoftGeometry->TPC(tpcID).DriftDirection() == geo::kPosX ?
+              m_LArSoftGeometry->View(geo::PlaneID(tpcID, 0)) :
+              m_LArSoftGeometry->View(geo::PlaneID(tpcID, 1)));
   }
 
   //------------------------------------------------------------------------------------------------------------------------------------------

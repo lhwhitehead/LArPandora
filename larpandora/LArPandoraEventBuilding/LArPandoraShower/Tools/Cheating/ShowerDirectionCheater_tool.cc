@@ -133,7 +133,7 @@ namespace ShowerRecoTools {
       return 1;
     }
 
-    TVector3 trueDir = TVector3{trueParticle->Px(), trueParticle->Py(), trueParticle->Pz()}.Unit();
+    auto trueDir = geo::Vector_t{trueParticle->Px(), trueParticle->Py(), trueParticle->Pz()}.Unit();
 
     TVector3 trueDirErr = {-999, -999, -999};
     ShowerEleHolder.SetElement(trueDir, trueDirErr, fShowerDirectionOutputLabel);
@@ -170,17 +170,17 @@ namespace ShowerRecoTools {
       //Get Shower Centre
       float TotalCharge;
 
-      const TVector3 ShowerCentre = IShowerTool::GetLArPandoraShowerAlg().ShowerCentre(
+      auto const ShowerCentre = IShowerTool::GetLArPandoraShowerAlg().ShowerCentre(
         clockData, detProp, spacePoints, fmh, TotalCharge);
 
       //Check if we are pointing the correct direction or not, First try the start position
       if (ShowerEleHolder.CheckElement(fShowerStartPositionInputLabel) && fVertexFlip) {
 
         //Get the General direction as the vector between the start position and the centre
-        TVector3 StartPositionVec = {-999, -999, -999};
+        geo::Point_t StartPositionVec = {-999, -999, -999};
         ShowerEleHolder.GetElement(fShowerStartPositionInputLabel, StartPositionVec);
 
-        TVector3 GeneralDir = (ShowerCentre - StartPositionVec).Unit();
+        auto const GeneralDir = (ShowerCentre - StartPositionVec).Unit();
 
         //Dot product
         vertexDotProduct = trueDir.Dot(GeneralDir);

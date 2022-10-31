@@ -748,7 +748,7 @@ namespace lar_pandora {
   {
     // TODO: Check that this stills works in DUNE
     art::ServiceHandle<geo::Geometry const> theGeometry;
-    const double m_theta(theGeometry->WireAngleToVertical(geo::kU, tpc, cstat));
+    const double m_theta(theGeometry->WireAngleToVertical(geo::kU, geo::TPCID{cstat, tpc}));
     return z * std::sin(m_theta) - y * std::cos(m_theta);
   }
 
@@ -761,7 +761,7 @@ namespace lar_pandora {
   {
     // TODO; Check that this still works in DUNE
     art::ServiceHandle<geo::Geometry const> theGeometry;
-    const double m_theta(theGeometry->WireAngleToVertical(geo::kV, tpc, cstat));
+    const double m_theta(theGeometry->WireAngleToVertical(geo::kV, geo::TPCID{cstat, tpc}));
     return z * std::sin(m_theta) - y * std::cos(m_theta);
   }
 

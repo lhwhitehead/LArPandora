@@ -38,6 +38,7 @@
 #include "messagefacility/MessageLogger/MessageLogger.h"
 
 #include <limits>
+#include <utility>
 
 namespace lar_pandora {
 
@@ -298,77 +299,70 @@ namespace lar_pandora {
 
     LArPandoraDetectorType* detType(detector_functions::GetDetectorType());
 
-    for (unsigned int icstat = 0; icstat < theGeometry->Ncryostats(); ++icstat) {
-      for (unsigned int itpc = 0; itpc < theGeometry->NTPC(icstat); ++itpc) {
-        const geo::TPCGeo& TPC(theGeometry->TPC(itpc));
+    for (auto const& plane : theGeometry->Iterate<geo::PlaneGeo>()) {
+      const float halfWirePitch(0.5f * theGeometry->WirePitch(plane.View()));
+      const unsigned int nWires(theGeometry->Nwires(plane.ID()));
 
-        for (unsigned int iplane = 0; iplane < TPC.Nplanes(); ++iplane) {
-          const geo::PlaneGeo& plane(TPC.Plane(iplane));
-          const float halfWirePitch(0.5f * theGeometry->WirePitch(plane.View()));
-          const unsigned int nWires(theGeometry->Nwires(plane.ID()));
+      int firstBadWire(-1), lastBadWire(-1);
 
-          int firstBadWire(-1), lastBadWire(-1);
+      for (unsigned int iwire = 0; iwire < nWires; ++iwire) {
+        const raw::ChannelID_t channel(
+          theGeometry->PlaneWireToChannel(geo::WireID{plane.ID(), iwire}));
+        const bool isBadChannel(channelStatus.IsBad(channel));
+        const bool isLastWire(nWires == (iwire + 1));
 
-          for (unsigned int iwire = 0; iwire < nWires; ++iwire) {
-            const raw::ChannelID_t channel(
-              theGeometry->PlaneWireToChannel(iplane, iwire, itpc, icstat));
-            const bool isBadChannel(channelStatus.IsBad(channel));
-            const bool isLastWire(nWires == (iwire + 1));
+        if (isBadChannel && (firstBadWire < 0)) firstBadWire = iwire;
 
-            if (isBadChannel && (firstBadWire < 0)) firstBadWire = iwire;
+        if (isBadChannel || isLastWire) lastBadWire = iwire;
 
-            if (isBadChannel || isLastWire) lastBadWire = iwire;
+        if (isBadChannel && !isLastWire) continue;
 
-            if (isBadChannel && !isLastWire) continue;
+        if ((firstBadWire < 0) || (lastBadWire < 0)) continue;
 
-            if ((firstBadWire < 0) || (lastBadWire < 0)) continue;
+        auto const firstXYZ = plane.Wire(firstBadWire).GetCenter();
+        auto const lastXYZ = plane.Wire(lastBadWire).GetCenter();
 
-            auto const& planeGeo = theGeometry->Cryostat(icstat).TPC(itpc).Plane(iplane);
-            auto const firstXYZ = planeGeo.Wire(firstBadWire).GetCenter<geo::Point_t>();
-            auto const lastXYZ = planeGeo.Wire(lastBadWire).GetCenter<geo::Point_t>();
+        firstBadWire = -1;
+        lastBadWire = -1;
 
-            firstBadWire = -1;
-            lastBadWire = -1;
+        PandoraApi::Geometry::LineGap::Parameters parameters;
 
-            PandoraApi::Geometry::LineGap::Parameters parameters;
+        try {
+          float xFirst(-std::numeric_limits<float>::max());
+          float xLast(std::numeric_limits<float>::max());
 
-            try {
-              float xFirst(-std::numeric_limits<float>::max());
-              float xLast(std::numeric_limits<float>::max());
+          auto const [icstat, itpc] = std::make_pair(plane.ID().Cryostat, plane.ID().TPC);
+          const unsigned int volumeId(
+            LArPandoraGeometry::GetVolumeID(driftVolumeMap, icstat, itpc));
+          LArDriftVolumeMap::const_iterator volumeIter(driftVolumeMap.find(volumeId));
 
-              const unsigned int volumeId(
-                LArPandoraGeometry::GetVolumeID(driftVolumeMap, icstat, itpc));
-              LArDriftVolumeMap::const_iterator volumeIter(driftVolumeMap.find(volumeId));
-
-              if (driftVolumeMap.end() != volumeIter) {
-                xFirst = volumeIter->second.GetCenterX() - 0.5f * volumeIter->second.GetWidthX();
-                xLast = volumeIter->second.GetCenterX() + 0.5f * volumeIter->second.GetWidthX();
-              }
-
-              const geo::View_t iview = plane.View();
-              parameters = detType->CreateLineGapParametersFromReadoutGaps(
-                iview, itpc, icstat, firstXYZ, lastXYZ, halfWirePitch, xFirst, xLast, pPandora);
-            }
-            catch (const pandora::StatusCodeException&) {
-              mf::LogWarning("LArPandora")
-                << "CreatePandoraReadoutGaps - invalid line gap parameter provided, all assigned "
-                   "values must be finite, line gap omitted "
-                << std::endl;
-              continue;
-            }
-
-            try {
-              PANDORA_THROW_RESULT_IF(pandora::STATUS_CODE_SUCCESS,
-                                      !=,
-                                      PandoraApi::Geometry::LineGap::Create(*pPandora, parameters));
-            }
-            catch (const pandora::StatusCodeException&) {
-              mf::LogWarning("LArPandora") << "CreatePandoraReadoutGaps - unable to create line "
-                                              "gap, insufficient or invalid information supplied "
-                                           << std::endl;
-              continue;
-            }
+          if (driftVolumeMap.end() != volumeIter) {
+            xFirst = volumeIter->second.GetCenterX() - 0.5f * volumeIter->second.GetWidthX();
+            xLast = volumeIter->second.GetCenterX() + 0.5f * volumeIter->second.GetWidthX();
           }
+
+          const geo::View_t iview = plane.View();
+          parameters = detType->CreateLineGapParametersFromReadoutGaps(
+            iview, itpc, icstat, firstXYZ, lastXYZ, halfWirePitch, xFirst, xLast, pPandora);
+        }
+        catch (const pandora::StatusCodeException&) {
+          mf::LogWarning("LArPandora")
+            << "CreatePandoraReadoutGaps - invalid line gap parameter provided, all assigned "
+               "values must be finite, line gap omitted "
+            << std::endl;
+          continue;
+        }
+
+        try {
+          PANDORA_THROW_RESULT_IF(pandora::STATUS_CODE_SUCCESS,
+                                  !=,
+                                  PandoraApi::Geometry::LineGap::Create(*pPandora, parameters));
+        }
+        catch (const pandora::StatusCodeException&) {
+          mf::LogWarning("LArPandora") << "CreatePandoraReadoutGaps - unable to create line "
+                                          "gap, insufficient or invalid information supplied "
+                                       << std::endl;
+          continue;
         }
       }
     }
@@ -729,24 +723,21 @@ namespace lar_pandora {
     firstT = -1;
     lastT = -1;
 
-    for (unsigned int icstat = 0; icstat < theGeometry->Ncryostats(); ++icstat) {
-      for (unsigned int itpc = 0; itpc < theGeometry->NTPC(icstat); ++itpc) {
-        int thisfirstT(-1), thislastT(-1);
-        LArPandoraInput::GetTrueStartAndEndPoints(icstat, itpc, particle, thisfirstT, thislastT);
+    for (auto const& tpcid : theGeometry->Iterate<geo::TPCID>()) {
+      int thisfirstT(-1), thislastT(-1);
+      LArPandoraInput::GetTrueStartAndEndPoints(tpcid, particle, thisfirstT, thislastT);
 
-        if (thisfirstT < 0) continue;
+      if (thisfirstT < 0) continue;
 
-        if (firstT < 0 || thisfirstT < firstT) firstT = thisfirstT;
+      if (firstT < 0 || thisfirstT < firstT) firstT = thisfirstT;
 
-        if (lastT < 0 || thislastT > lastT) lastT = thislastT;
-      }
+      if (lastT < 0 || thislastT > lastT) lastT = thislastT;
     }
   }
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  void LArPandoraInput::GetTrueStartAndEndPoints(const unsigned int cstat,
-                                                 const unsigned int tpc,
+  void LArPandoraInput::GetTrueStartAndEndPoints(const geo::TPCID& ref_tpcid,
                                                  const art::Ptr<simb::MCParticle>& particle,
                                                  int& startT,
                                                  int& endT)
@@ -757,12 +748,12 @@ namespace lar_pandora {
     const int numTrajectoryPoints(static_cast<int>(particle->NumberTrajectoryPoints()));
 
     for (int nt = 0; nt < numTrajectoryPoints; ++nt) {
-      const double pos[3] = {particle->Vx(nt), particle->Vy(nt), particle->Vz(nt)};
+      const geo::Point_t pos{particle->Vx(nt), particle->Vy(nt), particle->Vz(nt)};
       geo::TPCID tpcID = theGeometry->FindTPCAtPosition(pos);
 
       if (!tpcID.isValid) continue;
 
-      if (!(cstat == tpcID.Cryostat && tpc == tpcID.TPC)) continue;
+      if (tpcID != ref_tpcid) continue;
 
       endT = nt;
 

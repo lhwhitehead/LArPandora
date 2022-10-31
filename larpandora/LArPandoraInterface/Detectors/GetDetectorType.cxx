@@ -27,7 +27,7 @@ namespace lar_pandora {
     const unsigned int nPlanes(geo->MaxPlanes());
     std::set<geo::_plane_proj> planeSet;
     for (unsigned int iPlane = 0; iPlane < nPlanes; ++iPlane)
-      (void)planeSet.insert(geo->TPC(0, 0).Plane(iPlane).View());
+      (void)planeSet.insert(geo->TPC().Plane(iPlane).View());
 
     if (nPlanes == 3 && planeSet.count(geo::kU) && planeSet.count(geo::kY) &&
         planeSet.count(geo::kZ)) {

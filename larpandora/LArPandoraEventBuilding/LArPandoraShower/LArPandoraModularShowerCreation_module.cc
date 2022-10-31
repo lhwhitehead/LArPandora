@@ -343,8 +343,8 @@ void reco::shower::LArPandoraModularShowerCreation::produce(art::Event& evt)
     }
 
     //Get the properties
-    TVector3 ShowerStartPosition(-999, -999, -999);
-    TVector3 ShowerDirection(-999, -999, -999);
+    geo::Point_t ShowerStartPosition(-999, -999, -999);
+    geo::Vector_t ShowerDirection(-999, -999, -999);
     std::vector<double> ShowerEnergy(fNumPlanes, -999);
     std::vector<double> ShowerdEdx(fNumPlanes, -999);
     int BestPlane(-999);
@@ -417,9 +417,9 @@ void reco::shower::LArPandoraModularShowerCreation::produce(art::Event& evt)
     }
 
     //Make the shower
-    recob::Shower shower(ShowerDirection,
+    recob::Shower shower(geo::vect::convertTo<TVector3>(ShowerDirection),
                          ShowerDirectionErr,
-                         ShowerStartPosition,
+                         geo::vect::convertTo<TVector3>(ShowerStartPosition),
                          ShowerDirectionErr,
                          ShowerEnergy,
                          ShowerEnergyErr,

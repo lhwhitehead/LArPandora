@@ -49,9 +49,9 @@ namespace ShowerRecoTools {
       const detinfo::DetectorPropertiesData& detProp,
       const std::vector<art::Ptr<recob::SpacePoint>>& spacePoints_pfp,
       const art::FindManyP<recob::Hit>& fmh,
-      TVector3& ShowerCentre);
+      geo::Point_t& ShowerCentre);
 
-    TVector3 GetPCAxisVector(recob::PCAxis& PCAxis);
+    geo::Vector_t GetPCAxisVector(recob::PCAxis& PCAxis);
 
     //fcl
     art::InputTag fPFParticleLabel;
@@ -122,9 +122,9 @@ namespace ShowerRecoTools {
       art::ServiceHandle<detinfo::DetectorPropertiesService const>()->DataFor(Event, clockData);
 
     //Find the PCA vector
-    TVector3 ShowerCentre;
+    geo::Point_t ShowerCentre;
     recob::PCAxis PCA = CalculateShowerPCA(clockData, detProp, spacePoints_pfp, fmh, ShowerCentre);
-    TVector3 PCADirection = GetPCAxisVector(PCA);
+    auto PCADirection = GetPCAxisVector(PCA);
 
     //Save the shower the center for downstream tools
     TVector3 ShowerCentreErr = {-999, -999, -999};
@@ -140,21 +140,17 @@ namespace ShowerRecoTools {
         return 1;
       }
       //Get the General direction as the vector between the start position and the centre
-      TVector3 StartPositionVec = {-999, -999, -999};
+      geo::Point_t StartPositionVec = {-999, -999, -999};
       ShowerEleHolder.GetElement(fShowerStartPositionInputLabel, StartPositionVec);
 
       // Calculate the general direction of the shower
-      TVector3 GeneralDir = (ShowerCentre - StartPositionVec).Unit();
+      auto const GeneralDir = (ShowerCentre - StartPositionVec).Unit();
 
       //Calculate the dot product between eigenvector and general direction
       double DotProduct = PCADirection.Dot(GeneralDir);
 
       //If the dotproduct is negative the Direction needs Flipping
-      if (DotProduct < 0) {
-        PCADirection[0] = -PCADirection[0];
-        PCADirection[1] = -PCADirection[1];
-        PCADirection[2] = -PCADirection[2];
-      }
+      if (DotProduct < 0) { PCADirection *= -1; }
 
       //To do
       TVector3 PCADirectionErr = {-999, -999, -999};
@@ -168,11 +164,7 @@ namespace ShowerRecoTools {
 
     // If the alg fails to calculate the gradient it will return 0. In this case do nothing
     // If the gradient is negative, flip the direction of the shower
-    if (RMSGradient < -std::numeric_limits<double>::epsilon()) {
-      PCADirection[0] = -PCADirection[0];
-      PCADirection[1] = -PCADirection[1];
-      PCADirection[2] = -PCADirection[2];
-    }
+    if (RMSGradient < -std::numeric_limits<double>::epsilon()) { PCADirection *= -1; }
 
     //To do
     TVector3 PCADirectionErr = {-999, -999, -999};
@@ -187,7 +179,7 @@ namespace ShowerRecoTools {
     const detinfo::DetectorPropertiesData& detProp,
     const std::vector<art::Ptr<recob::SpacePoint>>& sps,
     const art::FindManyP<recob::Hit>& fmh,
-    TVector3& ShowerCentre)
+    geo::Point_t& ShowerCentre)
   {
 
     float TotalCharge = 0;
@@ -211,12 +203,10 @@ namespace ShowerRecoTools {
     //Normalise the spacepoints, charge weight and add to the PCA.
     for (auto& sp : sps) {
 
-      TVector3 sp_position = IShowerTool::GetLArPandoraShowerAlg().SpacePointPosition(sp);
-
       float wht = 1;
 
       //Normalise the spacepoint position.
-      sp_position = sp_position - ShowerCentre;
+      auto const sp_position = sp->position() - ShowerCentre;
 
       if (fChargeWeighted) {
 
@@ -267,18 +257,16 @@ namespace ShowerRecoTools {
       {eigenVectorsMatrix(0, 2), eigenVectorsMatrix(1, 2), eigenVectorsMatrix(2, 2)},
       {eigenVectorsMatrix(0, 1), eigenVectorsMatrix(1, 1), eigenVectorsMatrix(2, 1)},
       {eigenVectorsMatrix(0, 0), eigenVectorsMatrix(1, 0), eigenVectorsMatrix(2, 0)}};
-    const double avePos[3] = {ShowerCentre[0], ShowerCentre[1], ShowerCentre[2]};
+    const double avePos[3] = {ShowerCentre.X(), ShowerCentre.Y(), ShowerCentre.Z()};
 
     return recob::PCAxis(svdOk, nHits, eigenValues, eigenVectors, avePos);
   }
 
-  TVector3 ShowerPCADirection::GetPCAxisVector(recob::PCAxis& PCAxis)
+  geo::Vector_t ShowerPCADirection::GetPCAxisVector(recob::PCAxis& PCAxis)
   {
-
     //Get the Eigenvectors.
     std::vector<double> EigenVector = PCAxis.getEigenVectors()[0];
-
-    return TVector3(EigenVector[0], EigenVector[1], EigenVector[2]);
+    return {EigenVector[0], EigenVector[1], EigenVector[2]};
   }
 
   int ShowerPCADirection::AddAssociations(const art::Ptr<recob::PFParticle>& pfpPtr,

@@ -102,10 +102,7 @@ namespace ShowerRecoTools {
               << "Shower start position not set" << std::endl;
           return 1;
         }
-        TVector3 StartPosition_vec = {-999, -999, -999};
-        ShowerEleHolder.GetElement(fShowerStartPositionInputLabel, StartPosition_vec);
-        StartPosition.SetCoordinates(
-          StartPosition_vec.X(), StartPosition_vec.Y(), StartPosition_vec.Z());
+        ShowerEleHolder.GetElement(fShowerStartPositionInputLabel, StartPosition);
       }
       else {
         StartPosition = InitialTrack.Start();

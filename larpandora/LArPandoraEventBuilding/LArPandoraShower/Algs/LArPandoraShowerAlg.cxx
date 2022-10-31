@@ -39,7 +39,7 @@ shower::LArPandoraShowerAlg::LArPandoraShowerAlg(const fhicl::ParameterSet& pset
 void shower::LArPandoraShowerAlg::OrderShowerHits(detinfo::DetectorPropertiesData const& detProp,
                                                   std::vector<art::Ptr<recob::Hit>>& hits,
                                                   geo::Point_t const& ShowerStartPosition,
-                                                  TVector3 const& ShowerDirection) const
+                                                  geo::Vector_t const& ShowerDirection) const
 {
 
   std::map<double, art::Ptr<recob::Hit>> OrderedHits;
@@ -59,7 +59,7 @@ void shower::LArPandoraShowerAlg::OrderShowerHits(detinfo::DetectorPropertiesDat
     ShowerStartPosition.X()};
 
   //Vector of the plane
-  TVector3 PlaneDirection = fGeom->Plane(planeid).GetIncreasingWireDirection();
+  auto const PlaneDirection = fGeom->Plane(planeid).GetIncreasingWireDirection();
 
   //get the shower 2D direction
   TVector2 Shower2DDirection = {ShowerDirection.Dot(PlaneDirection), ShowerDirection.X()};
@@ -114,8 +114,8 @@ void shower::LArPandoraShowerAlg::OrderShowerHits(detinfo::DetectorPropertiesDat
 //the shower axis.
 void shower::LArPandoraShowerAlg::OrderShowerSpacePointsPerpendicular(
   std::vector<art::Ptr<recob::SpacePoint>>& showersps,
-  TVector3 const& vertex,
-  TVector3 const& direction) const
+  geo::Point_t const& vertex,
+  geo::Vector_t const& direction) const
 {
 
   std::map<double, art::Ptr<recob::SpacePoint>> OrderedSpacePoints;
@@ -141,8 +141,8 @@ void shower::LArPandoraShowerAlg::OrderShowerSpacePointsPerpendicular(
 //the shower start position in the shower direction.
 void shower::LArPandoraShowerAlg::OrderShowerSpacePoints(
   std::vector<art::Ptr<recob::SpacePoint>>& showersps,
-  TVector3 const& vertex,
-  TVector3 const& direction) const
+  geo::Point_t const& vertex,
+  geo::Vector_t const& direction) const
 {
 
   std::map<double, art::Ptr<recob::SpacePoint>> OrderedSpacePoints;
@@ -166,16 +166,15 @@ void shower::LArPandoraShowerAlg::OrderShowerSpacePoints(
 
 void shower::LArPandoraShowerAlg::OrderShowerSpacePoints(
   std::vector<art::Ptr<recob::SpacePoint>>& showersps,
-  TVector3 const& vertex) const
+  geo::Point_t const& vertex) const
 {
-
   std::map<double, art::Ptr<recob::SpacePoint>> OrderedSpacePoints;
 
   //Loop over the spacepoints and get the pojected distance from the vertex.
   for (auto const& sp : showersps) {
 
     //Get the distance away from the start
-    double mag = (SpacePointPosition(sp) - vertex).Mag();
+    double mag = (sp->position() - vertex).R();
 
     //Add to the list
     OrderedSpacePoints[mag] = sp;
@@ -188,50 +187,48 @@ void shower::LArPandoraShowerAlg::OrderShowerSpacePoints(
   }
 }
 
-TVector3 shower::LArPandoraShowerAlg::ShowerCentre(
+geo::Point_t shower::LArPandoraShowerAlg::ShowerCentre(
   std::vector<art::Ptr<recob::SpacePoint>> const& showersps) const
 {
+  if (showersps.empty()) return {};
 
-  if (showersps.empty()) return TVector3{};
-
-  TVector3 centre_position;
+  double x{};
+  double y{};
+  double z{};
   for (auto const& sp : showersps) {
-    TVector3 pos = SpacePointPosition(sp);
-    centre_position += pos;
+    auto const pos = sp->position();
+    x += pos.X();
+    y += pos.Y();
+    z += pos.Z();
   }
+  geo::Point_t centre_position{x, y, z};
   centre_position *= (1. / showersps.size());
-
   return centre_position;
 }
 
-TVector3 shower::LArPandoraShowerAlg::ShowerCentre(
+geo::Point_t shower::LArPandoraShowerAlg::ShowerCentre(
   detinfo::DetectorClocksData const& clockData,
   detinfo::DetectorPropertiesData const& detProp,
   std::vector<art::Ptr<recob::SpacePoint>> const& showerspcs,
   art::FindManyP<recob::Hit> const& fmh) const
 {
-
   float totalCharge = 0;
   return shower::LArPandoraShowerAlg::ShowerCentre(
     clockData, detProp, showerspcs, fmh, totalCharge);
 }
 
 //Returns the vector to the shower centre and the total charge of the shower.
-TVector3 shower::LArPandoraShowerAlg::ShowerCentre(
+geo::Point_t shower::LArPandoraShowerAlg::ShowerCentre(
   detinfo::DetectorClocksData const& clockData,
   detinfo::DetectorPropertiesData const& detProp,
   std::vector<art::Ptr<recob::SpacePoint>> const& showersps,
   art::FindManyP<recob::Hit> const& fmh,
   float& totalCharge) const
 {
-
-  TVector3 pos, chargePoint = TVector3(0, 0, 0);
+  geo::Point_t chargePoint{};
 
   //Loop over the spacepoints and get the charge weighted center.
   for (auto const& sp : showersps) {
-
-    //Get the position of the spacepoint
-    pos = SpacePointPosition(sp);
 
     //Get the associated hits
     std::vector<art::Ptr<recob::Hit>> const& hits = fmh.at(sp.key());
@@ -290,7 +287,14 @@ TVector3 shower::LArPandoraShowerAlg::ShowerCentre(
       charge /= n;
     }
 
-    chargePoint += charge * pos;
+    //Get the position of the spacepoint
+    auto const pos = sp->position();
+    double const x = pos.X();
+    double const y = pos.Y();
+    double const z = pos.Z();
+
+    chargePoint.SetXYZ(
+      chargePoint.X() + charge * x, chargePoint.Y() + charge * y, chargePoint.Z() + charge * z);
     totalCharge += charge;
 
     if (charge == 0) {
@@ -300,33 +304,20 @@ TVector3 shower::LArPandoraShowerAlg::ShowerCentre(
   }
 
   double intotalcharge = 1 / totalCharge;
-  TVector3 centre = chargePoint * intotalcharge;
-  return centre;
-}
-
-//Return the spacepoint position in 3D cartesian coordinates.
-TVector3 shower::LArPandoraShowerAlg::SpacePointPosition(
-  art::Ptr<recob::SpacePoint> const& sp) const
-{
-
-  const Double32_t* sp_xyz = sp->XYZ();
-  return TVector3{sp_xyz[0], sp_xyz[1], sp_xyz[2]};
+  return chargePoint * intotalcharge;
 }
 
 double shower::LArPandoraShowerAlg::DistanceBetweenSpacePoints(
   art::Ptr<recob::SpacePoint> const& sp_a,
   art::Ptr<recob::SpacePoint> const& sp_b) const
 {
-  TVector3 position_a = SpacePointPosition(sp_a);
-  TVector3 position_b = SpacePointPosition(sp_b);
-  return (position_a - position_b).Mag();
+  return (sp_a->position() - sp_b->position()).R();
 }
 
 //Return the charge of the spacepoint in ADC.
 double shower::LArPandoraShowerAlg::SpacePointCharge(art::Ptr<recob::SpacePoint> const& sp,
                                                      art::FindManyP<recob::Hit> const& fmh) const
 {
-
   double Charge = 0;
 
   //Average over the charge even though there is only one
@@ -344,7 +335,6 @@ double shower::LArPandoraShowerAlg::SpacePointCharge(art::Ptr<recob::SpacePoint>
 double shower::LArPandoraShowerAlg::SpacePointTime(art::Ptr<recob::SpacePoint> const& sp,
                                                    art::FindManyP<recob::Hit> const& fmh) const
 {
-
   double Time = 0;
 
   //Average over the hits
@@ -371,22 +361,20 @@ TVector2 shower::LArPandoraShowerAlg::HitCoordinates(detinfo::DetectorProperties
 }
 
 double shower::LArPandoraShowerAlg::SpacePointProjection(const art::Ptr<recob::SpacePoint>& sp,
-                                                         TVector3 const& vertex,
-                                                         TVector3 const& direction) const
+                                                         geo::Point_t const& vertex,
+                                                         geo::Vector_t const& direction) const
 {
-
   // Get the position of the spacepoint
-  TVector3 pos = shower::LArPandoraShowerAlg::SpacePointPosition(sp) - vertex;
+  auto const pos = sp->position() - vertex;
 
   // Get the the projected length
   return pos.Dot(direction);
 }
 
 double shower::LArPandoraShowerAlg::SpacePointPerpendicular(art::Ptr<recob::SpacePoint> const& sp,
-                                                            TVector3 const& vertex,
-                                                            TVector3 const& direction) const
+                                                            geo::Point_t const& vertex,
+                                                            geo::Vector_t const& direction) const
 {
-
   // Get the projection of the spacepoint
   double proj = shower::LArPandoraShowerAlg::SpacePointProjection(sp, vertex, direction);
 
@@ -394,28 +382,26 @@ double shower::LArPandoraShowerAlg::SpacePointPerpendicular(art::Ptr<recob::Spac
 }
 
 double shower::LArPandoraShowerAlg::SpacePointPerpendicular(art::Ptr<recob::SpacePoint> const& sp,
-                                                            TVector3 const& vertex,
-                                                            TVector3 const& direction,
+                                                            geo::Point_t const& vertex,
+                                                            geo::Vector_t const& direction,
                                                             double proj) const
 {
-
   // Get the position of the spacepoint
-  TVector3 pos = shower::LArPandoraShowerAlg::SpacePointPosition(sp) - vertex;
+  auto pos = sp->position() - vertex;
 
   // Take away the projection * distance to find the perpendicular vector
   pos = pos - proj * direction;
 
   // Get the the projected length
-  return pos.Mag();
+  return pos.R();
 }
 
 //Function to calculate the RMS at segments of the shower and calculate the gradient of this. If negative then the direction is pointing the opposite way to the correct one
 double shower::LArPandoraShowerAlg::RMSShowerGradient(std::vector<art::Ptr<recob::SpacePoint>>& sps,
-                                                      const TVector3& ShowerCentre,
-                                                      const TVector3& Direction,
+                                                      const geo::Point_t& ShowerCentre,
+                                                      const geo::Vector_t& Direction,
                                                       const unsigned int nSegments) const
 {
-
   if (nSegments == 0)
     throw cet::exception("LArPandoraShowerAlg")
       << "Unable to calculate RMS Shower Gradient with 0 segments" << std::endl;
@@ -492,15 +478,6 @@ double shower::LArPandoraShowerAlg::CalculateRMS(const std::vector<float>& perps
 }
 
 double shower::LArPandoraShowerAlg::SCECorrectPitch(double const& pitch,
-                                                    TVector3 const& pos,
-                                                    TVector3 const& dir,
-                                                    unsigned int const& TPC) const
-{
-  const geo::Point_t geoPos{pos.X(), pos.Y(), pos.z()};
-  const geo::Vector_t geoDir{dir.X(), dir.Y(), dir.Z()};
-  return shower::LArPandoraShowerAlg::SCECorrectPitch(pitch, geoPos, geoDir, TPC);
-}
-double shower::LArPandoraShowerAlg::SCECorrectPitch(double const& pitch,
                                                     geo::Point_t const& pos,
                                                     geo::Vector_t const& dir,
                                                     unsigned int const& TPC) const
@@ -529,12 +506,6 @@ double shower::LArPandoraShowerAlg::SCECorrectPitch(double const& pitch,
   return pitchVec.r();
 }
 
-double shower::LArPandoraShowerAlg::SCECorrectEField(double const& EField,
-                                                     TVector3 const& pos) const
-{
-  const geo::Point_t geoPos{pos.X(), pos.Y(), pos.z()};
-  return shower::LArPandoraShowerAlg::SCECorrectEField(EField, geoPos);
-}
 double shower::LArPandoraShowerAlg::SCECorrectEField(double const& EField,
                                                      geo::Point_t const& pos) const
 {
@@ -604,8 +575,8 @@ void shower::LArPandoraShowerAlg::DebugEVD(art::Ptr<recob::PFParticle> const& pf
   if (spacePoints.empty()) { return; }
 
   // Get info from shower property holder
-  TVector3 showerStartPosition = {-999, -999, -999};
-  TVector3 showerDirection = {-999, -999, -999};
+  geo::Point_t showerStartPosition = {-999, -999, -999};
+  geo::Vector_t showerDirection = {-999, -999, -999};
   std::vector<art::Ptr<recob::SpacePoint>> trackSpacePoints;
 
   //######################
@@ -656,8 +627,7 @@ void shower::LArPandoraShowerAlg::DebugEVD(art::Ptr<recob::PFParticle> const& pf
     int point = 0;
 
     for (auto spacePoint : spacePoints) {
-      TVector3 pos = shower::LArPandoraShowerAlg::SpacePointPosition(spacePoint);
-
+      auto const pos = spacePoint->position();
       x = pos.X();
       y = pos.Y();
       z = pos.Z();
@@ -703,8 +673,7 @@ void shower::LArPandoraShowerAlg::DebugEVD(art::Ptr<recob::PFParticle> const& pf
     ShowerEleHolder.GetElement(fInitialTrackSpacePointsInputLabel, trackSpacePoints);
     point = 0; // re-initialise counter
     for (auto spacePoint : trackSpacePoints) {
-      TVector3 pos = shower::LArPandoraShowerAlg::SpacePointPosition(spacePoint);
-
+      auto const pos = spacePoint->position();
       x = pos.X();
       y = pos.Y();
       z = pos.Z();
@@ -754,10 +723,8 @@ void shower::LArPandoraShowerAlg::DebugEVD(art::Ptr<recob::PFParticle> const& pf
   for (auto const& pfp : pfps) {
     std::vector<art::Ptr<recob::SpacePoint>> const& sps = fmspp.at(pfp.key());
     int pdg = abs(pfp->PdgCode()); // Track or shower
-    for (auto sp : sps) {
-      //TVector3 pos = shower::LArPandoraShowerAlg::SpacePointPosition(sp) - showerStartPosition;
-      TVector3 pos = shower::LArPandoraShowerAlg::SpacePointPosition(sp);
-
+    for (auto const& sp : sps) {
+      auto const pos = sp->position();
       x = pos.X();
       y = pos.Y();
       z = pos.Z();

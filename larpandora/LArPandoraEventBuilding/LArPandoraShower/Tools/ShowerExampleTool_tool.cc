@@ -71,7 +71,7 @@ namespace ShowerRecoTools {
     //Remember the module goes through the tools and if you want to (fcl param) it will loop over them twice. You can check to see if a element has been set with a specific name:
     bool shower_direction_set = ShowerEleHolder.CheckElement("ShowerDirection");
 
-    TVector3 ShowerDirection = {-999, -999, -999};
+    geo::Vector_t ShowerDirection = {-999, -999, -999};
 
     //Then you can go and get that element if you want to use it and fill it in for you.
     if (shower_direction_set) { ShowerEleHolder.GetElement("ShowerDirection", ShowerDirection); }

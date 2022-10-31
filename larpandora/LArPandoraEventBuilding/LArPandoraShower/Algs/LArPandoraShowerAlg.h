@@ -47,34 +47,32 @@ public:
 
   void OrderShowerHits(detinfo::DetectorPropertiesData const& detProp,
                        std::vector<art::Ptr<recob::Hit>>& hits,
-                       geo::Point_t const& ShowerDirection,
-                       TVector3 const& ShowerPosition) const;
+                       geo::Point_t const& ShowerPosition,
+                       geo::Vector_t const& ShowerDirection) const;
 
   void OrderShowerSpacePointsPerpendicular(std::vector<art::Ptr<recob::SpacePoint>>& showersps,
-                                           TVector3 const& vertex,
-                                           TVector3 const& direction) const;
+                                           geo::Point_t const& vertex,
+                                           geo::Vector_t const& direction) const;
 
   void OrderShowerSpacePoints(std::vector<art::Ptr<recob::SpacePoint>>& showersps,
-                              TVector3 const& vertex,
-                              TVector3 const& direction) const;
+                              geo::Point_t const& vertex,
+                              geo::Vector_t const& direction) const;
 
   void OrderShowerSpacePoints(std::vector<art::Ptr<recob::SpacePoint>>& showersps,
-                              TVector3 const& vertex) const;
+                              geo::Point_t const& vertex) const;
 
-  TVector3 ShowerCentre(std::vector<art::Ptr<recob::SpacePoint>> const& showersps) const;
+  geo::Point_t ShowerCentre(std::vector<art::Ptr<recob::SpacePoint>> const& showersps) const;
 
-  TVector3 ShowerCentre(detinfo::DetectorClocksData const& clockData,
-                        detinfo::DetectorPropertiesData const& detProp,
-                        std::vector<art::Ptr<recob::SpacePoint>> const& showersps,
-                        art::FindManyP<recob::Hit> const& fmh,
-                        float& totalCharge) const;
+  geo::Point_t ShowerCentre(detinfo::DetectorClocksData const& clockData,
+                            detinfo::DetectorPropertiesData const& detProp,
+                            std::vector<art::Ptr<recob::SpacePoint>> const& showersps,
+                            art::FindManyP<recob::Hit> const& fmh,
+                            float& totalCharge) const;
 
-  TVector3 ShowerCentre(detinfo::DetectorClocksData const& clockData,
-                        detinfo::DetectorPropertiesData const& detProp,
-                        std::vector<art::Ptr<recob::SpacePoint>> const& showerspcs,
-                        art::FindManyP<recob::Hit> const& fmh) const;
-
-  TVector3 SpacePointPosition(art::Ptr<recob::SpacePoint> const& sp) const;
+  geo::Point_t ShowerCentre(detinfo::DetectorClocksData const& clockData,
+                            detinfo::DetectorPropertiesData const& detProp,
+                            std::vector<art::Ptr<recob::SpacePoint>> const& showerspcs,
+                            art::FindManyP<recob::Hit> const& fmh) const;
 
   double DistanceBetweenSpacePoints(art::Ptr<recob::SpacePoint> const& sp_a,
                                     art::Ptr<recob::SpacePoint> const& sp_b) const;
@@ -89,36 +87,31 @@ public:
                           art::Ptr<recob::Hit> const& hit) const;
 
   double SpacePointProjection(art::Ptr<recob::SpacePoint> const& sp,
-                              TVector3 const& vertex,
-                              TVector3 const& direction) const;
+                              geo::Point_t const& vertex,
+                              geo::Vector_t const& direction) const;
 
   double SpacePointPerpendicular(art::Ptr<recob::SpacePoint> const& sp,
-                                 TVector3 const& vertex,
-                                 TVector3 const& direction) const;
+                                 geo::Point_t const& vertex,
+                                 geo::Vector_t const& direction) const;
 
   double SpacePointPerpendicular(art::Ptr<recob::SpacePoint> const& sp,
-                                 TVector3 const& vertex,
-                                 TVector3 const& direction,
+                                 geo::Point_t const& vertex,
+                                 geo::Vector_t const& direction,
                                  double proj) const;
 
   double RMSShowerGradient(std::vector<art::Ptr<recob::SpacePoint>>& sps,
-                           const TVector3& ShowerCentre,
-                           const TVector3& Direction,
+                           const geo::Point_t& ShowerCentre,
+                           const geo::Vector_t& Direction,
                            const unsigned int nSegments) const;
 
   double CalculateRMS(const std::vector<float>& perps) const;
 
   // The SCE service requires thing in geo::Point/Vector form, so overload and be nice
   double SCECorrectPitch(double const& pitch,
-                         TVector3 const& pos,
-                         TVector3 const& dir,
-                         unsigned int const& TPC) const;
-  double SCECorrectPitch(double const& pitch,
                          geo::Point_t const& pos,
                          geo::Vector_t const& dir,
                          unsigned int const& TPC) const;
 
-  double SCECorrectEField(double const& EField, TVector3 const& pos) const;
   double SCECorrectEField(double const& EField, geo::Point_t const& pos) const;
 
   void DebugEVD(art::Ptr<recob::PFParticle> const& pfparticle,

@@ -95,13 +95,13 @@ namespace ShowerRecoTools {
       return 0;
     }
 
-    TVector3 ShowerStartPosition = {-999, -999, -999};
+    geo::Point_t ShowerStartPosition = {-999, -999, -999};
     ShowerEleHolder.GetElement(fShowerStartPositionInputLabel, ShowerStartPosition);
 
-    TVector3 showerDir = {-999, -999, -999};
+    geo::Vector_t showerDir = {-999, -999, -999};
     ShowerEleHolder.GetElement(fShowerDirectionInputLabel, showerDir);
 
-    geo::TPCID vtxTPC = fGeom->FindTPCAtPosition(ShowerStartPosition);
+    geo::TPCID vtxTPC = fGeom->FindTPCAtPosition(geo::vect::toPoint(ShowerStartPosition));
 
     // Split the track hits per plane
     std::vector<double> dEdxVec;
@@ -141,9 +141,10 @@ namespace ShowerRecoTools {
 
         //Calculate the pitch
         double wirepitch = fGeom->WirePitch(trackPlaneHits.at(0)->WireID().planeID());
-        double angleToVert = fGeom->WireAngleToVertical(fGeom->Plane(plane).View(),
-                                                        trackPlaneHits[0]->WireID().planeID()) -
-                             0.5 * TMath::Pi();
+        double angleToVert =
+          fGeom->WireAngleToVertical(fGeom->Plane(geo::PlaneID{0, 0, plane}).View(),
+                                     trackPlaneHits[0]->WireID().planeID()) -
+          0.5 * TMath::Pi();
         double cosgamma =
           std::abs(std::sin(angleToVert) * showerDir.Y() + std::cos(angleToVert) * showerDir.Z());
 

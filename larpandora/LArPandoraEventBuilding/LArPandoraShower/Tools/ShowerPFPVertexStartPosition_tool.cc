@@ -95,7 +95,7 @@ namespace ShowerRecoTools {
     //If we there have none then use the direction to find the neutrino vertex
     if (ShowerEleHolder.CheckElement(fShowerDirectionInputLabel)) {
 
-      TVector3 ShowerDirection = {-999, -999, -999};
+      geo::Vector_t ShowerDirection = {-999, -999, -999};
       ShowerEleHolder.GetElement(fShowerDirectionInputLabel, ShowerDirection);
 
       const art::FindManyP<recob::SpacePoint>& fmspp =
@@ -118,7 +118,7 @@ namespace ShowerRecoTools {
       auto const detProp =
         art::ServiceHandle<detinfo::DetectorPropertiesService const>()->DataFor(Event, clockData);
 
-      TVector3 ShowerCentre = IShowerTool::GetLArPandoraShowerAlg().ShowerCentre(
+      auto ShowerCentre = IShowerTool::GetLArPandoraShowerAlg().ShowerCentre(
         clockData, detProp, spacePoints_pfp, fmh);
 
       //Order the Hits from the shower centre. The most negative will be the start position.
@@ -126,8 +126,7 @@ namespace ShowerRecoTools {
         spacePoints_pfp, ShowerCentre, ShowerDirection);
 
       //Set the start position.
-      TVector3 ShowerStartPosition =
-        IShowerTool::GetLArPandoraShowerAlg().SpacePointPosition(spacePoints_pfp[0]);
+      auto ShowerStartPosition = spacePoints_pfp[0]->position();
 
       TVector3 ShowerStartPositionErr = {-999, -999, -999};
       ShowerEleHolder.SetElement(

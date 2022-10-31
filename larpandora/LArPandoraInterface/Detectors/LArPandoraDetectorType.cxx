@@ -18,7 +18,7 @@ namespace lar_pandora {
                                       const geo::CryostatID::CryostatID_t cstat,
                                       const art::ServiceHandle<geo::Geometry>& larsoftGeometry)
   {
-    return (0.5f * M_PI - larsoftGeometry->WireAngleToVertical(view, tpc, cstat));
+    return 0.5f * M_PI - larsoftGeometry->WireAngleToVertical(view, geo::TPCID{cstat, tpc});
   }
 
   //------------------------------------------------------------------------------------------------------------------------------------------

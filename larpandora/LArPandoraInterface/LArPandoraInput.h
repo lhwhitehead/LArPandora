@@ -164,8 +164,7 @@ namespace lar_pandora {
      *  @param  startT the first trajectory point in the detector
      *  @param  endT the last trajectory point in the detector
      */
-    static void GetTrueStartAndEndPoints(const unsigned int cstat,
-                                         const unsigned int tpc,
+    static void GetTrueStartAndEndPoints(const geo::TPCID& ref_tpcid,
                                          const art::Ptr<simb::MCParticle>& particle,
                                          int& startT,
                                          int& endT);

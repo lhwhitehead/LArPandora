@@ -111,7 +111,7 @@ namespace ShowerRecoTools {
       Direction_vec = InitialTrack.DirectionAtPoint(fTrajPoint);
     }
 
-    TVector3 Direction = {Direction_vec.X(), Direction_vec.Y(), Direction_vec.Z()};
+    geo::Vector_t Direction = {Direction_vec.X(), Direction_vec.Y(), Direction_vec.Z()};
     TVector3 DirectionErr = {-999, -999, -999};
     ShowerEleHolder.SetElement(Direction, DirectionErr, fShowerDirectionOutputLabel);
     return 0;

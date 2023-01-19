@@ -83,9 +83,7 @@ namespace ShowerRecoTools {
     //If there is only one vertex good news we just say that is the start of the shower.
     if (vtx_cand.size() == 1) {
       art::Ptr<recob::Vertex> StartPositionVertex = vtx_cand[0];
-      double xyz[3] = {-999, -999, -999};
-      StartPositionVertex->XYZ(xyz);
-      TVector3 ShowerStartPosition = {xyz[0], xyz[1], xyz[2]};
+      auto ShowerStartPosition(StartPositionVertex->position());
       TVector3 ShowerStartPositionErr = {-999, -999, -999};
       ShowerEleHolder.SetElement(
         ShowerStartPosition, ShowerStartPositionErr, fShowerStartPositionOutputLabel);

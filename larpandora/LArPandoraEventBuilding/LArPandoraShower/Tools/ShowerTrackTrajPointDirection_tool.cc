@@ -84,7 +84,7 @@ namespace ShowerRecoTools {
       return 1;
     }
 
-    geo::Vector_t Direction_vec;
+    geo::Vector_t Direction;
     //Get the difference between the point and the start position.
     if (fUsePositonInfo) {
       //Get the start position.
@@ -104,14 +104,13 @@ namespace ShowerRecoTools {
       }
       //Get the specific trajectory point and look and and the direction from the start position
       geo::Point_t TrajPosition = InitialTrack.LocationAtPoint(fTrajPoint);
-      Direction_vec = (TrajPosition - StartPosition).Unit();
+      Direction = (TrajPosition - StartPosition).Unit();
     }
     else {
       //Use the direction of the trajection at tat point;
-      Direction_vec = InitialTrack.DirectionAtPoint(fTrajPoint);
+      Direction = InitialTrack.DirectionAtPoint(fTrajPoint);
     }
 
-    geo::Vector_t Direction = {Direction_vec.X(), Direction_vec.Y(), Direction_vec.Z()};
     TVector3 DirectionErr = {-999, -999, -999};
     ShowerEleHolder.SetElement(Direction, DirectionErr, fShowerDirectionOutputLabel);
     return 0;

@@ -22,16 +22,12 @@ namespace spacecharge {
   class SpaceCharge;
 }
 
-#include "art_root_io/TFileService.h"
-namespace art {
-  class Event;
-}
+#include "art/Framework/Principal/fwd.h"
 #include "art/Framework/Services/Registry/ServiceHandle.h"
+#include "art_root_io/TFileService.h"
 #include "canvas/Persistency/Common/FindManyP.h"
 #include "canvas/Persistency/Common/Ptr.h"
 #include "canvas/Utilities/InputTag.h"
-
-#include "TVector3.h"
 
 //C++ Includes
 #include <string>

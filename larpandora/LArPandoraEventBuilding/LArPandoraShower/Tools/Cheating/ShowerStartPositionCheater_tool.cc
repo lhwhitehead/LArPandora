@@ -102,7 +102,7 @@ namespace ShowerRecoTools {
 
     ShowerEleHolder.SetElement(trueParticle, fTrueParticleOutputLabel);
 
-    TVector3 trueStartPos = {-999, -999, -999};
+    geo::Point_t trueStartPos{-999, -999, -999};
     // If the true particle is a photon, we need to be smarter.
     // Select the first traj point where tne photon loses energy
     if (abs(trueParticle->PdgCode()) == 22) {
@@ -110,13 +110,13 @@ namespace ShowerRecoTools {
       unsigned int TrajPoints = trueParticle->NumberTrajectoryPoints();
       for (unsigned int trajPoint = 0; trajPoint < TrajPoints; trajPoint++) {
         if (trueParticle->E(trajPoint) < initialEnergy) {
-          trueStartPos = trueParticle->Position(trajPoint).Vect();
+          trueStartPos = geo::vect::toPoint(trueParticle->Position(trajPoint).Vect());
           break;
         }
       }
     }
     else {
-      trueStartPos = trueParticle->Position().Vect();
+      trueStartPos = geo::vect::toPoint(trueParticle->Position().Vect());
     }
 
     TVector3 trueStartPosErr = {-999, -999, -999};

@@ -127,19 +127,18 @@ namespace ShowerRecoTools {
         geo::Vector_t Direction = (TrajPosition - StartPosition).Unit();
 
         //Remove points not within 1RMS.
-        if ((std::abs((Direction - Mean).X()) < 1 * RMSX) &&
-            (std::abs((Direction - Mean).Y()) < 1 * RMSY) &&
-            (std::abs((Direction - Mean).Z()) < 1 * RMSZ)) {
-          TVector3 Direction_vec = {Direction.X(), Direction.Y(), Direction.Z()};
-          if (Direction_vec.Mag() == 0) { continue; }
-          Direction_Mean += Direction_vec;
+        if (auto MeanSubtractedDir = Direction - Mean; (std::abs(MeanSubtractedDir.X()) < RMSX) &&
+                                                       (std::abs(MeanSubtractedDir.Y()) < RMSY) &&
+                                                       (std::abs(MeanSubtractedDir.Z()) < RMSZ)) {
+          if (Direction.R() == 0) { continue; }
+          Direction_Mean += geo::vect::convertTo<TVector3>(Direction);
           ++N;
         }
       }
 
       //Take the mean value
       if (N > 0) {
-        TVector3 Direction = Direction_Mean.Unit();
+        geo::Vector_t Direction = geo::vect::toVector(Direction_Mean.Unit());
         TVector3 DirectionErr = {RMSX, RMSY, RMSZ};
         ShowerEleHolder.SetElement(Direction, DirectionErr, "ShowerDirection");
       }
@@ -211,7 +210,7 @@ namespace ShowerRecoTools {
 
       //Take the mean value
       if (N > 0) {
-        TVector3 Direction = Direction_Mean.Unit();
+        geo::Vector_t Direction = geo::vect::toVector(Direction_Mean.Unit());
         TVector3 DirectionErr = {RMSX, RMSY, RMSZ};
         ShowerEleHolder.SetElement(Direction, DirectionErr, "ShowerDirection");
       }

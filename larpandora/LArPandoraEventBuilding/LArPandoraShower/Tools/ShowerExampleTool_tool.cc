@@ -82,7 +82,7 @@ namespace ShowerRecoTools {
 
     if (ShowerDirection.X() < 0) { pos *= -1.; }
     recob::Vertex new_vertex{pos, {}, util::kBogusD, util::kBogusI};
-    TVector3 recobshower_err = {pos.X() * 0.1, pos.Y() * 0.1, pos.Z() * 0.1};
+    geo::Point_t recobshower_err = pos * 0.1;
     //You can set elements of the recob::shower just choose the right name (you can acess them later). You can give the property an error anf this must be done the for standard recob::shower properties; The standard is to access the name via a fcl file.
     ShowerEleHolder.SetElement(pos, recobshower_err, "ShowerStartPosition");
 

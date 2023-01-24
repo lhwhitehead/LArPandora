@@ -135,7 +135,7 @@ namespace ShowerRecoTools {
 
     auto trueDir = geo::Vector_t{trueParticle->Px(), trueParticle->Py(), trueParticle->Pz()}.Unit();
 
-    TVector3 trueDirErr = {-999, -999, -999};
+    geo::Vector_t trueDirErr = {-999, -999, -999};
     ShowerEleHolder.SetElement(trueDir, trueDirErr, fShowerDirectionOutputLabel);
 
     if (fRMSFlip || fVertexFlip) {

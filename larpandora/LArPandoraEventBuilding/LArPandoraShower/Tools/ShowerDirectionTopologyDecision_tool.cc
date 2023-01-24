@@ -66,12 +66,12 @@ namespace ShowerRecoTools {
 
     //Get the relevent products
     geo::Vector_t FirstShowerDirection;
-    TVector3 FirstShowerDirectionError;
+    geo::Vector_t FirstShowerDirectionError;
     ShowerEleHolder.GetElementAndError(
       fFirstDirectionInputLabel, FirstShowerDirection, FirstShowerDirectionError);
 
     geo::Vector_t SecondShowerDirection;
-    TVector3 SecondShowerDirectionError;
+    geo::Vector_t SecondShowerDirectionError;
     ShowerEleHolder.GetElementAndError(
       fSecondDirectionInputLabel, SecondShowerDirection, SecondShowerDirectionError);
 

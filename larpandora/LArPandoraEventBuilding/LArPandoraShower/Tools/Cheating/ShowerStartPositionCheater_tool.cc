@@ -119,7 +119,7 @@ namespace ShowerRecoTools {
       trueStartPos = geo::vect::toPoint(trueParticle->Position().Vect());
     }
 
-    TVector3 trueStartPosErr = {-999, -999, -999};
+    geo::Point_t trueStartPosErr = {-999, -999, -999};
     ShowerEleHolder.SetElement(trueStartPos, trueStartPosErr, fShowerStartPositionOutputLabel);
 
     return 0;

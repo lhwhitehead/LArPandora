@@ -116,7 +116,7 @@ namespace ShowerRecoTools {
     //If the dotproduct is negative the Direction needs Flipping
     if (DotProduct < 0) { Eigenvector *= -1.; }
 
-    TVector3 EigenvectorErr = {-999, -999, -999};
+    geo::Vector_t EigenvectorErr = {-999, -999, -999};
     ShowerEleHolder.SetElement(Eigenvector, EigenvectorErr, fShowerDirectionOutputLabel);
 
     return 0;

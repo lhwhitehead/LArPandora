@@ -139,7 +139,7 @@ namespace ShowerRecoTools {
       //Take the mean value
       if (N > 0) {
         geo::Vector_t Direction = geo::vect::toVector(Direction_Mean.Unit());
-        TVector3 DirectionErr = {RMSX, RMSY, RMSZ};
+        geo::Vector_t DirectionErr = {RMSX, RMSY, RMSZ};
         ShowerEleHolder.SetElement(Direction, DirectionErr, "ShowerDirection");
       }
       else {
@@ -211,7 +211,7 @@ namespace ShowerRecoTools {
       //Take the mean value
       if (N > 0) {
         geo::Vector_t Direction = geo::vect::toVector(Direction_Mean.Unit());
-        TVector3 DirectionErr = {RMSX, RMSY, RMSZ};
+        geo::Vector_t DirectionErr = {RMSX, RMSY, RMSZ};
         ShowerEleHolder.SetElement(Direction, DirectionErr, "ShowerDirection");
       }
       else {

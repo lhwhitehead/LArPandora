@@ -296,7 +296,7 @@ namespace ShowerRecoTools {
     }
 
     //Set the direction.
-    TVector3 DirectionErr = {-999, -999, -999};
+    geo::Vector_t DirectionErr = {-999, -999, -999};
     ShowerEleHolder.SetElement(Direction, DirectionErr, fShowerDirectionOutputLabel);
     return 0;
   }

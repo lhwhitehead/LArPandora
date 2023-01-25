@@ -774,25 +774,17 @@ void shower::LArPandoraShowerAlg::DebugEVD(art::Ptr<recob::PFParticle> const& pf
         if (flags.isSet(recob::TrajectoryPointFlagTraits::NoPoint)) { continue; }
 
         geo::Point_t TrajPositionPoint = InitialTrack.LocationAtPoint(traj);
-        TVector3 TrajPosition = {
-          TrajPositionPoint.X(), TrajPositionPoint.Y(), TrajPositionPoint.Z()};
-
-        TVector3 pos = TrajPosition;
-
-        x = pos.X();
-        y = pos.Y();
-        z = pos.Z();
+        x = TrajPositionPoint.X();
+        y = TrajPositionPoint.Y();
+        z = TrajPositionPoint.Z();
         TrackTrajPoly->SetPoint(point, x, y, z);
         ++point;
       } // loop over trajectory points
 
       geo::Point_t TrajInitPositionPoint = InitialTrack.LocationAtPoint(0);
-      TVector3 TrajPosition = {
-        TrajInitPositionPoint.X(), TrajInitPositionPoint.Y(), TrajInitPositionPoint.Z()};
-      TVector3 pos = TrajPosition;
-      x = pos.X();
-      y = pos.Y();
-      z = pos.Z();
+      x = TrajInitPositionPoint.X();
+      y = TrajInitPositionPoint.Y();
+      z = TrajInitPositionPoint.Z();
       TrackInitTrajPoly->SetPoint(TrackInitTrajPoly->GetN(), x, y, z);
     }
   }

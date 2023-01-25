@@ -127,7 +127,7 @@ namespace ShowerRecoTools {
     auto PCADirection = GetPCAxisVector(PCA);
 
     //Save the shower the center for downstream tools
-    TVector3 ShowerCentreErr = {-999, -999, -999};
+    geo::Point_t ShowerCentreErr = {-999, -999, -999};
     ShowerEleHolder.SetElement(ShowerCentre, ShowerCentreErr, fShowerCentreOutputLabel);
     ShowerEleHolder.SetElement(PCA, fShowerPCAOutputLabel);
 
@@ -153,7 +153,7 @@ namespace ShowerRecoTools {
       if (DotProduct < 0) { PCADirection *= -1; }
 
       //To do
-      TVector3 PCADirectionErr = {-999, -999, -999};
+      geo::Vector_t PCADirectionErr = {-999, -999, -999};
       ShowerEleHolder.SetElement(PCADirection, PCADirectionErr, fShowerDirectionOutputLabel);
       return 0;
     }
@@ -167,7 +167,7 @@ namespace ShowerRecoTools {
     if (RMSGradient < -std::numeric_limits<double>::epsilon()) { PCADirection *= -1; }
 
     //To do
-    TVector3 PCADirectionErr = {-999, -999, -999};
+    geo::Vector_t PCADirectionErr = {-999, -999, -999};
 
     ShowerEleHolder.SetElement(PCADirection, PCADirectionErr, fShowerDirectionOutputLabel);
     return 0;

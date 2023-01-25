@@ -200,9 +200,7 @@ namespace ShowerRecoTools {
 
     ShowerEleHolder.SetElement(InitialTrack, fInitialTrackOutputLabel);
 
-    TVector3 Start = {InitialTrack.Start().X(), InitialTrack.Start().Y(), InitialTrack.Start().Z()};
-    TVector3 End = {InitialTrack.End().X(), InitialTrack.End().Y(), InitialTrack.End().Z()};
-    float tracklength = (Start - End).Mag();
+    float tracklength = (InitialTrack.Start() - InitialTrack.End()).R();
 
     ShowerEleHolder.SetElement(tracklength, fInitialTrackLengthOutputLabel);
 

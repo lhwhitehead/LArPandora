@@ -115,7 +115,7 @@ namespace ShowerRecoTools {
 
     //Get the position.
     auto ShowerNewStartPosition = projection * ShowerDirection + ShowerCentre;
-    TVector3 ShowerNewStartPositionErr = {-999, -999, -999};
+    geo::Point_t ShowerNewStartPositionErr = {-999, -999, -999};
 
     ShowerEleHolder.SetElement(
       ShowerNewStartPosition, ShowerNewStartPositionErr, fShowerStartPositionOutputLabel);

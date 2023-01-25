@@ -84,7 +84,7 @@ namespace ShowerRecoTools {
     if (vtx_cand.size() == 1) {
       art::Ptr<recob::Vertex> StartPositionVertex = vtx_cand[0];
       auto ShowerStartPosition(StartPositionVertex->position());
-      TVector3 ShowerStartPositionErr = {-999, -999, -999};
+      geo::Point_t ShowerStartPositionErr = {-999, -999, -999};
       ShowerEleHolder.SetElement(
         ShowerStartPosition, ShowerStartPositionErr, fShowerStartPositionOutputLabel);
       return 0;
@@ -126,7 +126,7 @@ namespace ShowerRecoTools {
       //Set the start position.
       auto ShowerStartPosition = spacePoints_pfp[0]->position();
 
-      TVector3 ShowerStartPositionErr = {-999, -999, -999};
+      geo::Point_t ShowerStartPositionErr = {-999, -999, -999};
       ShowerEleHolder.SetElement(
         ShowerStartPosition, ShowerStartPositionErr, fShowerStartPositionOutputLabel);
 

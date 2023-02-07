@@ -70,10 +70,13 @@ namespace ShowerRecoTools {
     bool
       fSCEInputCorrected; // Whether the input has already been corrected for spatial SCE distortions
 
+    bool fSumHitSnippets; // Whether to treat hits individually or only one hit per snippet
+
     art::InputTag fPFParticleLabel;
     int fVerbose;
 
     std::string fShowerStartPositionInputLabel;
+    std::string fInitialTrackHitsInputLabel;
     std::string fInitialTrackSpacePointsInputLabel;
     std::string fInitialTrackInputLabel;
     std::string fShowerdEdxOutputLabel;
@@ -96,9 +99,11 @@ namespace ShowerRecoTools {
     , fSCECorrectPitch(pset.get<bool>("SCECorrectPitch"))
     , fSCECorrectEField(pset.get<bool>("SCECorrectEField"))
     , fSCEInputCorrected(pset.get<bool>("SCEInputCorrected"))
+    , fSumHitSnippets(pset.get<bool>("SumHitSnippets"))
     , fPFParticleLabel(pset.get<art::InputTag>("PFParticleLabel"))
     , fVerbose(pset.get<int>("Verbose"))
     , fShowerStartPositionInputLabel(pset.get<std::string>("ShowerStartPositionInputLabel"))
+    , fInitialTrackHitsInputLabel(pset.get<std::string>("InitialTrackHitsInputLabel"))
     , fInitialTrackSpacePointsInputLabel(pset.get<std::string>("InitialTrackSpacePointsInputLabel"))
     , fInitialTrackInputLabel(pset.get<std::string>("InitialTrackInputLabel"))
     , fShowerdEdxOutputLabel(pset.get<std::string>("ShowerdEdxOutputLabel"))
@@ -187,6 +192,14 @@ namespace ShowerRecoTools {
     auto const detProp =
       art::ServiceHandle<detinfo::DetectorPropertiesService const>()->DataFor(Event, clockData);
 
+    std::map<art::Ptr<recob::Hit>, std::vector<art::Ptr<recob::Hit>>> hitSnippets;
+    if (fSumHitSnippets) {
+      std::vector<art::Ptr<recob::Hit>> trackHits;
+      ShowerEleHolder.GetElement(fInitialTrackHitsInputLabel, trackHits);
+
+      hitSnippets = IShowerTool::GetLArPandoraShowerAlg().OrganizeHits(trackHits);
+    }
+
     //Loop over the spacepoints
     for (auto const& sp : tracksps) {
 
@@ -199,6 +212,9 @@ namespace ShowerRecoTools {
         continue;
       }
       const art::Ptr<recob::Hit> hit = hits[0];
+
+      if (fSumHitSnippets && !hitSnippets.count(hit)) continue;
+
       double wirepitch = fGeom->WirePitch((geo::PlaneID)hit->WireID());
 
       //Only consider hits in the same tpc
@@ -286,7 +302,12 @@ namespace ShowerRecoTools {
       }
 
       //Calculate the dQdx
-      double dQdx = hit->Integral() / trackpitch;
+      double dQdx = hit->Integral();
+      if (fSumHitSnippets) {
+        for (const art::Ptr<recob::Hit> secondaryHit : hitSnippets[hit])
+          dQdx += secondaryHit->Integral();
+      }
+      dQdx /= trackpitch;
 
       //Calculate the dEdx
       double localEField = detProp.Efield();

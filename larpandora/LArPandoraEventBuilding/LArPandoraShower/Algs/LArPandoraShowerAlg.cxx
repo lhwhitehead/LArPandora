@@ -525,6 +525,80 @@ double shower::LArPandoraShowerAlg::SCECorrectEField(double const& EField,
   return EFieldOffsets.r();
 }
 
+std::map<art::Ptr<recob::Hit>, std::vector<art::Ptr<recob::Hit>>>
+shower::LArPandoraShowerAlg::OrganizeHits(const std::vector<art::Ptr<recob::Hit>>& hits) const
+{
+  // In this case, we need to only accept one hit in each snippet
+  // Snippets are counted by the Start, End, and Wire. If all these are the same for a hit, then they are on the same snippet.
+  //
+  // If there are multiple valid hits on the same snippet, we need a way to pick the best one.
+  // (TODO: find a good way). The current method is to take the one with the highest charge integral.
+  typedef std::pair<unsigned, std::vector<unsigned>> OrganizedHits;
+  struct HitIdentifier {
+    int startTick;
+    int endTick;
+    int wire;
+    float integral;
+
+    // construct
+    explicit HitIdentifier(const recob::Hit& hit)
+      : startTick(hit.StartTick())
+      , endTick(hit.EndTick())
+      , wire(hit.WireID().Wire)
+      , integral(hit.Integral())
+    {}
+
+    // Defines whether two hits are on the same snippet
+    inline bool operator==(const HitIdentifier& rhs) const
+    {
+      return startTick == rhs.startTick && endTick == rhs.endTick && wire == rhs.wire;
+    }
+
+    // Defines which hit to pick between two both on the same snippet
+    inline bool operator>(const HitIdentifier& rhs) const { return integral > rhs.integral; }
+  };
+
+  unsigned nplanes = 6; // TODO FIXME
+  std::vector<std::vector<OrganizedHits>> hits_org(nplanes);
+  std::vector<std::vector<HitIdentifier>> hit_idents(nplanes);
+  for (unsigned i = 0; i < hits.size(); i++) {
+    HitIdentifier this_ident(*hits[i]);
+
+    // check if we have found a hit on this snippet before
+    bool found_snippet = false;
+    for (unsigned j = 0; j < hits_org[hits[i]->WireID().Plane].size(); j++) {
+      if (this_ident == hit_idents[hits[i]->WireID().Plane][j]) {
+        found_snippet = true;
+        if (this_ident > hit_idents[hits[i]->WireID().Plane][j]) {
+          hits_org[hits[i]->WireID().Plane][j].second.push_back(
+            hits_org[hits[i]->WireID().Plane][j].first);
+          hits_org[hits[i]->WireID().Plane][j].first = i;
+          hit_idents[hits[i]->WireID().Plane][j] = this_ident;
+        }
+        else {
+          hits_org[hits[i]->WireID().Plane][j].second.push_back(i);
+        }
+        break;
+      }
+    }
+    if (!found_snippet) {
+      hits_org[hits[i]->WireID().Plane].push_back({i, {}});
+      hit_idents[hits[i]->WireID().Plane].push_back(this_ident);
+    }
+  }
+  std::map<art::Ptr<recob::Hit>, std::vector<art::Ptr<recob::Hit>>> ret;
+  for (auto const& planeHits : hits_org) {
+    for (const OrganizedHits& hit_org : planeHits) {
+      std::vector<art::Ptr<recob::Hit>> secondaryHits{};
+      for (const unsigned secondaryID : hit_org.second) {
+        secondaryHits.push_back(hits[secondaryID]);
+      }
+      ret[hits[hit_org.first]] = std::move(secondaryHits);
+    }
+  }
+  return ret;
+}
+
 void shower::LArPandoraShowerAlg::DebugEVD(art::Ptr<recob::PFParticle> const& pfparticle,
                                            art::Event const& Event,
                                            reco::shower::ShowerElementHolder const& ShowerEleHolder,

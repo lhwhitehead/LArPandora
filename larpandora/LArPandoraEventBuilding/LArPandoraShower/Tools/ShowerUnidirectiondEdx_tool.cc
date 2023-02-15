@@ -39,6 +39,7 @@ namespace ShowerRecoTools {
       dEdxTrackLength;    //Max length from a hit can be to the start point in cm.
     bool fMaxHitPlane;    //Set the best planes as the one with the most hits
     bool fMissFirstPoint; //Do not use any hits from the first wire.
+    bool fSumHitSnippets; // Whether to treat hits individually or only one hit per snippet
     std::string fShowerStartPositionInputLabel;
     std::string fInitialTrackHitsInputLabel;
     std::string fShowerDirectionInputLabel;
@@ -53,6 +54,7 @@ namespace ShowerRecoTools {
     , fdEdxTrackLength(pset.get<float>("dEdxTrackLength"))
     , fMaxHitPlane(pset.get<bool>("MaxHitPlane"))
     , fMissFirstPoint(pset.get<bool>("MissFirstPoint"))
+    , fSumHitSnippets(pset.get<bool>("SumHitSnippets"))
     , fShowerStartPositionInputLabel(pset.get<std::string>("ShowerStartPositionInputLabel"))
     , fInitialTrackHitsInputLabel(pset.get<std::string>("InitialTrackHitsInputLabel"))
     , fShowerDirectionInputLabel(pset.get<std::string>("ShowerDirectionInputLabel"))
@@ -132,6 +134,10 @@ namespace ShowerRecoTools {
     for (unsigned int plane = 0; plane < numPlanes; ++plane) {
       std::vector<art::Ptr<recob::Hit>> trackPlaneHits = trackHits.at(plane);
 
+      std::map<art::Ptr<recob::Hit>, std::vector<art::Ptr<recob::Hit>>> hitSnippets;
+      if (fSumHitSnippets)
+        hitSnippets = IShowerTool::GetLArPandoraShowerAlg().OrganizeHits(trackPlaneHits);
+
       if (trackPlaneHits.size()) {
 
         double dEdx = -999;
@@ -159,13 +165,22 @@ namespace ShowerRecoTools {
 
           for (auto const& hit : trackPlaneHits) {
 
+            if (fSumHitSnippets && !hitSnippets.count(hit)) continue;
+
             // Get the wire for each hit
             int w1 = hit->WireID().Wire;
             if (fMissFirstPoint && w0 == w1) { continue; }
 
             //Ignore hits that are too far away.
             if (std::abs((w1 - w0) * pitch) < dEdxTrackLength) {
-              vQ.push_back(hit->Integral());
+
+              double q = hit->Integral();
+              if (fSumHitSnippets) {
+                for (const art::Ptr<recob::Hit> secondaryHit : hitSnippets[hit])
+                  q += secondaryHit->Integral();
+              }
+
+              vQ.push_back(q);
               totQ += hit->Integral();
               avgT += hit->PeakTime();
               ++nhits;

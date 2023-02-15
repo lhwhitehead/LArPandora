@@ -110,6 +110,9 @@ public:
 
   double SCECorrectEField(double const& EField, geo::Point_t const& pos) const;
 
+  std::map<art::Ptr<recob::Hit>, std::vector<art::Ptr<recob::Hit>>> OrganizeHits(
+    const std::vector<art::Ptr<recob::Hit>>& hits) const;
+
   void DebugEVD(art::Ptr<recob::PFParticle> const& pfparticle,
                 art::Event const& Event,
                 const reco::shower::ShowerElementHolder& ShowerEleHolder,

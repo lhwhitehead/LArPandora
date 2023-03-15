@@ -34,8 +34,6 @@
 #include "larpandoracontent/LArContent.h"
 #include "larpandoracontent/LArHelpers/LArPfoHelper.h"
 
-#include "larpandora/LArPandoraInterface/LArPandoraHitCollectionTool.h"
-
 #include <iostream>
 #include <limits>
 
@@ -192,7 +190,6 @@ namespace lar_pandora {
     bool areSimChannelsValid(false);
 
     m_collectHitsTool->CollectHits(evt, m_hitfinderModuleLabel, artHits);
-    //LArPandoraHelper::CollectHits(evt, m_hitfinderModuleLabel, artHits);
 
     if (m_enableMCParticles && (m_disableRealDataCheck || !evt.isRealData())) {
       LArPandoraHelper::CollectMCParticles(evt, m_geantModuleLabel, artMCParticleVector);

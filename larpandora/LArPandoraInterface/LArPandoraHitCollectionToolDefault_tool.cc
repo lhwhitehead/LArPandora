@@ -1,13 +1,13 @@
 /**
  *  @file  larpandora/LArPandoraInterface/Tools/LArPandoraHitCollectionToolDefault_tool.cc
  * 
- *  @brief Define class for hit collection tools and implements DEFAULT base tool
+ *  @brief Implement default hit collection tool
  * 
  */
 
 #include "art/Utilities/ToolMacros.h"
 
-//#include "larpandora/LArPandoraInterface/LArPandoraHelper.h"
+#include "larpandora/LArPandoraInterface/LArPandoraHelper.h"
 #include "larpandora/LArPandoraInterface/LArPandoraHitCollectionTool.h"
 
 namespace HitCollectionTools {
@@ -26,6 +26,6 @@ namespace HitCollectionTools {
     lar_pandora::LArPandoraHelper::CollectHits(evt, label, hitVector);
   }
 
-} // namespace lar_pandora
+} // namespace HitCollectionTools
 
 DEFINE_ART_CLASS_TOOL(HitCollectionTools::LArPandoraHitCollectionToolDefault)

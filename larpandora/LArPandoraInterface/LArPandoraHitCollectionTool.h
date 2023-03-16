@@ -11,14 +11,14 @@
 
 #include "art/Framework/Principal/Event.h"
 
-namespace HitCollectionTools {
+namespace lar_pandora {
 
-  class HitCollectionTool
+  class IHitCollectionTool
   {
   public:
     virtual void CollectHits(const art::Event& evt, const std::string& label, lar_pandora::HitVector& hitVector) = 0;
   };
 
-} // namespace HitCollectionTools
+} // namespace lar_pandora
 
 #endif //  LAR_PANDORA_HITCOLLECTION_TOOL_H

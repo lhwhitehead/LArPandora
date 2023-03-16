@@ -73,7 +73,7 @@ namespace lar_pandora {
       m_disableRealDataCheck; ///< Whether to check if the input file contains real data before accessing MC information
     bool m_lineGapsCreated; ///< Book-keeping: whether line gap creation has been called
 
-    std::unique_ptr<HitCollectionTools::HitCollectionTool> m_collectHitsTool; ///< art tool used to collect the hits
+    std::unique_ptr<IHitCollectionTool> m_collectHitsTool; ///< art tool used to collect the hits
 
     LArPandoraInput::Settings m_inputSettings;   ///< The lar pandora input settings
     LArPandoraOutput::Settings m_outputSettings; ///< The lar pandora output settings

@@ -1,31 +1,23 @@
 /**
- *  @file  larpandora/LArPandoraInterface/Tools/LArPandoraHitCollectionToolDefault_tool.cc
+ *  @file  larpandora/LArPandoraInterface/LArPandoraHitCollectionToolDefault_tool.cc
  * 
- *  @brief Implement default hit collection tool
+ *  @brief Implement default hit collection tool (_tool.cc)
  * 
  */
 
 #include "art/Utilities/ToolMacros.h"
 
-#include "larpandora/LArPandoraInterface/LArPandoraHelper.h"
-#include "larpandora/LArPandoraInterface/LArPandoraHitCollectionTool.h"
+#include "larpandora/LArPandoraInterface/LArPandoraHitCollectionToolDefault.h"
 
-namespace HitCollectionTools {
-
-  class LArPandoraHitCollectionToolDefault : public HitCollectionTool
-  {
-  public:
-    explicit LArPandoraHitCollectionToolDefault(const fhicl::ParameterSet& pset);
-    void CollectHits(const art::Event& evt, const std::string& label, lar_pandora::HitVector& hitVector) override;
-  };
+namespace lar_pandora {
 
   LArPandoraHitCollectionToolDefault::LArPandoraHitCollectionToolDefault(const fhicl::ParameterSet& pset){}
 
-  void LArPandoraHitCollectionToolDefault::CollectHits(const art::Event& evt, const std::string& label, lar_pandora::HitVector& hitVector)
+  void LArPandoraHitCollectionToolDefault::CollectHits(const art::Event& evt, const std::string& label, HitVector& hitVector)
   {
-    lar_pandora::LArPandoraHelper::CollectHits(evt, label, hitVector);
+    LArPandoraHelper::CollectHits(evt, label, hitVector);
   }
 
-} // namespace HitCollectionTools
+} // namespace lar_pandora
 
-DEFINE_ART_CLASS_TOOL(HitCollectionTools::LArPandoraHitCollectionToolDefault)
+DEFINE_ART_CLASS_TOOL(lar_pandora::LArPandoraHitCollectionToolDefault)

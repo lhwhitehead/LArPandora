@@ -62,7 +62,7 @@ namespace lar_pandora {
     , m_enableMCParticles(pset.get<bool>("EnableMCParticles", false))
     , m_disableRealDataCheck(pset.get<bool>("DisableRealDataCheck", false))
     , m_lineGapsCreated(false)
-    , m_collectHitsTool{ art::make_tool<HitCollectionTools::HitCollectionTool>( this->ConstructHitCollectionToolParameterSet(pset) ) }
+    , m_collectHitsTool{ art::make_tool<IHitCollectionTool>( this->ConstructHitCollectionToolParameterSet(pset) ) }
   {
     m_inputSettings.m_useHitWidths = pset.get<bool>("UseHitWidths", true);
     m_inputSettings.m_useBirksCorrection = pset.get<bool>("UseBirksCorrection", false);

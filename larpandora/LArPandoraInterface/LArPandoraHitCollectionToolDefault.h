@@ -10,11 +10,12 @@
 
 namespace lar_pandora {
 
-  class LArPandoraHitCollectionToolDefault : public IHitCollectionTool
-  {
+  class LArPandoraHitCollectionToolDefault : public IHitCollectionTool {
   public:
     explicit LArPandoraHitCollectionToolDefault(const fhicl::ParameterSet& pset);
-    void CollectHits(const art::Event& evt, const std::string& label, HitVector& hitVector) override;
+    void CollectHits(const art::Event& evt,
+                     const std::string& label,
+                     HitVector& hitVector) override;
   };
 
 } // namespace lar_pandora

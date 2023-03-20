@@ -8,9 +8,9 @@
 #include "larpandora/LArPandoraInterface/LArPandora.h"
 
 #include "art/Framework/Principal/Event.h"
+#include "art/Utilities/make_tool.h"
 #include "art_root_io/TFileService.h"
 #include "cetlib/cpu_timer.h"
-#include "art/Utilities/make_tool.h"
 
 #include "lardata/DetectorInfoServices/DetectorClocksService.h"
 #include "lardata/DetectorInfoServices/DetectorPropertiesService.h"
@@ -62,7 +62,8 @@ namespace lar_pandora {
     , m_enableMCParticles(pset.get<bool>("EnableMCParticles", false))
     , m_disableRealDataCheck(pset.get<bool>("DisableRealDataCheck", false))
     , m_lineGapsCreated(false)
-    , m_collectHitsTool{ art::make_tool<IHitCollectionTool>( this->ConstructHitCollectionToolParameterSet(pset) ) }
+    , m_collectHitsTool{
+        art::make_tool<IHitCollectionTool>(this->ConstructHitCollectionToolParameterSet(pset))}
   {
     m_inputSettings.m_useHitWidths = pset.get<bool>("UseHitWidths", true);
     m_inputSettings.m_useBirksCorrection = pset.get<bool>("UseBirksCorrection", false);
@@ -252,15 +253,15 @@ namespace lar_pandora {
 
   //------------------------------------------------------------------------------------------------------------------------------------------
 
-  fhicl::ParameterSet LArPandora::ConstructHitCollectionToolParameterSet(const fhicl::ParameterSet& pset)
+  fhicl::ParameterSet LArPandora::ConstructHitCollectionToolParameterSet(
+    const fhicl::ParameterSet& pset)
   {
-    if ( pset.has_key("HitCollectionTool") )
-    {
+    if (pset.has_key("HitCollectionTool")) {
       return pset.get<fhicl::ParameterSet>("HitCollectionTool");
     }
 
     fhicl::ParameterSet psetHitCollection;
-    psetHitCollection.put<std::string>("tool_type","LArPandoraHitCollectionToolDefault");
+    psetHitCollection.put<std::string>("tool_type", "LArPandoraHitCollectionToolDefault");
     return psetHitCollection;
   }
 

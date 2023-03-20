@@ -11,9 +11,13 @@
 
 namespace lar_pandora {
 
-  LArPandoraHitCollectionToolDefault::LArPandoraHitCollectionToolDefault(const fhicl::ParameterSet& pset){}
+  LArPandoraHitCollectionToolDefault::LArPandoraHitCollectionToolDefault(
+    const fhicl::ParameterSet& pset)
+  {}
 
-  void LArPandoraHitCollectionToolDefault::CollectHits(const art::Event& evt, const std::string& label, HitVector& hitVector)
+  void LArPandoraHitCollectionToolDefault::CollectHits(const art::Event& evt,
+                                                       const std::string& label,
+                                                       HitVector& hitVector)
   {
     LArPandoraHelper::CollectHits(evt, label, hitVector);
   }

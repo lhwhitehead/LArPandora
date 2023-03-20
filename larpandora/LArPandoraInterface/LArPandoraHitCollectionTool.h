@@ -13,10 +13,11 @@
 
 namespace lar_pandora {
 
-  class IHitCollectionTool
-  {
+  class IHitCollectionTool {
   public:
-    virtual void CollectHits(const art::Event& evt, const std::string& label, lar_pandora::HitVector& hitVector) = 0;
+    virtual void CollectHits(const art::Event& evt,
+                             const std::string& label,
+                             lar_pandora::HitVector& hitVector) = 0;
   };
 
 } // namespace lar_pandora

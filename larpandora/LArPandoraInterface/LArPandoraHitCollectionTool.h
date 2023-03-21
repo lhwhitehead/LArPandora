@@ -1,8 +1,8 @@
 /**
  *  @file  larpandora/LArPandoraInterface/Tools/LArPandoraHitCollectionTool.h
- * 
+ *
  *  @brief Define class for hit collection tools
- * 
+ *
  */
 #ifndef LAR_PANDORA_HIT_COLLECTION_TOOL_H
 #define LAR_PANDORA_HIT_COLLECTION_TOOL_H

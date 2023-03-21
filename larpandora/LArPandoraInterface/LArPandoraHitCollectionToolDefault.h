@@ -1,8 +1,8 @@
 /**
  *  @file  larpandora/LArPandoraInterface/LArPandoraHitCollectionToolDefault.h
- * 
+ *
  *  @brief Implement default hit collection tool (.h)
- * 
+ *
  */
 
 #include "larpandora/LArPandoraInterface/LArPandoraHelper.h"

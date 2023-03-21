@@ -1,8 +1,8 @@
 /**
  *  @file  larpandora/LArPandoraInterface/LArPandoraHitCollectionToolDefault_tool.cc
- * 
+ *
  *  @brief Implement default hit collection tool (_tool.cc)
- * 
+ *
  */
 
 #include "art/Utilities/ToolMacros.h"

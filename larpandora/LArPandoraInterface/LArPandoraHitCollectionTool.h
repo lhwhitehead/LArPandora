@@ -18,6 +18,7 @@ namespace lar_pandora {
     virtual void CollectHits(const art::Event& evt,
                              const std::string& label,
                              lar_pandora::HitVector& hitVector) = 0;
+    virtual ~IHitCollectionTool(){};
   };
 
 } // namespace lar_pandora

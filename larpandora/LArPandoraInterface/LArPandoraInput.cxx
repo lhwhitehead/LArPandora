@@ -79,6 +79,10 @@ namespace lar_pandora {
       const double hit_TimeStart(hit->PeakTimeMinusRMS());
       const double hit_TimeEnd(hit->PeakTimePlusRMS());
 
+      // LEIGH: hack to remove APA1 collection plane hits
+      if (hit_View == geo::kW && (hit_WireID.TPC==0 || hit_WireID.TPC==1))
+          continue;
+
       // Get hit X coordinate and, if using a single global drift volume, remove any out-of-time hits here
       const double xpos_cm(
         detProp.ConvertTicksToX(hit_Time, hit_WireID.Plane, hit_WireID.TPC, hit_WireID.Cryostat));
